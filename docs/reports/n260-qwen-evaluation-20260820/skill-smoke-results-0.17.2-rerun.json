@@ -1,0 +1,448 @@
+{
+  "started_at": "2026-08-20T21:42:51.694517+08:00",
+  "base_url": "http://127.0.0.1:8001",
+  "fixture": "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt",
+  "cases": [
+    {
+      "name": "record-structuring",
+      "expected_suffix": ".xlsx",
+      "required": [],
+      "payload": {
+        "task": "对完全合成测试病例执行record-structuring，只依据原文，不补写事实。",
+        "source_paths": [
+          "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt"
+        ]
+      },
+      "events": [
+        {
+          "event_id": "receive",
+          "message": "正在检查导入的文件或文件夹。",
+          "stage": "资料接收",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "receive",
+          "message": "已识别 1 份可处理资料：synthetic_outpatient_note.txt",
+          "stage": "资料接收",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "read",
+          "message": "正在读取第 1/1 份：synthetic_outpatient_note.txt",
+          "stage": "文件读取",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "read",
+          "message": "已完成 1 份资料读取与文本编码校验：synthetic_outpatient_note.txt",
+          "stage": "文件读取",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "extract",
+          "message": "正在按 Skill 固定字段与来源证据规则提取内容。",
+          "stage": "字段提取",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "extract",
+          "message": "synthetic_outpatient_note.txt：识别标题区块、字段标签/原文证据；已提取 14 项（patient_id、patient_name、sex、age、encounter_date、主诉、现病史、既往史、过敏史、用药史、检查检验信息、初步判断、处置建议、随访计划）；待补 7 项（family_history、physical_examination、建议时间、随访方式、观察项目、复查项目、异常触发条件）",
+          "stage": "字段提取",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "validate",
+          "message": "正在检查缺失字段、状态标记及来源证据。",
+          "stage": "规则校验",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "validate",
+          "message": "校验完成；1 条记录存在待医生补充字段。",
+          "stage": "规则校验",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "write",
+          "message": "正在生成单个汇总 Excel 文件。",
+          "stage": "结果生成",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "write",
+          "message": "结果文件已生成：D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_病历结构化.xlsx",
+          "stage": "结果生成",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "mode": "deterministic",
+          "output_paths": [
+            "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_病历结构化.xlsx"
+          ],
+          "processed_sources": 1,
+          "result_markdown": "### 病历结构化结果\n\n共完成 **1** 份病历的确定性结构化，已汇总为一个 Excel 文件。\n\n| 来源 | 患者 | 主诉 | 初步判断 | 缺失字段 |\n| --- | --- | --- | --- | --- |\n| synthetic_outpatient_note.txt | 测试患者甲 | 咳嗽3天，伴低热1天。 | 医生记录为“急性上呼吸道感染，待复核”。 | 家族史、查体 |\n\n结果文件：`D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_病历结构化.xlsx`\n\n本结果仅用于信息辅助和人工审核，不作为临床诊断、处方或治疗决策依据。",
+          "extraction_summary": {
+            "documents": [
+              {
+                "matched_fields": [
+                  "patient_id",
+                  "patient_name",
+                  "sex",
+                  "age",
+                  "encounter_date",
+                  "chief_complaint",
+                  "history_of_present_illness",
+                  "past_medical_history",
+                  "allergy_history",
+                  "medication_history",
+                  "examination_results",
+                  "initial_assessment",
+                  "treatment_plan",
+                  "follow_up_plan"
+                ],
+                "missing_fields": [
+                  "family_history",
+                  "physical_examination",
+                  "follow_up_time",
+                  "follow_up_method",
+                  "observation_items",
+                  "recheck_items",
+                  "trigger_conditions"
+                ],
+                "patient": "测试患者甲",
+                "source": "synthetic_outpatient_note.txt",
+                "structure": [
+                  "标题区块",
+                  "字段标签/原文证据"
+                ]
+              }
+            ]
+          },
+          "type": "complete"
+        }
+      ],
+      "status": 200,
+      "latency_s": 0.103,
+      "output_path_candidates": [
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_病历结构化.xlsx"
+      ],
+      "existing_output_paths": [
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_病历结构化.xlsx"
+      ],
+      "xlsx_members": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "xl/workbook.xml",
+        "xl/_rels/workbook.xml.rels",
+        "xl/styles.xml",
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checks": {
+        "http_200": true,
+        "has_multiple_process_events": true,
+        "expected_output_exists": true,
+        "expected_suffix": true,
+        "required_content": true
+      },
+      "passed": true
+    },
+    {
+      "name": "outpatient-note-draft",
+      "expected_suffix": ".txt",
+      "required": [
+        "主诉",
+        "现病史",
+        "过敏史",
+        "青霉素",
+        "医生复核"
+      ],
+      "payload": {
+        "task": "对完全合成测试病例执行outpatient-note-draft，只依据原文，不补写事实。",
+        "source_paths": [
+          "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt"
+        ]
+      },
+      "events": [
+        {
+          "event_id": "receive",
+          "message": "正在检查导入的文件或文件夹。",
+          "stage": "资料接收",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "receive",
+          "message": "已识别 1 份可处理资料：synthetic_outpatient_note.txt",
+          "stage": "资料接收",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "read",
+          "message": "正在读取第 1/1 份：synthetic_outpatient_note.txt",
+          "stage": "文件读取",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "read",
+          "message": "已完成 1 份资料读取与文本编码校验：synthetic_outpatient_note.txt",
+          "stage": "文件读取",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "extract",
+          "message": "正在按 Skill 固定字段与来源证据规则提取内容。",
+          "stage": "字段提取",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "extract",
+          "message": "synthetic_outpatient_note.txt：识别标题区块、字段标签/原文证据；已提取 9 项（主诉、现病史、既往史、过敏史、用药史、检查检验信息、初步判断、处置建议、随访计划）",
+          "stage": "字段提取",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "validate",
+          "message": "正在标记对话未涉及字段与医生复核项。",
+          "stage": "规则校验",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "validate",
+          "message": "九字段均已从原文独立提取并完成来源证据校验；保留医生复核标记。",
+          "stage": "规则校验",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "write",
+          "message": "正在生成 UTF-8 简体中文门诊病历草稿。",
+          "stage": "结果生成",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "write",
+          "message": "结果文件已生成：D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_门诊病历草稿.txt",
+          "stage": "结果生成",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "mode": "deterministic",
+          "output_paths": [
+            "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_门诊病历草稿.txt"
+          ],
+          "processed_sources": 1,
+          "result_markdown": "### 门诊病历草稿\n\n已处理 **1** 份来源资料。\n\nCLINVEXA 门诊病历草稿\n来源文件：D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt\n主诉：咳嗽3天，伴低热1天。\n现病史：3天前无明显诱因出现干咳，偶有少量白痰；昨日开始低热，最高体温37.8℃。伴轻度咽痛，无胸痛，无明显气促。自行服用半粒维生素片，无明显缓解。\n既往史：高血压5年，规律口服氨氯地平5mg每日一次。否认糖尿病史。\n过敏史：青霉素过敏，既往使用后出现全身皮疹。\n用药史：氨氯地平5mg每日一次；本次症状发生后未使用抗菌药物。\n检查检验信息：体温37.6℃，心率86次/分，呼吸18次/分，血氧饱和度98%。血常规白细胞10.8×10^9/L，报告标记轻度升高；C反应蛋白18mg/L，报告标记升高。胸部检查未记录明确异常。\n初步判断：医生记录为“急性上呼吸道感染，待复核”。\n处置建议：医生明确建议注意休息、适量饮水、每日早晚监测体温；暂未新增处方药物。\n随访计划：医生明确要求3天后门诊复诊；复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n医生复核项：请核对全部字段与来源原文\n来源证据：\n- 主诉：主诉：咳嗽3天，伴低热1天。\n- 现病史：现病史：3天前无明显诱因出现干咳，偶有少量白痰；昨日开始低热，最高体温37.8℃。伴轻度咽痛，无胸痛，无明显气促。自行服用半粒维生素片，无明显缓解。\n- 既往史：既往史：高血压5年，规律口服氨氯地平5mg每日一次。否认糖尿病史。\n- 过敏史：过敏史：青霉素过敏，既往使用后出现全身皮疹。\n- 用药史：用药史：氨氯地平5mg每日一次；本次症状发生后未使用抗菌药物。\n- 检查检验信息：检查检验信息：体温37.6℃，心率86次/分，呼吸18次/分，血氧饱和度98%。血常规白细胞10.8×10^9/L，报告标记轻度升高；C反应蛋白18mg/L，报告标记升高。胸部检查未记录明确异常。\n- 初步判断：初步判断：医生记录为“急性上呼吸道感染，待复核”。\n- 处置建议：处置建议：医生明确建议注意休息、适量饮水、每日早晚监测体温；暂未新增处方药物。\n- 随访计划：随访计划：医生明确要求3天后门诊复诊；复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\nrequires_human_review: true\n本结果仅用于信息辅助和人工审核，不作为临床诊断、处方或治疗决策依据。\n\n结果文件：`D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_门诊病历草稿.txt`\n\n本结果仅用于信息辅助和人工审核，不作为临床诊断、处方或治疗决策依据。",
+          "extraction_summary": {
+            "documents": [
+              {
+                "matched_fields": [
+                  "chief_complaint",
+                  "history_of_present_illness",
+                  "past_medical_history",
+                  "allergy_history",
+                  "medication_history",
+                  "examination_results",
+                  "initial_assessment",
+                  "treatment_plan",
+                  "follow_up_plan"
+                ],
+                "missing_fields": [],
+                "patient": "测试患者甲",
+                "source": "synthetic_outpatient_note.txt",
+                "structure": [
+                  "标题区块",
+                  "字段标签/原文证据"
+                ]
+              }
+            ]
+          },
+          "type": "complete"
+        }
+      ],
+      "status": 200,
+      "latency_s": 0.063,
+      "output_path_candidates": [
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_门诊病历草稿.txt",
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt"
+      ],
+      "existing_output_paths": [
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_门诊病历草稿.txt",
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt"
+      ],
+      "output_text": "CLINVEXA 门诊病历草稿\n来源文件：D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt\n主诉：咳嗽3天，伴低热1天。\n现病史：3天前无明显诱因出现干咳，偶有少量白痰；昨日开始低热，最高体温37.8℃。伴轻度咽痛，无胸痛，无明显气促。自行服用半粒维生素片，无明显缓解。\n既往史：高血压5年，规律口服氨氯地平5mg每日一次。否认糖尿病史。\n过敏史：青霉素过敏，既往使用后出现全身皮疹。\n用药史：氨氯地平5mg每日一次；本次症状发生后未使用抗菌药物。\n检查检验信息：体温37.6℃，心率86次/分，呼吸18次/分，血氧饱和度98%。血常规白细胞10.8×10^9/L，报告标记轻度升高；C反应蛋白18mg/L，报告标记升高。胸部检查未记录明确异常。\n初步判断：医生记录为“急性上呼吸道感染，待复核”。\n处置建议：医生明确建议注意休息、适量饮水、每日早晚监测体温；暂未新增处方药物。\n随访计划：医生明确要求3天后门诊复诊；复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n医生复核项：请核对全部字段与来源原文\n来源证据：\n- 主诉：主诉：咳嗽3天，伴低热1天。\n- 现病史：现病史：3天前无明显诱因出现干咳，偶有少量白痰；昨日开始低热，最高体温37.8℃。伴轻度咽痛，无胸痛，无明显气促。自行服用半粒维生素片，无明显缓解。\n- 既往史：既往史：高血压5年，规律口服氨氯地平5mg每日一次。否认糖尿病史。\n- 过敏史：过敏史：青霉素过敏，既往使用后出现全身皮疹。\n- 用药史：用药史：氨氯地平5mg每日一次；本次症状发生后未使用抗菌药物。\n- 检查检验信息：检查检验信息：体温37.6℃，心率86次/分，呼吸18次/分，血氧饱和度98%。血常规白细胞10.8×10^9/L，报告标记轻度升高；C反应蛋白18mg/L，报告标记升高。胸部检查未记录明确异常。\n- 初步判断：初步判断：医生记录为“急性上呼吸道感染，待复核”。\n- 处置建议：处置建议：医生明确建议注意休息、适量饮水、每日早晚监测体温；暂未新增处方药物。\n- 随访计划：随访计划：医生明确要求3天后门诊复诊；复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\nrequires_human_review: true\n本结果仅用于信息辅助和人工审核，不作为临床诊断、处方或治疗决策依据。\n",
+      "checks": {
+        "http_200": true,
+        "has_multiple_process_events": true,
+        "expected_output_exists": true,
+        "expected_suffix": true,
+        "required_content": true
+      },
+      "passed": true
+    },
+    {
+      "name": "followup-plan",
+      "expected_suffix": ".txt",
+      "required": [
+        "3天后",
+        "咳嗽",
+        "血常规",
+        "提前就医",
+        "医生"
+      ],
+      "payload": {
+        "task": "对完全合成测试病例执行followup-plan，只依据原文，不补写事实。",
+        "source_paths": [
+          "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt"
+        ]
+      },
+      "events": [
+        {
+          "event_id": "receive",
+          "message": "正在检查导入的文件或文件夹。",
+          "stage": "资料接收",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "receive",
+          "message": "已识别 1 份可处理资料：synthetic_outpatient_note.txt",
+          "stage": "资料接收",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "read",
+          "message": "正在读取第 1/1 份：synthetic_outpatient_note.txt",
+          "stage": "文件读取",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "read",
+          "message": "已完成 1 份资料读取与文本编码校验：synthetic_outpatient_note.txt",
+          "stage": "文件读取",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "extract",
+          "message": "正在按 Skill 固定字段与来源证据规则提取内容。",
+          "stage": "字段提取",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "extract",
+          "message": "synthetic_outpatient_note.txt：识别标题区块、字段标签/原文证据；已提取 7 项（初步判断、处置建议、建议时间、随访方式、观察项目、复查项目、异常触发条件）；待补 1 项（患者限制）",
+          "stage": "字段提取",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "validate",
+          "message": "正在检查随访时间、方式、观察项及异常触发条件。",
+          "stage": "规则校验",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "validate",
+          "message": "随访要素校验完成；待医生确定 1 项（患者限制）。",
+          "stage": "规则校验",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "event_id": "write",
+          "message": "正在生成 UTF-8 简体中文随访计划草稿。",
+          "stage": "结果生成",
+          "status": "running",
+          "type": "progress"
+        },
+        {
+          "event_id": "write",
+          "message": "结果文件已生成：D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_随访计划草稿.txt",
+          "stage": "结果生成",
+          "status": "complete",
+          "type": "progress"
+        },
+        {
+          "mode": "deterministic",
+          "output_paths": [
+            "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_随访计划草稿.txt"
+          ],
+          "processed_sources": 1,
+          "result_markdown": "### 随访计划草稿\n\n已处理 **1** 份来源资料。\n\n患者标识：测试患者甲\n就诊日期：2026-08-20\n来源文件：D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt\n当前病情摘要：咳嗽3天，伴低热1天。；体温37.6℃，心率86次/分，呼吸18次/分，血氧饱和度98%。血常规白细胞10.8×10^9/L，报告标记轻度升高；C反应蛋白18mg/L，报告标记升高。胸部检查未记录明确异常。\n初步判断：医生记录为“急性上呼吸道感染，待复核”。\n已记录处置：医生明确建议注意休息、适量饮水、每日早晚监测体温；暂未新增处方药物。\n随访目的：医生记录为“急性上呼吸道感染，待复核”。\n建议时间：3天后\n随访方式：门诊复诊\n观察项目：复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n复查项目：复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n异常触发条件：复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n患者相关限制：原文未涉及\n执行提醒：严格按医生明确要求执行；本计划生效前须由医生复核确认\n来源证据：随访计划：医生明确要求3天后门诊复诊；复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n待医生确认项：待医生复核全部计划要素\nrequires_human_review: true\n\n结果文件：`D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_随访计划草稿.txt`\n\n本结果仅用于信息辅助和人工审核，不作为临床诊断、处方或治疗决策依据。",
+          "extraction_summary": {
+            "documents": [
+              {
+                "matched_fields": [
+                  "initial_assessment",
+                  "treatment_plan",
+                  "follow_up_time",
+                  "follow_up_method",
+                  "observation_items",
+                  "recheck_items",
+                  "trigger_conditions"
+                ],
+                "missing_fields": [
+                  "patient_constraints"
+                ],
+                "patient": "测试患者甲",
+                "source": "synthetic_outpatient_note.txt",
+                "structure": [
+                  "标题区块",
+                  "字段标签/原文证据"
+                ]
+              }
+            ]
+          },
+          "type": "complete"
+        }
+      ],
+      "status": 200,
+      "latency_s": 0.103,
+      "output_path_candidates": [
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_随访计划草稿.txt",
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt"
+      ],
+      "existing_output_paths": [
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note_随访计划草稿.txt",
+        "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt"
+      ],
+      "output_text": "患者标识：测试患者甲\n就诊日期：2026-08-20\n来源文件：D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\docs\\reports\\n260-qwen-evaluation-20260820\\fixtures\\synthetic_outpatient_note.txt\n当前病情摘要：咳嗽3天，伴低热1天。；体温37.6℃，心率86次/分，呼吸18次/分，血氧饱和度98%。血常规白细胞10.8×10^9/L，报告标记轻度升高；C反应蛋白18mg/L，报告标记升高。胸部检查未记录明确异常。\n初步判断：医生记录为“急性上呼吸道感染，待复核”。\n已记录处置：医生明确建议注意休息、适量饮水、每日早晚监测体温；暂未新增处方药物。\n随访目的：医生记录为“急性上呼吸道感染，待复核”。\n建议时间：3天后\n随访方式：门诊复诊\n观察项目：复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n复查项目：复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n异常触发条件：复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n患者相关限制：原文未涉及\n执行提醒：严格按医生明确要求执行；本计划生效前须由医生复核确认\n来源证据：随访计划：医生明确要求3天后门诊复诊；复诊时观察咳嗽、发热和呼吸情况，并复查血常规及C反应蛋白。如持续高热、胸痛、明显气促或症状加重，提前就医。\n待医生确认项：待医生复核全部计划要素\nrequires_human_review: true\n\n本结果仅用于信息辅助和人工审核，不作为临床诊断、处方或治疗决策依据。\n",
+      "checks": {
+        "http_200": true,
+        "has_multiple_process_events": true,
+        "expected_output_exists": true,
+        "expected_suffix": true,
+        "required_content": true
+      },
+      "passed": true
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "total": 3,
+    "rate_pct": 100.0
+  },
+  "finished_at": "2026-08-20T21:42:52.108010+08:00"
+}

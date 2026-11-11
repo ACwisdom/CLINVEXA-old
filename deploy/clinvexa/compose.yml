@@ -1,0 +1,22 @@
+name: clinvexa
+
+services:
+  clinvexa:
+    build:
+      context: ../..
+      dockerfile: deploy/clinvexa/Dockerfile
+    environment:
+      HERMES_HOME: /data/hermes
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/openapi.json', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "127.0.0.1:8001:8001"
+    restart: unless-stopped
+    volumes:
+      - clinvexa-data:/data/hermes
+
+volumes:
+  clinvexa-data:

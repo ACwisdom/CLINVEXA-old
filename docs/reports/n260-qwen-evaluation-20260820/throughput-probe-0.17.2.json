@@ -1,0 +1,22 @@
+{
+  "tested_at": "2026-08-20T22:00:00+08:00",
+  "endpoint": "http://172.16.0.105:8818/v1",
+  "model": "/workspace/model",
+  "method": "Non-streaming controlled decoder probe. Prompt required exactly repeated Chinese character output; temperature=0; max_tokens=512; output TPS = API completion_tokens / end-to-end wall time.",
+  "rows": [
+    {"run": 1, "status": 200, "latency_s": 6.975, "completion_tokens": 512, "tps": 73.40, "finish_reason": "length"},
+    {"run": 2, "status": 200, "latency_s": 6.948, "completion_tokens": 512, "tps": 73.69, "finish_reason": "length"},
+    {"run": 3, "status": 200, "latency_s": 6.923, "completion_tokens": 512, "tps": 73.95, "finish_reason": "length"}
+  ],
+  "summary": {
+    "passed": 3,
+    "total": 3,
+    "aggregate_output_tokens": 1536,
+    "aggregate_wall_s": 20.846,
+    "aggregate_tps": 73.68,
+    "median_tps": 73.69,
+    "min_tps": 73.40,
+    "max_tps": 73.95
+  },
+  "important_limit": "This is decoder throughput for a controlled short-input workload, not an SLA. A preceding multi-run probe experienced a TCP connection timeout, so availability/queue stability must be evaluated separately."
+}

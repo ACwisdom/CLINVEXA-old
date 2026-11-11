@@ -1,0 +1,24 @@
+/* The same supplied KNCUBE artwork identifies the app and its floating entry. */
+.dc-brand > svg { display: none; }
+.dc-brand::before {
+  content: "";
+  display: inline-block;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: transparent url("./apple-touch-icon.png") center / contain no-repeat;
+}
+button[aria-expanded][class~="size-12"] {
+  background: white;
+}
+button[aria-expanded][class~="size-12"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: transparent url("./apple-touch-icon.png") center / contain no-repeat;
+  pointer-events: none;
+}
+button[aria-expanded][class~="size-12"] > svg { visibility: hidden; }
+

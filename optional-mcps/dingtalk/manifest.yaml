@@ -1,0 +1,16 @@
+manifest_version: 1
+name: dingtalk
+description: 钉钉：连接从钉钉 MCP 广场获取的个人服务地址，使用已授权的钉钉工具。
+source: https://open.dingtalk.com/group
+transport:
+  type: http
+  url: ${DINGTALK_MCP_URL}
+auth:
+  type: api_key
+  env:
+    - name: DINGTALK_MCP_URL
+      prompt: 从钉钉 MCP 广场复制的完整服务接入地址（含个人 key）
+      secret: true
+post_install: |
+  钉钉的文档、日历、待办等可能是不同服务。此卡连接一个已授权的 MCP 地址；
+  其他服务可在“已连接”中添加更多地址。不要把带个人 key 的 URL 发到聊天中。

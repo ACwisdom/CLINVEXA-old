@@ -1,0 +1,4 @@
+interface:
+  display_name: "检查报告摘要"
+  short_description: "提取检查结果和复核事项"
+  default_prompt: "使用 $exam-report-summary 摘要提供的检查报告。"

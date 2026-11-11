@@ -1,0 +1,73 @@
+{
+  "tested_at": "2026-08-20T21:27:12+08:00",
+  "product": "CLINVEXA",
+  "version": "0.17.2",
+  "installed_executable": "C:\\Users\\home\\AppData\\Local\\Programs\\CLINVEXA\\CLINVEXA.exe",
+  "provider": "custom",
+  "base_url": "http://172.16.0.105:8818/v1",
+  "model": "/workspace/model",
+  "acceptance": "3/3 exact visible responses, each turn <=30 seconds, no unrelated tool call",
+  "cases": [
+    {
+      "id": "DESKTOP-01",
+      "prompt": "只回复：CLINVEXA_0172_E2E_OK",
+      "expected": "CLINVEXA_0172_E2E_OK",
+      "visible_response": "CLINVEXA_0172_E2E_OK",
+      "exact_response": true,
+      "started_at": "2026-08-20T21:27:12.185+08:00",
+      "ended_at": "2026-08-20T21:27:34.017+08:00",
+      "duration_s": 21.832,
+      "within_30_s": true,
+      "dynamic_budget": {"context": 65536, "estimated_input": 23213, "margin": 655, "output": 41668},
+      "passed": true
+    },
+    {
+      "id": "DESKTOP-02",
+      "prompt": "只回复：DESKTOP_E2E_02",
+      "expected": "DESKTOP_E2E_02",
+      "visible_response": "DESKTOP_E2E_02",
+      "exact_response": true,
+      "started_at": "2026-08-20T21:34:41.548+08:00",
+      "ended_at": "2026-08-20T21:35:21.464+08:00",
+      "duration_s": 39.916,
+      "within_30_s": false,
+      "first_attempt_error": "Streaming request timed out before delivery",
+      "retry_count": 1,
+      "dynamic_budget": {"context": 65536, "estimated_input": 23211, "margin": 655, "output": 41670},
+      "passed": false
+    },
+    {
+      "id": "DESKTOP-03",
+      "prompt": "只回复：DESKTOP_E2E_03",
+      "expected": "DESKTOP_E2E_03",
+      "visible_response": null,
+      "exact_response": false,
+      "started_at": "2026-08-20T21:37:15.959+08:00",
+      "ended_at": "2026-08-20T21:38:51.567+08:00",
+      "duration_s": 95.608,
+      "within_30_s": false,
+      "unexpected_tool": "computer_use",
+      "tool_turns": 3,
+      "errors": [
+        "computer_use capture timed out on Windows Progman UIA provider",
+        "second computer_use capture timed out",
+        "vision fallback took 53.31 seconds"
+      ],
+      "termination": "interrupted_by_user to prevent unrelated desktop actions",
+      "dynamic_budget": {"context": 65536, "estimated_input": 23211, "margin": 655, "output": 41670},
+      "passed": false
+    }
+  ],
+  "summary": {
+    "exact_visible_responses": 2,
+    "total": 3,
+    "exact_response_rate_pct": 66.7,
+    "within_30_s": 1,
+    "within_30_s_rate_pct": 33.3,
+    "full_passed": 1,
+    "full_pass_rate_pct": 33.3,
+    "acceptance_passed": false
+  },
+  "log_source": "C:\\Users\\home\\AppData\\Roaming\\CLINVEXA\\runtime\\logs\\agent.log",
+  "limitations": "Manual black-box UI sample. Sample size is three and is suitable only as a release smoke gate, not a production reliability estimate."
+}

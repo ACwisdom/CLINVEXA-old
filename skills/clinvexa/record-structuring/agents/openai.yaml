@@ -1,0 +1,4 @@
+interface:
+  display_name: "病历结构化"
+  short_description: "结构化医疗资料并在原文件目录生成可复核 Excel"
+  default_prompt: "使用 $record-structuring 的固定 scripts/run.py 入口处理所给文件或文件夹；不得自行分析或临时编写脚本，完成后返回唯一汇总 Excel 的完整绝对路径。"

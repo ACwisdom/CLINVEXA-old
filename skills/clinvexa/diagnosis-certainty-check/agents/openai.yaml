@@ -1,0 +1,4 @@
+interface:
+  display_name: "diagnosis-certainty-check"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $diagnosis-certainty-check to process the supplied medical material with source evidence."

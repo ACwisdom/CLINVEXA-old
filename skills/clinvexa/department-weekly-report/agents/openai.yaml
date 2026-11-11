@@ -1,0 +1,4 @@
+interface:
+  display_name: "科室周报"
+  short_description: "汇总科室办公数据和待办"
+  default_prompt: "使用 $department-weekly-report 生成科室周报草稿。"

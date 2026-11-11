@@ -1,0 +1,79 @@
+{
+  "tested_at": "2026-08-20T14:02:17+08:00",
+  "application": {
+    "name": "CLINVEXA",
+    "version": "0.17.1",
+    "executable": "D:\\N260 Hermes+CLINVEXA\\hermes-agent-main\\apps\\desktop\\release\\win-unpacked\\CLINVEXA.exe"
+  },
+  "endpoint": "http://172.16.0.105:8818/v1",
+  "model": "/workspace/model",
+  "method": "通过当前 CLINVEXA 桌面界面新建三次独立会话，输入固定回复指令；以 agent.log 中 turn_context 至 Turn ended 的时间戳计算端到端耗时，并检查界面最终文本。未对首轮失败做人工重试。",
+  "threshold": {
+    "final_content_exact_match": "3/3",
+    "first_attempt_success": "3/3",
+    "each_turn_latency_seconds_lte": 30
+  },
+  "cases": [
+    {
+      "id": "DESKTOP_E2E_01",
+      "session": "20260820_140116_72bff8",
+      "started_at": "2026-08-20T14:02:17.000+08:00",
+      "finished_at": "2026-08-20T14:02:48.621+08:00",
+      "latency_seconds": 31.621,
+      "final_content_exact_match": true,
+      "within_30_seconds": false,
+      "first_attempt_success": false,
+      "failures_before_success": [
+        "ConnectTimeout / Request timed out",
+        "HTTP 400: max context 65536, requested 65536 output tokens while prompt was non-empty"
+      ]
+    },
+    {
+      "id": "DESKTOP_E2E_02",
+      "session": "20260820_140322_1271cd",
+      "started_at": "2026-08-20T14:03:47.247+08:00",
+      "finished_at": "2026-08-20T14:03:53.420+08:00",
+      "latency_seconds": 6.173,
+      "final_content_exact_match": true,
+      "within_30_seconds": true,
+      "first_attempt_success": false,
+      "failures_before_success": [
+        "HTTP 400: max context 65536, requested 65536 output tokens while prompt was non-empty"
+      ]
+    },
+    {
+      "id": "DESKTOP_E2E_03",
+      "session": "20260820_140448_b8c016",
+      "started_at": "2026-08-20T14:05:05.933+08:00",
+      "finished_at": "2026-08-20T14:05:27.535+08:00",
+      "latency_seconds": 21.602,
+      "final_content_exact_match": true,
+      "within_30_seconds": true,
+      "first_attempt_success": false,
+      "failures_before_success": [
+        "HTTP 400: max context 65536, requested 65536 output tokens while prompt was non-empty"
+      ]
+    }
+  ],
+  "summary": {
+    "eventual_content_passed": 3,
+    "total": 3,
+    "eventual_content_rate_pct": 100.0,
+    "first_attempt_passed": 0,
+    "first_attempt_rate_pct": 0.0,
+    "within_30_seconds_passed": 2,
+    "within_30_seconds_rate_pct": 66.67,
+    "latency_p50_seconds": 21.602,
+    "latency_p95_nearest_rank_seconds": 31.621,
+    "integration_gate_passed": false
+  },
+  "log_evidence": {
+    "path": "C:\\Users\\home\\AppData\\Roaming\\CLINVEXA\\runtime\\logs\\agent.log",
+    "relevant_line_ranges": [
+      "6299-6420",
+      "6427-6461",
+      "6475-6509"
+    ],
+    "root_cause": "CLINVEXA 多次无法探测 /workspace/model 的真实上下文，回退为 256000；之后请求把输出预算设为 65536，服务端因输入非空而返回 HTTP 400。重试后的降级请求最终成功。"
+  }
+}

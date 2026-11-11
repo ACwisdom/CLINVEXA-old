@@ -1,0 +1,4 @@
+interface:
+  display_name: "医疗证明草稿"
+  short_description: "生成待医生确认的证明草稿"
+  default_prompt: "使用 $medical-certificate-draft 整理医疗证明草稿。"

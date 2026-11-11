@@ -1,0 +1,4 @@
+interface:
+  display_name: "clinical-knowledge-search"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $clinical-knowledge-search to process the supplied medical material with source evidence."

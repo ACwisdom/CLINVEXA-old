@@ -1,0 +1,4 @@
+interface:
+  display_name: "预约分诊整理"
+  short_description: "整理预约和候诊清单"
+  default_prompt: "使用 $appointment-triage 整理预约分诊材料。"

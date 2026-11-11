@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: clinvexa
+Version: 0.1.0
+Summary: CLINVEXA medical desktop orchestration layer.
+Requires-Python: <3.14,>=3.11
+Requires-Dist: fastapi<1,>=0.104.0
+Requires-Dist: PyYAML<7,>=6.0
+Requires-Dist: pydantic<3,>=2.12.0
+Requires-Dist: uvicorn[standard]<1,>=0.24.0
+Provides-Extra: live-voice
+Requires-Dist: sherpa-onnx==1.13.4; extra == "live-voice"
+Requires-Dist: numpy<3,>=1.26; extra == "live-voice"

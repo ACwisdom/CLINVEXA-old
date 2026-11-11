@@ -1,0 +1,191 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "N260 Qwen 远程调用与 CLINVEXA 完整功能测试报告",
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# N260 Qwen 远程调用与 CLINVEXA 完整功能测试报告\n\n**测试日期：** 2026-08-20　 **CLINVEXA：** 0.17.1　 **端点：** `http://172.16.0.105:8818/v1`　 **模型：** `/workspace/model`\n\n本报告仅用于技术验收参考；数据为公开考试题和完全合成病例，不是临床有效性证明。"
+      },
+      {
+        "id": "technical-summary",
+        "type": "markdown",
+        "body": "## 技术结论：核心协议可用，但当前不满足完整产品发布门槛\n\n**总体判定：有条件不通过。** 远程模型的短请求、30K上下文、JSON、Tool Calling、流式输出、推理分离和三路并发冒烟均可工作，CMExam固定30题为27/30；三项本地确定性医疗Skill也完成了流式过程和文件落盘。\n\n阻断项有三类：**接近64K的真实请求180秒超时**；20例工作流有2次60秒读超时；CLINVEXA探测上下文失败后回退为256K，并在首轮申请65,536输出tokens，导致桌面测试3/3首轮HTTP 400或超时。最终回复3/3正确是重试/降级后的结果，不能替代首轮健康。"
+      },
+      {
+        "id": "rates-heading",
+        "type": "markdown",
+        "body": "## 能力结果与工程门槛\n\n通过率按各自分母计算。100%仅表示该小样本未观察到失败。CMExam、安全与医疗字段结果均不能解释为临床准确率。"
+      },
+      {
+        "id": "rates-chart",
+        "type": "chart",
+        "chartId": "capability-rates"
+      },
+      {
+        "id": "standards-heading",
+        "type": "markdown",
+        "body": "## 每项功能的最低执行标准与实际反馈\n\n阈值在扩展评测前冻结于 `test_spec.json`。最低反馈描述调用方或用户至少必须看到什么，空内容、静默失败和依靠多次重试才成功都不能冒充首轮通过。"
+      },
+      {
+        "id": "standards-table",
+        "type": "table",
+        "tableId": "acceptance-standards"
+      },
+      {
+        "id": "methodology",
+        "type": "markdown",
+        "body": "## 测试集、方法与防止挑结果\n\n- **公开集：** [CMExam官方仓库](https://github.com/williamliujl/CMExam) 验证集，固定提交 `fadb22c89beb1b7115dc36460ba792eb96b7b972`，SHA-256 `58CC9776B2F17FDC3A235CEEC9AE153EE3F617703293DDA661C6DECBFFB1F190`；按种子20260820随机抽取30题。CMExam及其[论文](https://arxiv.org/abs/2306.03030)是研究资源。\n- **合成集：** 项目既有20例CLINVEXA工作流；新建5份病例45字段、8个严格任务、5个JSON、5个工具调用、5个流式、3个推理分离、12个并发和10个安全用例；没有真实患者数据。\n- **计分：** 温度0、首次失败保留、不从分母删除；阈值和超时预先冻结；比例附Wilson 95%置信区间。\n- **安全复核：** 自动8/10中两次是简单禁词子串误报。回答实际说“不能直接确诊肺癌”和“继续上班会延误抢救”，人工语义复核为10/10；自动原分保留。"
+      },
+      {
+        "id": "root-cause",
+        "type": "markdown",
+        "body": "## CLINVEXA持续加载的根因已经被日志证实\n\n三次独立桌面会话的 `agent.log` 均记录：无法检测模型上下文 → 错误回退256,000 → 首轮请求申请65,536 output tokens并携带约93,512字符系统提示 → 服务端以最大上下文65,536为由返回HTTP 400 → CLINVEXA重试/降级后成功。\n\n日志计时分别为31.621秒、6.173秒、21.602秒；最终文本3/3正确，30秒内2/3，**首轮成功0/3**。另有标题生成超时。该问题是客户端上下文发现/预算错误叠加远端偶发连接超时，不是简单的“Qwen不会回答”。"
+      },
+      {
+        "id": "skill-results",
+        "type": "markdown",
+        "body": "## 确定性医疗Skill形成3/3闭环\n\n通过真实本机 `127.0.0.1:8001` 流式接口测试 `record-structuring`、`outpatient-note-draft`、`followup-plan`。三项均产生资料接收、文件读取、字段提取、规则校验、结果生成等多阶段事件，并分别落盘单一XLSX或UTF-8 TXT；关键字段、过敏史、3天后复诊、复查项目、异常提前就医和医生复核提示均满足断言。\n\n这只证明当前固定脚本在一份详细合成样例上闭环，不代表对所有真实病历与模糊口语均为100%。"
+      },
+      {
+        "id": "failure-analysis",
+        "type": "markdown",
+        "body": "## 真实失败没有被剔除\n\n- 20次模型发现第1次连接20秒超时。\n- 接近64K的合成请求在180秒后读超时；但30,019 prompt tokens在11.958秒内成功。\n- 既有20例中用药状态/剂量和三Agent路由各发生一次60秒读超时，故为18/20。\n- 严格指令7/8，失败是模型保留了用户引号，违反精确输出契约。\n- CMExam错3题：强心苷慢性心衰病因、翼下颌间隙切开位置、皮肤辐射散热因素。\n- 桌面端首轮3/3失败，最终靠重试/降级成功。"
+      },
+      {
+        "id": "actions",
+        "type": "markdown",
+        "body": "## 优化方向与复验门槛\n\n1. **P0 修复CLINVEXA上下文预算：** 持久化65536，探测失败不得回退256K；`max_tokens` 按上下文减去实际输入与安全余量计算，不能把整个窗口当输出预算。新会话固定回复20次首轮20/20、零400、P95≤20秒。\n2. **P0 加固N260服务：** 核查vLLM、连接队列、KV Cache、GPU显存和网络；100次模型发现与100次短生成首轮≥99%，三路并发100次≥99%，零进程重启/OOM。\n3. **P0 分级验证长上下文：** 使用准确tokenizer测试32K、48K、60K，每档5次；60K 5/5且P95达标后才可宣传64K级上下文。\n4. **P1 扩大医疗评测：** CMExam至少500–1000题并按科目分层；授权脱敏病历由至少两名医生独立标注，计算precision/recall/F1、否定识别、剂量、时间线、来源证据和危险幻觉。"
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "body": "## 未验证和不能声称的事项\n\n未获得准确Qwen型号、参数规模、量化精度、vLLM版本/启动参数、N260卡数与GPU/KV Cache指标；未测试视觉/OCR/ASR、Computer Use/HIS、2小时持续压测、断网恢复、安装包冷启动和多用户并发；没有医生双人盲审和真实脱敏患者数据。因此不得发布“临床准确率”或“64K稳定可用”的结论。"
+      },
+      {
+        "id": "evidence",
+        "type": "markdown",
+        "body": "## 证据与完整性\n\n原始证据包括：主验收JSON、扩展模型JSON、CLINVEXA桌面E2E JSON、Skill闭环JSON、安全人工复核JSON、冻结阈值、测试程序、合成fixture及CMExam验证集。全部SHA-256写入 `checksums.sha256`；失败保留在原始结果或 `agent.log`，未知信息均明确列为未知。"
+      }
+    ],
+    "charts": [
+      {
+        "id": "capability-rates",
+        "type": "horizontalBar",
+        "title": "主要能力实测通过率",
+        "description": "不同能力分母不同；灰色门槛见悬浮提示和验收表",
+        "dataset": "capability_rates",
+        "sourceId": "evaluation-suite",
+        "encodings": {
+          "x": {"field": "capability", "type": "nominal", "title": "能力"},
+          "y": {"field": "actual_pct", "type": "quantitative", "title": "通过率（%）"},
+          "tooltip": [
+            {"field": "actual_pct", "title": "实测"},
+            {"field": "threshold_pct", "title": "门槛"},
+            {"field": "sample", "title": "样本"},
+            {"field": "status", "title": "判定"}
+          ]
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "acceptance-standards",
+        "title": "最低执行标准、实测和最低结果反馈",
+        "description": "阈值冻结于测试前；条件通过表示样本量不足以外推生产率",
+        "dataset": "acceptance_standards",
+        "sourceId": "evaluation-suite",
+        "defaultSort": {"field": "feature", "direction": "asc"},
+        "columns": [
+          {"field": "feature", "label": "功能"},
+          {"field": "actual_result", "label": "实测"},
+          {"field": "status", "label": "判定"}
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "evaluation-suite",
+        "label": "CLINVEXA/N260远程模型综合评测证据（2026-08-20）",
+        "query": {
+          "language": "sql",
+          "description": "由四份原始结果JSON、桌面agent.log和冻结阈值整理；不包含真实患者数据。",
+          "sql": "SELECT '模型发现可用性' capability,95.0 actual_pct,95.0 threshold_pct,'19/20' sample,'勉强达线' status UNION ALL SELECT '严格指令',87.5,95.0,'7/8','未通过' UNION ALL SELECT '医疗字段抽取',100.0,95.0,'45/45字段','条件通过' UNION ALL SELECT '既有20例工作流',90.0,100.0,'18/20','未通过' UNION ALL SELECT 'JSON结构化',100.0,99.0,'5/5','条件通过' UNION ALL SELECT 'Tool Calling',100.0,95.0,'5/5','条件通过' UNION ALL SELECT '流式输出',100.0,99.0,'5/5','条件通过' UNION ALL SELECT '推理分离',100.0,95.0,'3/3','条件通过' UNION ALL SELECT '三路并发',100.0,99.0,'12/12','条件通过' UNION ALL SELECT 'CMExam固定抽样',90.0,60.0,'27/30','通过研究门槛' UNION ALL SELECT '安全人工复核',100.0,100.0,'10/10','条件通过' UNION ALL SELECT '桌面首轮健康',0.0,100.0,'0/3','未通过' UNION ALL SELECT '确定性医疗Skill',100.0,100.0,'3/3','通过冒烟门槛'"
+        }
+      },
+      {
+        "id": "cmexam",
+        "label": "CMExam验证集（固定提交，30题固定抽样）",
+        "query": {
+          "language": "sql",
+          "description": "来源：https://github.com/williamliujl/CMExam；随机种子20260820；结果27/30。",
+          "sql": "SELECT 30 AS sampled_questions,27 AS correct,90.0 AS accuracy_pct,74.38 AS wilson_low_pct,96.54 AS wilson_high_pct"
+        }
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "status": "ready",
+    "generatedAt": "2026-08-20T15:00:00+08:00",
+    "datasets": {
+      "capability_rates": [
+        {"capability": "模型发现可用性", "actual_pct": 95.0, "threshold_pct": 95.0, "sample": "19/20", "status": "勉强达线"},
+        {"capability": "严格指令", "actual_pct": 87.5, "threshold_pct": 95.0, "sample": "7/8", "status": "未通过"},
+        {"capability": "医疗字段抽取", "actual_pct": 100.0, "threshold_pct": 95.0, "sample": "45/45字段", "status": "条件通过"},
+        {"capability": "既有20例工作流", "actual_pct": 90.0, "threshold_pct": 100.0, "sample": "18/20", "status": "未通过"},
+        {"capability": "JSON结构化", "actual_pct": 100.0, "threshold_pct": 99.0, "sample": "5/5", "status": "条件通过"},
+        {"capability": "Tool Calling", "actual_pct": 100.0, "threshold_pct": 95.0, "sample": "5/5", "status": "条件通过"},
+        {"capability": "流式输出", "actual_pct": 100.0, "threshold_pct": 99.0, "sample": "5/5", "status": "条件通过"},
+        {"capability": "推理分离", "actual_pct": 100.0, "threshold_pct": 95.0, "sample": "3/3", "status": "条件通过"},
+        {"capability": "三路并发", "actual_pct": 100.0, "threshold_pct": 99.0, "sample": "12/12", "status": "条件通过"},
+        {"capability": "CMExam固定抽样", "actual_pct": 90.0, "threshold_pct": 60.0, "sample": "27/30", "status": "通过研究门槛"},
+        {"capability": "安全人工复核", "actual_pct": 100.0, "threshold_pct": 100.0, "sample": "10/10", "status": "条件通过"},
+        {"capability": "桌面首轮健康", "actual_pct": 0.0, "threshold_pct": 100.0, "sample": "0/3", "status": "未通过"},
+        {"capability": "确定性医疗Skill", "actual_pct": 100.0, "threshold_pct": 100.0, "sample": "3/3", "status": "通过冒烟门槛"}
+      ],
+      "acceptance_standards": [
+        {"order": 1, "feature": "模型发现/可用性", "minimum_standard": "20次≥95%", "actual_result": "19/20，95.0%；CI 76.39%–99.11%", "status": "勉强达线", "minimum_feedback": "HTTP 200、正确模型ID和上下文"},
+        {"order": 2, "feature": "上下文元数据", "minimum_standard": "≥64,000 tokens", "actual_result": "65,536", "status": "通过配置门槛", "minimum_feedback": "可核验max_model_len"},
+        {"order": 3, "feature": "上下文实跑", "minimum_standard": "接近64K有最终内容", "actual_result": "30,019成功；接近64K 180秒超时", "status": "未通过", "minimum_feedback": "时限内非空content"},
+        {"order": 4, "feature": "严格指令", "minimum_standard": "≥95%", "actual_result": "7/8，87.5%", "status": "未通过", "minimum_feedback": "无多余符号的精确结果"},
+        {"order": 5, "feature": "医疗字段抽取", "minimum_standard": "≥95%；危险无来源事实=0", "actual_result": "45/45，合成小样本", "status": "条件通过", "minimum_feedback": "有原文值或明确未提及"},
+        {"order": 6, "feature": "既有20例工作流", "minimum_standard": "20/20且零超时", "actual_result": "18/20；2次60秒读超时", "status": "未通过", "minimum_feedback": "合法JSON、断言完整"},
+        {"order": 7, "feature": "JSON结构化", "minimum_standard": "冒烟5/5；生产≥99%", "actual_result": "5/5", "status": "条件通过", "minimum_feedback": "单一可解析对象"},
+        {"order": 8, "feature": "Tool Calling", "minimum_standard": "冒烟5/5；生产≥95%", "actual_result": "5/5", "status": "条件通过", "minimum_feedback": "正确工具名和参数"},
+        {"order": 9, "feature": "流式输出", "minimum_standard": "冒烟5/5；生产≥99%", "actual_result": "5/5；TTFT P95 0.160秒", "status": "条件通过", "minimum_feedback": "多事件、完整内容、正常结束"},
+        {"order": 10, "feature": "推理字段分离", "minimum_standard": "冒烟3/3；生产≥95%", "actual_result": "3/3", "status": "条件通过", "minimum_feedback": "reasoning/content分离"},
+        {"order": 11, "feature": "三路并发", "minimum_standard": "冒烟12/12；生产≥99%", "actual_result": "12/12", "status": "条件通过", "minimum_feedback": "每请求正确且无超时"},
+        {"order": 12, "feature": "直接接口时延", "minimum_standard": "P95≤20秒", "actual_result": "58样本P50 0.965秒、P95 17.668秒", "status": "通过", "minimum_feedback": "20秒内结果或明确错误"},
+        {"order": 13, "feature": "CMExam知识题", "minimum_standard": "固定30题≥60%", "actual_result": "27/30，90.0%；CI 74.38%–96.54%", "status": "通过研究门槛", "minimum_feedback": "单一选项字母"},
+        {"order": 14, "feature": "合成安全规则", "minimum_standard": "10/10；严重不安全=0", "actual_result": "自动8/10；人工语义复核10/10", "status": "条件通过", "minimum_feedback": "拒绝危险建议并升级就医"},
+        {"order": 15, "feature": "桌面最终内容", "minimum_standard": "3/3且每次≤30秒", "actual_result": "3/3正确；2/3≤30秒", "status": "未通过时延", "minimum_feedback": "新会话与最终文本可见"},
+        {"order": 16, "feature": "桌面首轮健康", "minimum_standard": "3/3无错误", "actual_result": "0/3；均先400或超时", "status": "未通过", "minimum_feedback": "首轮直接流式输出"},
+        {"order": 17, "feature": "确定性医疗Skill", "minimum_standard": "3/3闭环", "actual_result": "3/3；流式过程+XLSX/TXT落盘", "status": "通过冒烟", "minimum_feedback": "过程事件、正确格式和关键内容"}
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "evaluation-suite",
+      "label": "CLINVEXA/N260远程模型综合评测证据（2026-08-20）",
+      "query": {
+        "language": "sql",
+        "description": "由原始JSON与桌面日志整理，不包含真实患者数据。",
+        "sql": "SELECT 1"
+      }
+    },
+    {
+      "id": "cmexam",
+      "label": "CMExam验证集固定抽样",
+      "query": {
+        "language": "sql",
+        "description": "https://github.com/williamliujl/CMExam；30题，27题正确。",
+        "sql": "SELECT 30 sampled,27 correct"
+      }
+    }
+  ]
+}

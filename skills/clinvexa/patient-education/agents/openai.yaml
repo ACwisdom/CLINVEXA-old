@@ -1,0 +1,4 @@
+interface:
+  display_name: "patient-education"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $patient-education to process the supplied medical material with source evidence."

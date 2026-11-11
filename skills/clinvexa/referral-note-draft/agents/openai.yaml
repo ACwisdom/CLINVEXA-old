@@ -1,0 +1,4 @@
+interface:
+  display_name: "referral-note-draft"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $referral-note-draft to process the supplied medical material with source evidence."

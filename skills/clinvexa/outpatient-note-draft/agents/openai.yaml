@@ -1,0 +1,4 @@
+interface:
+  display_name: "门诊病历草稿"
+  short_description: "按固定九字段生成可复核的简体中文病历草稿"
+  default_prompt: "使用 $outpatient-note-draft 的固定 scripts/run.py 入口处理所给文件或文件夹；不得自行分析或补写事实，完成后返回九字段 UTF-8 中文 TXT 的完整绝对路径。"

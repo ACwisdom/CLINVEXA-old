@@ -1,0 +1,19 @@
+manifest_version: 1
+name: tencent-meeting
+description: 腾讯会议：查询会议、参会人、录制及纪要，并可预约会议。
+source: https://meeting.tencent.com/support/articles/14/index.html
+transport:
+  type: http
+  url: https://mcp.meeting.tencent.com/mcp/wemeet-open/v1
+  headers:
+    X-Tencent-Meeting-Token: ${TENCENT_MEETING_TOKEN}
+    X-Skill-Version: v1.1.0
+auth:
+  type: api_key
+  env:
+    - name: TENCENT_MEETING_TOKEN
+      prompt: 在 https://meeting.tencent.com/ai-skill.html 获取的个人 Token
+      secret: true
+post_install: |
+  腾讯会议当前向个人账号开放。安装后点击测试，确认工具发现成功。
+  修改或取消会议前应先让用户确认具体变更。

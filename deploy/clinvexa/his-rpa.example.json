@@ -1,0 +1,22 @@
+{
+  "app": "医院 HIS 客户端",
+  "patient_automation_id": "patient_id",
+  "journal_path": "data/rpa-state.json",
+  "controls": {
+    "patient_search": {
+      "automation_id": "patient_search"
+    },
+    "open_patient": {
+      "automation_id": "open_patient"
+    },
+    "chief_complaint": {
+      "automation_id": "chief_complaint"
+    },
+    "assessment": {
+      "automation_id": "assessment"
+    },
+    "submit": {
+      "automation_id": "submit_record"
+    }
+  }
+}

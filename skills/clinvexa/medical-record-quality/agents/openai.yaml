@@ -1,0 +1,4 @@
+interface:
+  display_name: "medical-record-quality"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $medical-record-quality to process the supplied medical material with source evidence."

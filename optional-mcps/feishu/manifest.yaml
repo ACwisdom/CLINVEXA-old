@@ -1,0 +1,30 @@
+manifest_version: 1
+name: feishu
+description: 飞书：使用官方开放平台 MCP 访问获授权的消息、文档、日历等能力。
+source: https://github.com/larksuite/lark-openapi-mcp
+transport:
+  type: stdio
+  command: npx
+  args:
+    - -y
+    - '@larksuiteoapi/lark-mcp@0.5.1'
+    - mcp
+    - --oauth
+    - --token-mode
+    - user_access_token
+  version: 0.5.1
+  env:
+    APP_ID: ${FEISHU_APP_ID}
+    APP_SECRET: ${FEISHU_APP_SECRET}
+auth:
+  type: api_key
+  env:
+    - name: FEISHU_APP_ID
+      prompt: 飞书开放平台应用 App ID
+      secret: false
+    - name: FEISHU_APP_SECRET
+      prompt: 飞书开放平台应用 App Secret
+      secret: true
+post_install: |
+  需要先在飞书开放平台创建应用，授权所需 API 权限，并将 OAuth 回调地址设为 http://localhost:3000/callback。
+  首次调用需在浏览器完成用户授权。之后以用户身份访问已授权的文档、消息和日历；可用范围由应用权限决定。

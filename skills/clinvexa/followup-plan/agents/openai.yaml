@@ -1,0 +1,4 @@
+interface:
+  display_name: "随访计划"
+  short_description: "依据病历生成含时间、复查和触发条件的随访草稿"
+  default_prompt: "使用 $followup-plan 的固定 scripts/run.py 入口处理所给文件或文件夹；不得自行分析或补写随访事项，完成后返回 UTF-8 中文 TXT 的完整绝对路径。"

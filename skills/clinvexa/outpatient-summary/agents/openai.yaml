@@ -1,0 +1,4 @@
+interface:
+  display_name: "outpatient-summary"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $outpatient-summary to process the supplied medical material with source evidence."

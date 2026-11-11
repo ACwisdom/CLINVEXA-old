@@ -1,0 +1,17 @@
+manifest_version: 1
+name: tencent-docs
+description: 腾讯文档：搜索、读取和编辑文档、表格及演示文稿。
+source: https://developer.cloud.tencent.com/mcp/server/11803
+transport:
+  type: http
+  url: https://docs.qq.com/openapi/mcp
+  headers:
+    Authorization: ${TENCENT_DOCS_TOKEN}
+auth:
+  type: api_key
+  env:
+    - name: TENCENT_DOCS_TOKEN
+      prompt: 在 https://docs.qq.com/open/auth/mcp.html 获取的个人 Token
+      secret: true
+post_install: |
+  安装后在“已连接”中点击测试，确认实际发现工具。个人 Token 只保存在当前配置的本地 .env 中。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "discharge-summary"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $discharge-summary to process the supplied medical material with source evidence."

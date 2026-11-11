@@ -1,0 +1,4 @@
+interface:
+  display_name: "患者沟通记录"
+  short_description: "整理沟通记录和后续待办"
+  default_prompt: "使用 $patient-communication-record 整理医患沟通材料。"

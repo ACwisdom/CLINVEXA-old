@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CLINVEXA 模拟 HIS｜门诊复诊</title>
+  <style>
+    :root { color-scheme: light; font-family: "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #eef3f9; color: #14213d; }
+    .topbar { align-items: center; background: linear-gradient(112deg, #113f7f, #1769c2); color: #fff; display: flex; height: 66px; justify-content: space-between; padding: 0 30px; }
+    .brand { align-items: center; display: flex; gap: 12px; }
+    .brand-mark { align-items: center; background: #fff; border-radius: 9px; color: #1769c2; display: grid; font-size: 20px; font-weight: 800; height: 34px; place-items: center; width: 34px; }
+    .brand h1 { font-size: 19px; margin: 0; }
+    .brand p { color: #dceaff; font-size: 12px; margin: 3px 0 0; }
+    .test-badge { background: #dff3e8; border-radius: 999px; color: #14633d; font-size: 13px; font-weight: 700; padding: 7px 12px; }
+    main { margin: 24px auto 48px; max-width: 1190px; padding: 0 20px; }
+    .notice { background: #fff9e8; border: 1px solid #f1d78c; border-left: 4px solid #e9a622; border-radius: 8px; color: #6f4d00; font-size: 14px; line-height: 1.65; margin-bottom: 16px; padding: 13px 16px; }
+    .layout { display: grid; gap: 16px; grid-template-columns: 270px minmax(0, 1fr); }
+    .card { background: #fff; border: 1px solid #d8e3f1; border-radius: 12px; box-shadow: 0 8px 30px rgba(34, 75, 132, .07); }
+    .card-title { border-bottom: 1px solid #e4ebf5; font-size: 16px; font-weight: 750; margin: 0; padding: 15px 18px; }
+    .patient-list { padding: 12px; }
+    .patient { background: #f7faff; border: 1px solid #c9ddf7; border-radius: 9px; padding: 13px; }
+    .patient strong { font-size: 16px; }
+    .patient p, .patient small { color: #5c6f89; display: block; font-size: 13px; margin: 5px 0 0; }
+    .patient button { margin-top: 14px; width: 100%; }
+    .help { border-top: 1px solid #e5edf7; color: #5c6f89; font-size: 12px; line-height: 1.7; margin-top: 16px; padding: 14px 4px 3px; }
+    .record-head { align-items: center; display: flex; justify-content: space-between; }
+    .status { background: #edf3fb; border-radius: 999px; color: #315c91; font-size: 12px; font-weight: 700; padding: 6px 10px; }
+    .status.saved { background: #dff5e9; color: #14633d; }
+    form { padding: 18px; }
+    .patient-bar { background: #f7faff; border: 1px solid #d8e7f9; border-radius: 10px; display: grid; gap: 10px; grid-template-columns: repeat(4, 1fr); margin-bottom: 18px; padding: 12px 14px; }
+    .patient-bar span { color: #667892; display: block; font-size: 12px; margin-bottom: 3px; }
+    .patient-bar strong { color: #193b67; font-size: 14px; }
+    .fields { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .wide { grid-column: 1 / -1; }
+    label { color: #253b5d; display: block; font-size: 14px; font-weight: 750; margin-bottom: 7px; }
+    .field-hint { color: #71829a; font-size: 12px; font-weight: 400; margin-left: 6px; }
+    input, textarea { background: #fff; border: 1px solid #aebfd5; border-radius: 8px; color: #182a45; font: inherit; outline: none; padding: 10px 11px; width: 100%; }
+    input:focus, textarea:focus { border-color: #1769c2; box-shadow: 0 0 0 3px rgba(23, 105, 194, .14); }
+    textarea { min-height: 96px; resize: vertical; }
+    .actions { align-items: center; border-top: 1px solid #e4ebf5; display: flex; gap: 10px; margin-top: 20px; padding-top: 16px; }
+    #message { color: #14633d; flex: 1; font-size: 13px; font-weight: 700; min-height: 20px; }
+    button { background: #fff; border: 1px solid #a8bfda; border-radius: 8px; color: #25578f; cursor: pointer; font: inherit; font-weight: 750; min-height: 40px; padding: 0 14px; }
+    button:hover { background: #f3f8ff; }
+    button.primary { background: #1769c2; border-color: #1769c2; color: #fff; }
+    button.primary:hover { background: #0f57a7; }
+    button:disabled { background: #eef2f7; border-color: #d4dce8; color: #8996a9; cursor: not-allowed; }
+    @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } .patient-bar { grid-template-columns: 1fr 1fr; } .fields { grid-template-columns: 1fr; } .wide { grid-column: auto; } .topbar { padding: 0 16px; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">+</span><div><h1>医院信息系统 HIS</h1><p>门诊诊疗 · 模拟测试环境</p></div></div>
+    <span class="test-badge">合成病例 · 仅测试草稿填写</span>
+  </header>
+  <main>
+    <section class="notice"><strong>CLINVEXA 快捷填写测试：</strong>本页不连接任何医院系统，所有信息均为虚构数据。先在左侧打开患者，再切换到 CLINVEXA 识别本页；医生选择 AI 建议后点击“快捷填写”，系统只会填写字段，不会保存或提交。</section>
+    <div class="layout">
+      <aside class="card">
+        <h2 class="card-title">候诊患者</h2>
+        <div class="patient-list">
+          <article class="patient">
+            <strong>王某</strong><small>女 · 31 岁 · 普通门诊</small><p>患者编号：DC-DEMO-0001</p><p>本次就诊：DC-OP-20260916</p>
+            <button id="open-patient" type="button">打开患者病历</button>
+          </article>
+          <p class="help">测试步骤：打开患者病历 → 让 CLINVEXA 看屏分析 → 在建议区点击“快捷填写” → 回到本页核对字段 → 由医生手动保存草稿。</p>
+        </div>
+      </aside>
+      <section class="card" aria-labelledby="record-title">
+        <div class="card-title record-head"><span id="record-title">门诊病历草稿</span><span class="status" id="status" role="status" aria-live="polite">等待填写</span></div>
+        <form id="record-form">
+          <section class="patient-bar" aria-label="当前患者信息">
+            <div><span>患者姓名</span><strong id="patient-name">未打开</strong></div>
+            <div><span>患者编号</span><strong id="patient-id">—</strong></div>
+            <div><span>本次就诊</span><strong id="encounter-id">—</strong></div>
+            <div><span>就诊科室</span><strong id="department">—</strong></div>
+          </section>
+          <div class="fields">
+            <div><label for="chief-complaint">主诉<span class="field-hint">患者就诊时最主要的不适</span></label><textarea id="chief-complaint" name="chief_complaint" placeholder="等待 CLINVEXA 建议或医生填写"></textarea></div>
+            <div><label for="present-illness">现病史<span class="field-hint">症状经过与伴随症状</span></label><textarea id="present-illness" name="present_illness" placeholder="等待 CLINVEXA 建议或医生填写"></textarea></div>
+            <div><label for="allergy-history">过敏史<span class="field-hint">未提及请由医生确认</span></label><input id="allergy-history" name="allergy_history" placeholder="等待 CLINVEXA 建议或医生填写"></div>
+            <div><label for="auxiliary-examination">辅助检查<span class="field-hint">检查结果或待开具项目</span></label><input id="auxiliary-examination" name="auxiliary_examination" placeholder="等待 CLINVEXA 建议或医生填写"></div>
+            <div><label for="preliminary-diagnosis">初步诊断<span class="field-hint">必须保留“待医生确认”</span></label><input id="preliminary-diagnosis" name="preliminary_diagnosis" placeholder="等待 CLINVEXA 建议或医生填写"></div>
+            <div><label for="disposition-plan">处置计划<span class="field-hint">仅填写经医生确认的内容</span></label><input id="disposition-plan" name="disposition_plan" placeholder="等待 CLINVEXA 建议或医生填写"></div>
+          </div>
+          <div class="actions"><span id="message" aria-live="polite"></span><button id="reset-button" type="button">清空重置</button><button class="primary" id="save-button" type="submit">保存病历草稿</button><button disabled id="submit-button" title="模拟环境不支持正式提交" type="button">提交正式病历</button></div>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script>
+    const data = { name: '王某', patientId: 'DC-DEMO-0001', encounterId: 'DC-OP-20260916', department: '消化内科' }
+    const form = document.querySelector('#record-form')
+    const status = document.querySelector('#status')
+    const message = document.querySelector('#message')
+    let opened = false
+    document.querySelector('#open-patient').addEventListener('click', () => {
+      opened = true
+      document.querySelector('#patient-name').textContent = data.name
+      document.querySelector('#patient-id').textContent = data.patientId
+      document.querySelector('#encounter-id').textContent = data.encounterId
+      document.querySelector('#department').textContent = data.department
+      status.textContent = '患者已核对 · 可填写草稿'
+      status.classList.remove('saved')
+      message.textContent = '患者病历已打开。请切换到 CLINVEXA 读取本页并选择建议。'
+    })
+    form.addEventListener('submit', event => {
+      event.preventDefault()
+      if (!opened) { message.textContent = '请先打开患者病历并核对患者信息。'; return }
+      const diagnosis = document.querySelector('#preliminary-diagnosis').value
+      if (diagnosis && !diagnosis.includes('待医生确认')) { message.textContent = '保存前请在初步诊断中注明“待医生确认”。'; return }
+      status.textContent = '病历草稿已保存'
+      status.classList.add('saved')
+      message.textContent = '草稿已保存，未提交正式病历。请由医生继续复核。'
+      sessionStorage.setItem('clinvexa-simulated-his-draft', JSON.stringify(Object.fromEntries(new FormData(form))))
+    })
+    document.querySelector('#reset-button').addEventListener('click', () => {
+      form.reset(); opened = false
+      for (const [id, value] of [['patient-name', '未打开'], ['patient-id', '—'], ['encounter-id', '—'], ['department', '—']]) document.querySelector('#' + id).textContent = value
+      status.textContent = '等待填写'; status.classList.remove('saved'); message.textContent = ''
+      sessionStorage.removeItem('clinvexa-simulated-his-draft')
+    })
+  </script>
+</body>
+</html>

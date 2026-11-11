@@ -1,0 +1,4 @@
+interface:
+  display_name: "research-data-extraction"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $research-data-extraction to process the supplied medical material with source evidence."

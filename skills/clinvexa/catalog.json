@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "name": "skill-creator",
+      "title": "Skill 创建器",
+      "description": "创建、校验并发布 CLINVEXA Skill，使其可在 Skill 广场检索和调用。",
+      "scope": "platform",
+      "source": "skill-creator",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "record-structuring",
+      "title": "病历结构化",
+      "description": "固定脚本确定性提取病历并自动汇总生成单个 Excel，不经模型补写，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "record-structuring",
+      "default_version": "1.4.0",
+      "versions": ["1.0.0", "1.1.0", "1.2.0", "1.3.0", "1.4.0"],
+      "dependencies": []
+    },
+    {
+      "name": "medical-record-quality",
+      "title": "病历质量检查",
+      "description": "病历质量检查，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "medical-record-quality",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "outpatient-summary",
+      "title": "门诊摘要",
+      "description": "门诊摘要，保留来源证据并要求医生复核。",
+      "scope": "department",
+      "source": "outpatient-summary",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "discharge-summary",
+      "title": "出院小结",
+      "description": "出院小结，保留来源证据并要求医生复核。",
+      "scope": "department",
+      "source": "discharge-summary",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "followup-plan",
+      "title": "随访计划",
+      "description": "固定脚本识别字段标签与标题区块，依据医生明确要求生成有病情摘要、时间、方式、观察项、复查项和触发条件的随访 TXT 草稿。",
+      "scope": "personal",
+      "source": "followup-plan",
+      "default_version": "1.5.0",
+      "versions": ["1.0.0", "1.1.0", "1.2.0", "1.3.0", "1.4.0", "1.5.0"],
+      "dependencies": []
+    },
+    {
+      "name": "patient-education",
+      "title": "患者宣教",
+      "description": "患者宣教，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "patient-education",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "patient-one-page-summary",
+      "title": "患者一页摘要",
+      "description": "患者一页摘要，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "patient-one-page-summary",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "lab-trend-review",
+      "title": "检验趋势复核",
+      "description": "检验趋势复核，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "lab-trend-review",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "medication-reconciliation",
+      "title": "用药核对",
+      "description": "用药核对，保留来源证据并要求医生复核。",
+      "scope": "department",
+      "source": "medication-reconciliation",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "allergy-conflict-check",
+      "title": "过敏冲突检查",
+      "description": "过敏冲突检查，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "allergy-conflict-check",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "diagnosis-certainty-check",
+      "title": "诊断确定性检查",
+      "description": "诊断确定性检查，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "diagnosis-certainty-check",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "clinical-knowledge-search",
+      "title": "医学知识检索",
+      "description": "医学知识检索，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "clinical-knowledge-search",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "guideline-evidence-summary",
+      "title": "指南证据摘要",
+      "description": "指南证据摘要，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "guideline-evidence-summary",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "literature-screening",
+      "title": "文献筛选",
+      "description": "文献筛选，保留来源证据并要求医生复核。",
+      "scope": "department",
+      "source": "literature-screening",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "research-data-extraction",
+      "title": "科研数据提取",
+      "description": "科研数据提取，保留来源证据并要求医生复核。",
+      "scope": "personal",
+      "source": "research-data-extraction",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "consultation-note-draft",
+      "title": "会诊记录草稿",
+      "description": "会诊记录草稿，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "consultation-note-draft",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "referral-note-draft",
+      "title": "转诊记录草稿",
+      "description": "转诊记录草稿，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "referral-note-draft",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "nursing-handover-summary",
+      "title": "护理交接摘要",
+      "description": "护理交接摘要，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "nursing-handover-summary",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "informed-consent-explanation",
+      "title": "知情沟通说明",
+      "description": "知情沟通说明，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "informed-consent-explanation",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "medical-translation",
+      "title": "医学资料翻译",
+      "description": "医学资料翻译，保留来源证据并要求医生复核。",
+      "scope": "platform",
+      "source": "medical-translation",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "outpatient-note-draft",
+      "title": "门诊病历草稿",
+      "description": "固定脚本识别医患问答、字段标签和医生明确结论，确定性归类九字段并自动输出保留证据的 TXT 草稿。",
+      "scope": "department",
+      "source": "outpatient-note-draft",
+      "default_version": "1.3.0",
+      "versions": ["1.0.0", "1.1.0", "1.2.0", "1.3.0"],
+      "dependencies": []
+    },
+    {
+      "name": "exam-report-summary",
+      "title": "检查报告摘要",
+      "description": "提取检查报告关键结果、异常标记和复核事项，不替代医生判断。",
+      "scope": "platform",
+      "source": "exam-report-summary",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "medical-certificate-draft",
+      "title": "医疗证明草稿",
+      "description": "根据已提供事实整理诊断证明、休假证明等文书草稿，提交前由医生确认。",
+      "scope": "department",
+      "source": "medical-certificate-draft",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "department-weekly-report",
+      "title": "科室周报",
+      "description": "汇总门诊量、随访完成情况、文书待办和异常事项，生成科室周报草稿。",
+      "scope": "department",
+      "source": "department-weekly-report",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "appointment-triage",
+      "title": "预约分诊整理",
+      "description": "整理预约信息、就诊目的和缺失材料，输出可复核的分诊清单。",
+      "scope": "platform",
+      "source": "appointment-triage",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    },
+    {
+      "name": "patient-communication-record",
+      "title": "患者沟通记录",
+      "description": "将医患沟通内容整理为沟通记录和待办事项，保留原话证据。",
+      "scope": "personal",
+      "source": "patient-communication-record",
+      "default_version": "1.0.0",
+      "versions": ["1.0.0"],
+      "dependencies": []
+    }
+  ]
+}

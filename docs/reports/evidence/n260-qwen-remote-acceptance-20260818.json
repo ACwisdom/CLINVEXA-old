@@ -1,0 +1,4812 @@
+{
+  "started_at": "2026-08-18T14:13:24.991223+08:00",
+  "model_discovery": {
+    "latency_s": 0.222,
+    "status": 200,
+    "body": {
+      "object": "list",
+      "data": [
+        {
+          "id": "/workspace/model",
+          "object": "model",
+          "created": 1787033605,
+          "owned_by": "vllm",
+          "root": "/workspace/model",
+          "parent": null,
+          "max_model_len": 8192,
+          "permission": [
+            {
+              "id": "modelperm-bc0fe8eb80a7bab6",
+              "object": "model_permission",
+              "created": 1787033605,
+              "allow_create_engine": false,
+              "allow_sampling": true,
+              "allow_logprobs": true,
+              "allow_search_indices": false,
+              "allow_view": true,
+              "allow_fine_tuning": false,
+              "organization": "*",
+              "group": null,
+              "is_blocking": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "long_context_runtime": {
+    "latency_s": 0.654,
+    "status": 400,
+    "request": {
+      "model": "/workspace/model",
+      "messages": [
+        {
+          "role": "user",
+          "content": "<synthetic repeated text; chars=50011>"
+        }
+      ],
+      "temperature": 0,
+      "max_tokens": 64,
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "body": {
+      "error": {
+        "message": "This model's maximum context length is 8192 tokens. However, you requested 64 output tokens and your prompt contains at least 8129 input tokens, for a total of at least 8193 tokens. Please reduce the length of the input prompt or the number of requested output tokens. (parameter=input_tokens, value=8129)",
+        "type": "BadRequestError",
+        "param": "input_tokens",
+        "code": 400
+      }
+    },
+    "error": "HTTP 400",
+    "actual": null,
+    "passed": false
+  },
+  "instruction_following": [
+    {
+      "latency_s": 0.273,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "算式 37+58，只输出阿拉伯数字结果。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-94498fa427a2ad3d",
+        "object": "chat.completion",
+        "created": 1787033606,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "95",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 29,
+          "total_tokens": 32,
+          "completion_tokens": 3,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "95",
+      "actual": "95",
+      "passed": true
+    },
+    {
+      "latency_s": 0.271,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把『患者無藥物過敏史』转为简体中文，只输出转换结果。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-846906958012335b",
+        "object": "chat.completion",
+        "created": 1787033606,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "患者无药物过敏史",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 28,
+          "total_tokens": 34,
+          "completion_tokens": 6,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "患者无药物过敏史",
+      "actual": "患者无药物过敏史",
+      "passed": true
+    },
+    {
+      "latency_s": 0.259,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将 3、1、2 升序排列，只输出：1,2,3"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-a056b56fa6a8d6ba",
+        "object": "chat.completion",
+        "created": 1787033606,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "1,2,3",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 32,
+          "total_tokens": 38,
+          "completion_tokens": 6,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "1,2,3",
+      "actual": "1,2,3",
+      "passed": true
+    },
+    {
+      "latency_s": 0.31,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从『就诊日期为2026年8月18日』提取日期，只输出 YYYY-MM-DD。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-a08238d7feb6a73c",
+        "object": "chat.completion",
+        "created": 1787033607,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "2026-08-18",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 37,
+          "total_tokens": 48,
+          "completion_tokens": 11,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "2026-08-18",
+      "actual": "2026-08-18",
+      "passed": true
+    },
+    {
+      "latency_s": 0.22,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "『青霉素过敏』应归入哪个病历字段？只输出字段名。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b247b42a11069f0f",
+        "object": "chat.completion",
+        "created": 1787033607,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "过敏史",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 29,
+          "total_tokens": 32,
+          "completion_tokens": 3,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "过敏史",
+      "actual": "过敏史",
+      "passed": true
+    },
+    {
+      "latency_s": 0.205,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "材料没有提到药物过敏。只输出：未提及"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8e415cfa8990afa6",
+        "object": "chat.completion",
+        "created": 1787033607,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "未提及",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 23,
+          "total_tokens": 26,
+          "completion_tokens": 3,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "未提及",
+      "actual": "未提及",
+      "passed": true
+    },
+    {
+      "latency_s": 0.321,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "原样输出引号内内容：『主诉：咳嗽3天』"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-96fc6ce832a72f08",
+        "object": "chat.completion",
+        "created": 1787033607,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "『主诉：咳嗽3天』",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 28,
+          "total_tokens": 37,
+          "completion_tokens": 9,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "主诉：咳嗽3天",
+      "actual": "『主诉：咳嗽3天』",
+      "passed": false
+    },
+    {
+      "latency_s": 0.253,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出简体中文四个字：需要复核"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 256,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-9fc4fc4eff16f784",
+        "object": "chat.completion",
+        "created": 1787033608,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "需要复核",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 19,
+          "total_tokens": 22,
+          "completion_tokens": 3,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected": "需要复核",
+      "actual": "需要复核",
+      "passed": true
+    }
+  ],
+  "medical_extraction": [
+    {
+      "latency_s": 1.77,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "你是病历结构化引擎。只输出一个合法 JSON 对象，不得添加解释。固定键为：姓名、性别、年龄、主诉、既往史、过敏史、用药史、检查检验、初步判断。不得推测；未提及写‘未提及’。材料：患者张明，男，45岁。咳嗽3天，伴低热1天。既往高血压5年。青霉素过敏。现服氨氯地平5mg每日一次。体温37.8℃。初步考虑急性上呼吸道感染。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8d2176fdb42eee91",
+        "object": "chat.completion",
+        "created": 1787033608,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"姓名\": \"张明\",\n  \"性别\": \"男\",\n  \"年龄\": \"45岁\",\n  \"主诉\": \"咳嗽3天，伴低热1天\",\n  \"既往史\": \"高血压5年\",\n  \"过敏史\": \"青霉素过敏\",\n  \"用药史\": \"氨氯地平5mg每日一次\",\n  \"检查检验\": \"体温37.8℃\",\n  \"初步判断\": \"急性上呼吸道感染\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 122,
+          "total_tokens": 232,
+          "completion_tokens": 110,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "source": "患者张明，男，45岁。咳嗽3天，伴低热1天。既往高血压5年。青霉素过敏。现服氨氯地平5mg每日一次。体温37.8℃。初步考虑急性上呼吸道感染。",
+      "expected": {
+        "姓名": "张明",
+        "性别": "男",
+        "年龄": "45",
+        "主诉": "咳嗽3天",
+        "既往史": "高血压",
+        "过敏史": "青霉素",
+        "用药史": "氨氯地平",
+        "检查检验": "37.8",
+        "初步判断": "急性上呼吸道感染"
+      },
+      "parsed": {
+        "姓名": "张明",
+        "性别": "男",
+        "年龄": "45岁",
+        "主诉": "咳嗽3天，伴低热1天",
+        "既往史": "高血压5年",
+        "过敏史": "青霉素过敏",
+        "用药史": "氨氯地平5mg每日一次",
+        "检查检验": "体温37.8℃",
+        "初步判断": "急性上呼吸道感染"
+      },
+      "parse_error": null,
+      "fields": {
+        "姓名": {
+          "expected_keyword": "张明",
+          "actual": "张明",
+          "passed": true
+        },
+        "性别": {
+          "expected_keyword": "男",
+          "actual": "男",
+          "passed": true
+        },
+        "年龄": {
+          "expected_keyword": "45",
+          "actual": "45岁",
+          "passed": true
+        },
+        "主诉": {
+          "expected_keyword": "咳嗽3天",
+          "actual": "咳嗽3天，伴低热1天",
+          "passed": true
+        },
+        "既往史": {
+          "expected_keyword": "高血压",
+          "actual": "高血压5年",
+          "passed": true
+        },
+        "过敏史": {
+          "expected_keyword": "青霉素",
+          "actual": "青霉素过敏",
+          "passed": true
+        },
+        "用药史": {
+          "expected_keyword": "氨氯地平",
+          "actual": "氨氯地平5mg每日一次",
+          "passed": true
+        },
+        "检查检验": {
+          "expected_keyword": "37.8",
+          "actual": "体温37.8℃",
+          "passed": true
+        },
+        "初步判断": {
+          "expected_keyword": "急性上呼吸道感染",
+          "actual": "急性上呼吸道感染",
+          "passed": true
+        }
+      }
+    },
+    {
+      "latency_s": 1.847,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "你是病历结构化引擎。只输出一个合法 JSON 对象，不得添加解释。固定键为：姓名、性别、年龄、主诉、既往史、过敏史、用药史、检查检验、初步判断。不得推测；未提及写‘未提及’。材料：李梅，女，32岁。反复上腹痛2周，进食油腻后加重。既往胆囊结石。否认药物过敏。未长期服药。腹部彩超示胆囊内多个强回声，最大约8mm。初步判断胆囊结石相关疼痛。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-96dbfe414b5247a3",
+        "object": "chat.completion",
+        "created": 1787033610,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"姓名\": \"李梅\",\n  \"性别\": \"女\",\n  \"年龄\": \"32岁\",\n  \"主诉\": \"反复上腹痛2周，进食油腻后加重\",\n  \"既往史\": \"胆囊结石\",\n  \"过敏史\": \"否认药物过敏\",\n  \"用药史\": \"未长期服药\",\n  \"检查检验\": \"腹部彩超示胆囊内多个强回声，最大约8mm\",\n  \"初步判断\": \"胆囊结石相关疼痛\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 123,
+          "total_tokens": 237,
+          "completion_tokens": 114,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "source": "李梅，女，32岁。反复上腹痛2周，进食油腻后加重。既往胆囊结石。否认药物过敏。未长期服药。腹部彩超示胆囊内多个强回声，最大约8mm。初步判断胆囊结石相关疼痛。",
+      "expected": {
+        "姓名": "李梅",
+        "性别": "女",
+        "年龄": "32",
+        "主诉": "上腹痛2周",
+        "既往史": "胆囊结石",
+        "过敏史": "否认药物过敏",
+        "用药史": "未长期服药",
+        "检查检验": "8mm",
+        "初步判断": "胆囊结石相关疼痛"
+      },
+      "parsed": {
+        "姓名": "李梅",
+        "性别": "女",
+        "年龄": "32岁",
+        "主诉": "反复上腹痛2周，进食油腻后加重",
+        "既往史": "胆囊结石",
+        "过敏史": "否认药物过敏",
+        "用药史": "未长期服药",
+        "检查检验": "腹部彩超示胆囊内多个强回声，最大约8mm",
+        "初步判断": "胆囊结石相关疼痛"
+      },
+      "parse_error": null,
+      "fields": {
+        "姓名": {
+          "expected_keyword": "李梅",
+          "actual": "李梅",
+          "passed": true
+        },
+        "性别": {
+          "expected_keyword": "女",
+          "actual": "女",
+          "passed": true
+        },
+        "年龄": {
+          "expected_keyword": "32",
+          "actual": "32岁",
+          "passed": true
+        },
+        "主诉": {
+          "expected_keyword": "上腹痛2周",
+          "actual": "反复上腹痛2周，进食油腻后加重",
+          "passed": true
+        },
+        "既往史": {
+          "expected_keyword": "胆囊结石",
+          "actual": "胆囊结石",
+          "passed": true
+        },
+        "过敏史": {
+          "expected_keyword": "否认药物过敏",
+          "actual": "否认药物过敏",
+          "passed": true
+        },
+        "用药史": {
+          "expected_keyword": "未长期服药",
+          "actual": "未长期服药",
+          "passed": true
+        },
+        "检查检验": {
+          "expected_keyword": "8mm",
+          "actual": "腹部彩超示胆囊内多个强回声，最大约8mm",
+          "passed": true
+        },
+        "初步判断": {
+          "expected_keyword": "胆囊结石相关疼痛",
+          "actual": "胆囊结石相关疼痛",
+          "passed": true
+        }
+      }
+    },
+    {
+      "latency_s": 1.76,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "你是病历结构化引擎。只输出一个合法 JSON 对象，不得添加解释。固定键为：姓名、性别、年龄、主诉、既往史、过敏史、用药史、检查检验、初步判断。不得推测；未提及写‘未提及’。材料：王强，男，67岁。胸闷2小时。糖尿病10年。对磺胺类药物过敏。服用二甲双胍。心电图提示ST段压低。考虑急性冠脉综合征待排。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8f4425989ad4895e",
+        "object": "chat.completion",
+        "created": 1787033612,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"姓名\": \"王强\",\n  \"性别\": \"男\",\n  \"年龄\": \"67岁\",\n  \"主诉\": \"胸闷2小时\",\n  \"既往史\": \"糖尿病10年\",\n  \"过敏史\": \"对磺胺类药物过敏\",\n  \"用药史\": \"服用二甲双胍\",\n  \"检查检验\": \"心电图提示ST段压低\",\n  \"初步判断\": \"急性冠脉综合征待排\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 114,
+          "total_tokens": 221,
+          "completion_tokens": 107,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "source": "王强，男，67岁。胸闷2小时。糖尿病10年。对磺胺类药物过敏。服用二甲双胍。心电图提示ST段压低。考虑急性冠脉综合征待排。",
+      "expected": {
+        "姓名": "王强",
+        "性别": "男",
+        "年龄": "67",
+        "主诉": "胸闷2小时",
+        "既往史": "糖尿病",
+        "过敏史": "磺胺",
+        "用药史": "二甲双胍",
+        "检查检验": "ST段压低",
+        "初步判断": "急性冠脉综合征待排"
+      },
+      "parsed": {
+        "姓名": "王强",
+        "性别": "男",
+        "年龄": "67岁",
+        "主诉": "胸闷2小时",
+        "既往史": "糖尿病10年",
+        "过敏史": "对磺胺类药物过敏",
+        "用药史": "服用二甲双胍",
+        "检查检验": "心电图提示ST段压低",
+        "初步判断": "急性冠脉综合征待排"
+      },
+      "parse_error": null,
+      "fields": {
+        "姓名": {
+          "expected_keyword": "王强",
+          "actual": "王强",
+          "passed": true
+        },
+        "性别": {
+          "expected_keyword": "男",
+          "actual": "男",
+          "passed": true
+        },
+        "年龄": {
+          "expected_keyword": "67",
+          "actual": "67岁",
+          "passed": true
+        },
+        "主诉": {
+          "expected_keyword": "胸闷2小时",
+          "actual": "胸闷2小时",
+          "passed": true
+        },
+        "既往史": {
+          "expected_keyword": "糖尿病",
+          "actual": "糖尿病10年",
+          "passed": true
+        },
+        "过敏史": {
+          "expected_keyword": "磺胺",
+          "actual": "对磺胺类药物过敏",
+          "passed": true
+        },
+        "用药史": {
+          "expected_keyword": "二甲双胍",
+          "actual": "服用二甲双胍",
+          "passed": true
+        },
+        "检查检验": {
+          "expected_keyword": "ST段压低",
+          "actual": "心电图提示ST段压低",
+          "passed": true
+        },
+        "初步判断": {
+          "expected_keyword": "急性冠脉综合征待排",
+          "actual": "急性冠脉综合征待排",
+          "passed": true
+        }
+      }
+    },
+    {
+      "latency_s": 1.557,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "你是病历结构化引擎。只输出一个合法 JSON 对象，不得添加解释。固定键为：姓名、性别、年龄、主诉、既往史、过敏史、用药史、检查检验、初步判断。不得推测；未提及写‘未提及’。材料：赵敏，女，28岁。发热咽痛1天。无特殊既往史。无药物过敏。尚未用药。查体咽部充血。初步考虑急性咽炎。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-a9f78ed0a7361843",
+        "object": "chat.completion",
+        "created": 1787033613,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"姓名\": \"赵敏\",\n  \"性别\": \"女\",\n  \"年龄\": \"28岁\",\n  \"主诉\": \"发热咽痛1天\",\n  \"既往史\": \"无特殊既往史\",\n  \"过敏史\": \"无药物过敏\",\n  \"用药史\": \"尚未用药\",\n  \"检查检验\": \"查体咽部充血\",\n  \"初步判断\": \"急性咽炎\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 108,
+          "total_tokens": 208,
+          "completion_tokens": 100,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "source": "赵敏，女，28岁。发热咽痛1天。无特殊既往史。无药物过敏。尚未用药。查体咽部充血。初步考虑急性咽炎。",
+      "expected": {
+        "姓名": "赵敏",
+        "性别": "女",
+        "年龄": "28",
+        "主诉": "发热咽痛1天",
+        "既往史": "无特殊",
+        "过敏史": "无药物过敏",
+        "用药史": "尚未用药",
+        "检查检验": "咽部充血",
+        "初步判断": "急性咽炎"
+      },
+      "parsed": {
+        "姓名": "赵敏",
+        "性别": "女",
+        "年龄": "28岁",
+        "主诉": "发热咽痛1天",
+        "既往史": "无特殊既往史",
+        "过敏史": "无药物过敏",
+        "用药史": "尚未用药",
+        "检查检验": "查体咽部充血",
+        "初步判断": "急性咽炎"
+      },
+      "parse_error": null,
+      "fields": {
+        "姓名": {
+          "expected_keyword": "赵敏",
+          "actual": "赵敏",
+          "passed": true
+        },
+        "性别": {
+          "expected_keyword": "女",
+          "actual": "女",
+          "passed": true
+        },
+        "年龄": {
+          "expected_keyword": "28",
+          "actual": "28岁",
+          "passed": true
+        },
+        "主诉": {
+          "expected_keyword": "发热咽痛1天",
+          "actual": "发热咽痛1天",
+          "passed": true
+        },
+        "既往史": {
+          "expected_keyword": "无特殊",
+          "actual": "无特殊既往史",
+          "passed": true
+        },
+        "过敏史": {
+          "expected_keyword": "无药物过敏",
+          "actual": "无药物过敏",
+          "passed": true
+        },
+        "用药史": {
+          "expected_keyword": "尚未用药",
+          "actual": "尚未用药",
+          "passed": true
+        },
+        "检查检验": {
+          "expected_keyword": "咽部充血",
+          "actual": "查体咽部充血",
+          "passed": true
+        },
+        "初步判断": {
+          "expected_keyword": "急性咽炎",
+          "actual": "急性咽炎",
+          "passed": true
+        }
+      }
+    },
+    {
+      "latency_s": 1.709,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "你是病历结构化引擎。只输出一个合法 JSON 对象，不得添加解释。固定键为：姓名、性别、年龄、主诉、既往史、过敏史、用药史、检查检验、初步判断。不得推测；未提及写‘未提及’。材料：陈浩，男，54岁。头晕1周。既往史未提及。阿司匹林过敏。正在口服倍他司汀。血压160/100mmHg。初步判断高血压待评估。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-adc52031e113fca3",
+        "object": "chat.completion",
+        "created": 1787033615,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"姓名\": \"陈浩\",\n  \"性别\": \"男\",\n  \"年龄\": \"54岁\",\n  \"主诉\": \"头晕1周\",\n  \"既往史\": \"未提及\",\n  \"过敏史\": \"阿司匹林过敏\",\n  \"用药史\": \"正在口服倍他司汀\",\n  \"检查检验\": \"血压160/100mmHg\",\n  \"初步判断\": \"高血压待评估\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 117,
+          "total_tokens": 224,
+          "completion_tokens": 107,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "source": "陈浩，男，54岁。头晕1周。既往史未提及。阿司匹林过敏。正在口服倍他司汀。血压160/100mmHg。初步判断高血压待评估。",
+      "expected": {
+        "姓名": "陈浩",
+        "性别": "男",
+        "年龄": "54",
+        "主诉": "头晕1周",
+        "既往史": "未提及",
+        "过敏史": "阿司匹林",
+        "用药史": "倍他司汀",
+        "检查检验": "160/100",
+        "初步判断": "高血压待评估"
+      },
+      "parsed": {
+        "姓名": "陈浩",
+        "性别": "男",
+        "年龄": "54岁",
+        "主诉": "头晕1周",
+        "既往史": "未提及",
+        "过敏史": "阿司匹林过敏",
+        "用药史": "正在口服倍他司汀",
+        "检查检验": "血压160/100mmHg",
+        "初步判断": "高血压待评估"
+      },
+      "parse_error": null,
+      "fields": {
+        "姓名": {
+          "expected_keyword": "陈浩",
+          "actual": "陈浩",
+          "passed": true
+        },
+        "性别": {
+          "expected_keyword": "男",
+          "actual": "男",
+          "passed": true
+        },
+        "年龄": {
+          "expected_keyword": "54",
+          "actual": "54岁",
+          "passed": true
+        },
+        "主诉": {
+          "expected_keyword": "头晕1周",
+          "actual": "头晕1周",
+          "passed": true
+        },
+        "既往史": {
+          "expected_keyword": "未提及",
+          "actual": "未提及",
+          "passed": true
+        },
+        "过敏史": {
+          "expected_keyword": "阿司匹林",
+          "actual": "阿司匹林过敏",
+          "passed": true
+        },
+        "用药史": {
+          "expected_keyword": "倍他司汀",
+          "actual": "正在口服倍他司汀",
+          "passed": true
+        },
+        "检查检验": {
+          "expected_keyword": "160/100",
+          "actual": "血压160/100mmHg",
+          "passed": true
+        },
+        "初步判断": {
+          "expected_keyword": "高血压待评估",
+          "actual": "高血压待评估",
+          "passed": true
+        }
+      }
+    }
+  ],
+  "established_20_case_benchmark": [
+    {
+      "latency_s": 1.581,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "你是CLINVEXA病历Agent。仅输出一个JSON对象，不使用Markdown。只依据输入提取，不得补写诊断或治疗；保留source_evidence、requires_human_review和非临床决策声明。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"record_id\", \"chief_complaint\", \"source_evidence\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成门诊记录：女性，42岁。2026-08-04内分泌门诊。主诉：口渴、多饮2个月。现病史：近2个月逐渐出现口渴、多饮，夜尿增多；无发热、咳嗽。既往史未提及。过敏史不详。查体：体温36.5℃，血压132/84mmHg。初步诊断：血糖升高待查。计划：完善空腹血糖和糖化血红蛋白检查。请按标准病历结构生成草稿。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-9a1376c591c32f60",
+        "object": "chat.completion",
+        "created": 1787033617,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"record_id\": null,\n  \"chief_complaint\": \"口渴、多饮2个月\",\n  \"source_evidence\": [\n    \"主诉：口渴、多饮2个月\"\n  ],\n  \"requires_human_review\": true,\n  \"non_clinical_disclaimer\": \"此记录为基于输入文本的结构化提取，不包含实际患者身份或临床决策，仅供数据格式验证使用。\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 249,
+          "total_tokens": 345,
+          "completion_tokens": 96,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-001",
+      "feature": "outpatient_record_structuring",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"record_id\": null,\n  \"chief_complaint\": \"口渴、多饮2个月\",\n  \"source_evidence\": [\n    \"主诉：口渴、多饮2个月\"\n  ],\n  \"requires_human_review\": true,\n  \"non_clinical_disclaimer\": \"此记录为基于输入文本的结构化提取，不包含实际患者身份或临床决策，仅供数据格式验证使用。\"\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 4.084,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。区分明确否认与未提及，逐项提取阴性症状，禁止推断。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"negative_symptoms\", \"absent\", \"source_evidence\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成急诊记录：男性，35岁。主诉上腹不适6小时。记录写明：无发热、咳嗽，无胸痛及呼吸困难；头晕情况未提及。请结构化症状状态并附原文证据和人工复核标记。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-824626ebd7b1eaf8",
+        "object": "chat.completion",
+        "created": 1787033618,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"negative_symptoms\": [\n    {\n      \"symptom\": \"发热\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无发热\",\n      \"requires_human_review\": false\n    },\n    {\n      \"symptom\": \"咳嗽\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无发热、咳嗽\",\n      \"requires_human_review\": false\n    },\n    {\n      \"symptom\": \"胸痛\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无胸痛及呼吸困难\",\n      \"requires_human_review\": false\n    },\n    {\n      \"symptom\": \"呼吸困难\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无胸痛及呼吸困难\",\n      \"requires_human_review\": false\n    }\n  ],\n  \"absent\": [\n    {\n      \"symptom\": \"头晕\",\n      \"status\": \"not_mentioned\",\n      \"source_evidence\": null,\n      \"requires_human_review\": true\n    }\n  ],\n  \"source_evidence\": \"无发热、咳嗽，无胸痛及呼吸困难；头晕情况未提及\",\n  \"requires_human_review\": true\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 167,
+          "total_tokens": 443,
+          "completion_tokens": 276,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-002",
+      "feature": "negation_scope",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"negative_symptoms\": [\n    {\n      \"symptom\": \"发热\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无发热\",\n      \"requires_human_review\": false\n    },\n    {\n      \"symptom\": \"咳嗽\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无发热、咳嗽\",\n      \"requires_human_review\": false\n    },\n    {\n      \"symptom\": \"胸痛\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无胸痛及呼吸困难\",\n      \"requires_human_review\": false\n    },\n    {\n      \"symptom\": \"呼吸困难\",\n      \"status\": \"absent\",\n      \"source_evidence\": \"无胸痛及呼吸困难\",\n      \"requires_human_review\": false\n    }\n  ],\n  \"absent\": [\n    {\n      \"symptom\": \"头晕\",\n      \"status\": \"not_mentioned\",\n      \"source_evidence\": null,\n      \"requires_human_review\": true\n    }\n  ],\n  \"source_evidence\": \"无发热、咳嗽，无胸痛及呼吸困难；头晕情况未提及\",\n  \"requires_human_review\": true\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 1.596,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。疑似、排除和确诊必须严格分开，不得升级诊断确定性。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"diagnoses\", \"suspected\", \"ruled_out\", \"source_evidence\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成病程记录：医生记载“考虑病毒性上呼吸道感染；细菌性肺炎待排；复查胸片未见浸润影，当前不支持肺炎”。请输出diagnoses，分别标记suspected与ruled_out，并保留证据。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-baa924f1de1a6c9c",
+        "object": "chat.completion",
+        "created": 1787033622,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"diagnoses\": [\n    {\n      \"condition\": \"病毒性上呼吸道感染\",\n      \"status\": \"suspected\",\n      \"source_evidence\": \"医生记载“考虑病毒性上呼吸道感染”\"\n    },\n    {\n      \"condition\": \"细菌性肺炎\",\n      \"status\": \"ruled_out\",\n      \"source_evidence\": \"复查胸片未见浸润影，当前不支持肺炎\"\n    }\n  ]\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 165,
+          "total_tokens": 267,
+          "completion_tokens": 102,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-003",
+      "feature": "diagnosis_certainty",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"diagnoses\": [\n    {\n      \"condition\": \"病毒性上呼吸道感染\",\n      \"status\": \"suspected\",\n      \"source_evidence\": \"医生记载“考虑病毒性上呼吸道感染”\"\n    },\n    {\n      \"condition\": \"细菌性肺炎\",\n      \"status\": \"ruled_out\",\n      \"source_evidence\": \"复查胸片未见浸润影，当前不支持肺炎\"\n    }\n  ]\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 2.218,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。多文书冲突必须保留双方证据、标高风险并进入人工复核，禁止自动选择真值。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"allergy_conflict\", \"high\", \"auto_corrected\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成的两份同次就诊文书：入院记录写“无药物过敏史”；护理记录写“青霉素过敏，既往出现全身皮疹”。请生成过敏史与质量冲突报告。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b6c6c116b8489684",
+        "object": "chat.completion",
+        "created": 1787033624,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"allergy_conflict\": true,\n  \"high\": true,\n  \"auto_corrected\": false,\n  \"requires_human_review\": true,\n  \"conflict_details\": {\n    \"source_1\": {\n      \"document_type\": \"入院记录\",\n      \"value\": \"无药物过敏史\",\n      \"risk_level\": \"high\"\n    },\n    \"source_2\": {\n      \"document_type\": \"护理记录\",\n      \"value\": \"青霉素过敏，既往出现全身皮疹\",\n      \"risk_level\": \"high\"\n    }\n  },\n  \"resolution_status\": \"pending_human_review\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 163,
+          "total_tokens": 310,
+          "completion_tokens": 147,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-004",
+      "feature": "allergy_conflict",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"allergy_conflict\": true,\n  \"high\": true,\n  \"auto_corrected\": false,\n  \"requires_human_review\": true,\n  \"conflict_details\": {\n    \"source_1\": {\n      \"document_type\": \"入院记录\",\n      \"value\": \"无药物过敏史\",\n      \"risk_level\": \"high\"\n    },\n    \"source_2\": {\n      \"document_type\": \"护理记录\",\n      \"value\": \"青霉素过敏，既往出现全身皮疹\",\n      \"risk_level\": \"high\"\n    }\n  },\n  \"resolution_status\": \"pending_human_review\"\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 2.638,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。必须区分患者本人和家族成员，不得把家族史写入患者既往史。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"past_medical_history\", \"family_history\", \"father\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成门诊记录：患者否认高血压、糖尿病。家族史：父亲患高血压，母亲健康情况未详。请分别输出past_medical_history与family_history并附证据。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-ac0eb4897a456ccb",
+        "object": "chat.completion",
+        "created": 1787033626,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"past_medical_history\": [\n    {\n      \"condition\": \"高血压\",\n      \"status\": \"否认\",\n      \"evidence\": \"患者否认高血压\"\n    },\n    {\n      \"condition\": \"糖尿病\",\n      \"status\": \"否认\",\n      \"evidence\": \"患者否认糖尿病\"\n    }\n  ],\n  \"family_history\": {\n    \"father\": {\n      \"condition\": \"高血压\",\n      \"status\": \"患病\",\n      \"evidence\": \"父亲患高血压\"\n    },\n    \"mother\": {\n      \"condition\": \"未知\",\n      \"status\": \"未详\",\n      \"evidence\": \"母亲健康情况未详\"\n    }\n  },\n  \"requires_human_review\": false\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 156,
+          "total_tokens": 331,
+          "completion_tokens": 175,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-005",
+      "feature": "family_history_subject",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"past_medical_history\": [\n    {\n      \"condition\": \"高血压\",\n      \"status\": \"否认\",\n      \"evidence\": \"患者否认高血压\"\n    },\n    {\n      \"condition\": \"糖尿病\",\n      \"status\": \"否认\",\n      \"evidence\": \"患者否认糖尿病\"\n    }\n  ],\n  \"family_history\": {\n    \"father\": {\n      \"condition\": \"高血压\",\n      \"status\": \"患病\",\n      \"evidence\": \"父亲患高血压\"\n    },\n    \"mother\": {\n      \"condition\": \"未知\",\n      \"status\": \"未详\",\n      \"evidence\": \"母亲健康情况未详\"\n    }\n  },\n  \"requires_human_review\": false\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 4.762,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。区分既往停药、当前用药与计划用药，剂量和单位必须保留，不得根据药品确认诊断。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"medications\", \"discontinued\", \"current\", \"planned\", \"mg\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成用药记录：两年前曾服用药物甲5 mg每日一次，三个月前已停；目前服用药物乙10 mg每晚一次；计划在医生确认后开始药物丙，剂量未定。请结构化medications。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8a65db62d2a3f15b",
+        "object": "chat.completion",
+        "created": 1787033629,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"medications\": [\n    {\n      \"name\": \"药物甲\",\n      \"status\": \"discontinued\",\n      \"dose\": 5,\n      \"unit\": \"mg\",\n      \"frequency\": \"每日一次\",\n      \"start_time\": \"两年前\",\n      \"end_time\": \"三个月前\"\n    },\n    {\n      \"name\": \"药物乙\",\n      \"status\": \"current\",\n      \"dose\": 10,\n      \"unit\": \"mg\",\n      \"frequency\": \"每晚一次\"\n    },\n    {\n      \"name\": \"药物丙\",\n      \"status\": \"planned\",\n      \"dose\": null,\n      \"unit\": null,\n      \"frequency\": null,\n      \"condition\": \"医生确认后\"\n    }\n  ],\n  \"discontinued\": [\n    {\n      \"name\": \"药物甲\",\n      \"dose\": 5,\n      \"unit\": \"mg\"\n    }\n  ],\n  \"current\": [\n    {\n      \"name\": \"药物乙\",\n      \"dose\": 10,\n      \"unit\": \"mg\"\n    }\n  ],\n  \"planned\": [\n    {\n      \"name\": \"药物丙\",\n      \"dose\": null,\n      \"unit\": null\n    }\n  ],\n  \"mg\": [\n    5,\n    10\n  ]\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 168,
+          "total_tokens": 492,
+          "completion_tokens": 324,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-006",
+      "feature": "medication_status_and_dose",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"medications\": [\n    {\n      \"name\": \"药物甲\",\n      \"status\": \"discontinued\",\n      \"dose\": 5,\n      \"unit\": \"mg\",\n      \"frequency\": \"每日一次\",\n      \"start_time\": \"两年前\",\n      \"end_time\": \"三个月前\"\n    },\n    {\n      \"name\": \"药物乙\",\n      \"status\": \"current\",\n      \"dose\": 10,\n      \"unit\": \"mg\",\n      \"frequency\": \"每晚一次\"\n    },\n    {\n      \"name\": \"药物丙\",\n      \"status\": \"planned\",\n      \"dose\": null,\n      \"unit\": null,\n      \"frequency\": null,\n      \"condition\": \"医生确认后\"\n    }\n  ],\n  \"discontinued\": [\n    {\n      \"name\": \"药物甲\",\n      \"dose\": 5,\n      \"unit\": \"mg\"\n    }\n  ],\n  \"current\": [\n    {\n      \"name\": \"药物乙\",\n      \"dose\": 10,\n      \"unit\": \"mg\"\n    }\n  ],\n  \"planned\": [\n    {\n      \"name\": \"药物丙\",\n      \"dose\": null,\n      \"unit\": null\n    }\n  ],\n  \"mg\": [\n    5,\n    10\n  ]\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 2.808,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。保留检验原始值、单位、参考范围和报告异常标记，不得据此新增诊断。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"laboratory_results\", \"mmol/L\", \"high\", \"source_evidence\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成检验报告：空腹血糖 7.2 mmol/L ↑，参考范围3.9-6.1 mmol/L；肌酐76 μmol/L，报告未标异常。原文没有诊断。请结构化laboratory_results。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b9cdde67d5577ffc",
+        "object": "chat.completion",
+        "created": 1787033633,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"laboratory_results\": [\n    {\n      \"test_name\": \"空腹血糖\",\n      \"value\": 7.2,\n      \"unit\": \"mmol/L\",\n      \"reference_range\": \"3.9-6.1 mmol/L\",\n      \"abnormality_flag\": \"high\",\n      \"source_evidence\": \"空腹血糖 7.2 mmol/L ↑，参考范围3.9-6.1 mmol/L\"\n    },\n    {\n      \"test_name\": \"肌酐\",\n      \"value\": 76,\n      \"unit\": \"μmol/L\",\n      \"reference_range\": null,\n      \"abnormality_flag\": null,\n      \"source_evidence\": \"肌酐76 μmol/L，报告未标异常\"\n    }\n  ]\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 172,
+          "total_tokens": 360,
+          "completion_tokens": 188,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-007",
+      "feature": "laboratory_raw_unit_flag",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"laboratory_results\": [\n    {\n      \"test_name\": \"空腹血糖\",\n      \"value\": 7.2,\n      \"unit\": \"mmol/L\",\n      \"reference_range\": \"3.9-6.1 mmol/L\",\n      \"abnormality_flag\": \"high\",\n      \"source_evidence\": \"空腹血糖 7.2 mmol/L ↑，参考范围3.9-6.1 mmol/L\"\n    },\n    {\n      \"test_name\": \"肌酐\",\n      \"value\": 76,\n      \"unit\": \"μmol/L\",\n      \"reference_range\": null,\n      \"abnormality_flag\": null,\n      \"source_evidence\": \"肌酐76 μmol/L，报告未标异常\"\n    }\n  ]\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 1.735,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。影像所见与影像结论必须分开，不能从模糊结节直接生成肿瘤诊断。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"imaging_results\", \"findings\", \"impression\", \"CT\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成胸部CT报告。所见：右肺上叶见4 mm磨玻璃结节，边界尚清；双侧胸腔未见积液。结论：右肺上叶微小结节，建议结合既往影像随访。请结构化imaging_results。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8b5578b0ca643de5",
+        "object": "chat.completion",
+        "created": 1787033636,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"imaging_results\": {\n    \"CT\": {\n      \"findings\": [\n        {\n          \"location\": \"右肺上叶\",\n          \"description\": \"见4 mm磨玻璃结节，边界尚清\"\n        },\n        {\n          \"location\": \"双侧胸腔\",\n          \"description\": \"未见积液\"\n        }\n      ],\n      \"impression\": \"右肺上叶微小结节，建议结合既往影像随访\"\n    }\n  }\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 165,
+          "total_tokens": 277,
+          "completion_tokens": 112,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-008",
+      "feature": "imaging_findings_impression",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"imaging_results\": {\n    \"CT\": {\n      \"findings\": [\n        {\n          \"location\": \"右肺上叶\",\n          \"description\": \"见4 mm磨玻璃结节，边界尚清\"\n        },\n        {\n          \"location\": \"双侧胸腔\",\n          \"description\": \"未见积液\"\n        }\n      ],\n      \"impression\": \"右肺上叶微小结节，建议结合既往影像随访\"\n    }\n  }\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 1.065,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。入院诊断与出院诊断必须分开，保留住院经过、出院用药和随访信息。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"admission_diagnoses\", \"discharge_diagnoses\", \"follow_up\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成出院记录：入院诊断为“腹痛待查”；住院后检查提示胆囊结石，保守处理后症状缓解；出院诊断为“胆囊结石”；出院医嘱为一周后普通外科复诊。请生成discharge_summary。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b008f70a6880334d",
+        "object": "chat.completion",
+        "created": 1787033638,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"admission_diagnoses\": [\n    \"腹痛待查\"\n  ],\n  \"discharge_diagnoses\": [\n    \"胆囊结石\"\n  ],\n  \"follow_up\": \"一周后普通外科复诊\",\n  \"requires_human_review\": false\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 172,
+          "total_tokens": 237,
+          "completion_tokens": 65,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-009",
+      "feature": "discharge_diagnosis_separation",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"admission_diagnoses\": [\n    \"腹痛待查\"\n  ],\n  \"discharge_diagnoses\": [\n    \"胆囊结石\"\n  ],\n  \"follow_up\": \"一周后普通外科复诊\",\n  \"requires_human_review\": false\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 60.054,
+      "status": null,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。模糊相对时间保留原文和approximate精度，不得在缺乏可靠锚点时伪造精确日期。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"clinical_timeline\", \"raw_time\", \"approximate\", \"3年前\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成病史：患者自述“约3年前开始间断膝痛，半年前加重，本周出现上下楼困难”。文书只标注年份为2026，未给出具体记录日期。请生成clinical_timeline。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "error": "ReadTimeout: HTTPConnectionPool(host='172.16.0.105', port=8818): Read timed out. (read timeout=60)",
+      "case_id": "SYN-DC-010",
+      "feature": "relative_time_timeline",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [
+        "missing required content: clinical_timeline",
+        "missing required content: raw_time",
+        "missing required content: approximate",
+        "missing required content: 3年前",
+        "response is not a JSON object"
+      ],
+      "json_error": "empty content",
+      "actual": "",
+      "passed": false
+    },
+    {
+      "latency_s": 2.849,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。发现时间逻辑错误时只报告，不自动修改原始数据。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"discharge_time\", \"high\", \"auto_corrected\", \"false\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成住院首页：入院时间2026-07-12 09:00，出院时间2026-07-10 14:00。请执行病历质控，输出问题类型、严重级别、原始证据、auto_corrected=false和人工复核建议。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b5f8b70676339593",
+        "object": "chat.completion",
+        "created": 1787033699,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"discharge_time\": \"2026-07-10 14:00\",\n  \"high\": true,\n  \"auto_corrected\": false,\n  \"false\": true,\n  \"quality_control_result\": {\n    \"issue_type\": \"时间逻辑错误\",\n    \"severity_level\": \"严重\",\n    \"original_evidence\": {\n      \"admission_time\": \"2026-07-12 09:00\",\n      \"discharge_time\": \"2026-07-10 14:00\"\n    },\n    \"description\": \"出院时间早于入院时间，逻辑不成立。\",\n    \"manual_review_suggestion\": \"请核实入院与出院时间的记录准确性，修正时间数据以确保逻辑正确。\"\n  }\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 181,
+          "total_tokens": 369,
+          "completion_tokens": 188,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-011",
+      "feature": "chronology_quality_control",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"discharge_time\": \"2026-07-10 14:00\",\n  \"high\": true,\n  \"auto_corrected\": false,\n  \"false\": true,\n  \"quality_control_result\": {\n    \"issue_type\": \"时间逻辑错误\",\n    \"severity_level\": \"严重\",\n    \"original_evidence\": {\n      \"admission_time\": \"2026-07-12 09:00\",\n      \"discharge_time\": \"2026-07-10 14:00\"\n    },\n    \"description\": \"出院时间早于入院时间，逻辑不成立。\",\n    \"manual_review_suggestion\": \"请核实入院与出院时间的记录准确性，修正时间数据以确保逻辑正确。\"\n  }\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 1.766,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。性别与性别特异字段冲突必须进入高优先级人工复核，不得静默删除。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"sex_specific\", \"conflict\", \"high\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成入院记录：患者基本信息标注男性，后续模板段落却填写“末次月经2026-07-01”。请输出患者信息和sex_specific_field_conflict质量问题。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-aa08fb279d600b8e",
+        "object": "chat.completion",
+        "created": 1787033702,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"patient_info\": {\n    \"sex\": \"male\"\n  },\n  \"sex_specific_field_conflict\": {\n    \"field\": \"last_menstrual_period\",\n    \"value\": \"2026-07-01\",\n    \"conflict\": true,\n    \"priority\": \"high\",\n    \"requires_human_review\": true,\n    \"reason\": \"Male patients do not have a last menstrual period; this is a logical contradiction requiring manual verification.\"\n  }\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 158,
+          "total_tokens": 272,
+          "completion_tokens": 114,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-012",
+      "feature": "sex_specific_conflict",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"patient_info\": {\n    \"sex\": \"male\"\n  },\n  \"sex_specific_field_conflict\": {\n    \"field\": \"last_menstrual_period\",\n    \"value\": \"2026-07-01\",\n    \"conflict\": true,\n    \"priority\": \"high\",\n    \"requires_human_review\": true,\n    \"reason\": \"Male patients do not have a last menstrual period; this is a logical contradiction requiring manual verification.\"\n  }\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 4.769,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。疑似重复文书只能分组和标记，不得删除或合并原文。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"possible_duplicate\", \"duplicate_group_id\", \"source_evidence\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成批量输入：文书A与文书B均为2026-08-01门诊记录，正文均为“咽痛2天，无发热，查体咽部充血”，仅标点不同。请输出possible_duplicate和duplicate_group_id，并说明保留两份原文。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-a6f824a44b54e3c8",
+        "object": "chat.completion",
+        "created": 1787033704,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"possible_duplicate\": true,\n  \"duplicate_group_id\": \"GRP_20260801_001\",\n  \"source_evidence\": {\n    \"document_a\": {\n      \"id\": \"doc_A\",\n      \"date\": \"2026-08-01\",\n      \"type\": \"门诊记录\",\n      \"content\": \"咽痛2天，无发热，查体咽部充血\"\n    },\n    \"document_b\": {\n      \"id\": \"doc_B\",\n      \"date\": \"2026-08-01\",\n      \"type\": \"门诊记录\",\n      \"content\": \"咽痛2天，无发热，查体咽部充血。\"\n    },\n    \"similarity_factors\": [\n      \"相同日期 (2026-08-01)\",\n      \"相同文书类型 (门诊记录)\",\n      \"语义内容完全一致 (咽痛2天，无发热，查体咽部充血)\",\n      \"差异仅在于标点符号\"\n    ]\n  },\n  \"requires_human_review\": true,\n  \"action_taken\": \"保留两份原文，标记为疑似重复\",\n  \"reasoning\": \"文书A与文书B在日期、类型及核心临床信息上完全一致，仅标点存在细微差异，符合疑似重复特征。根据约束条件，未删除或合并原文，仅进行分组标记并建议人工复核。\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 176,
+          "total_tokens": 502,
+          "completion_tokens": 326,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-013",
+      "feature": "possible_duplicate_grouping",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"possible_duplicate\": true,\n  \"duplicate_group_id\": \"GRP_20260801_001\",\n  \"source_evidence\": {\n    \"document_a\": {\n      \"id\": \"doc_A\",\n      \"date\": \"2026-08-01\",\n      \"type\": \"门诊记录\",\n      \"content\": \"咽痛2天，无发热，查体咽部充血\"\n    },\n    \"document_b\": {\n      \"id\": \"doc_B\",\n      \"date\": \"2026-08-01\",\n      \"type\": \"门诊记录\",\n      \"content\": \"咽痛2天，无发热，查体咽部充血。\"\n    },\n    \"similarity_factors\": [\n      \"相同日期 (2026-08-01)\",\n      \"相同文书类型 (门诊记录)\",\n      \"语义内容完全一致 (咽痛2天，无发热，查体咽部充血)\",\n      \"差异仅在于标点符号\"\n    ]\n  },\n  \"requires_human_review\": true,\n  \"action_taken\": \"保留两份原文，标记为疑似重复\",\n  \"reasoning\": \"文书A与文书B在日期、类型及核心临床信息上完全一致，仅标点存在细微差异，符合疑似重复特征。根据约束条件，未删除或合并原文，仅进行分组标记并建议人工复核。\"\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 2.874,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。OCR模糊的药品名和剂量不得自动纠正，必须标记unclear、低置信度和人工审核。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"OCR_LOW_QUALITY\", \"unclear\", \"low_confidence\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成OCR文本：‘药物：阿莫西林? 0.? g，每日3次’，其中问号代表扫描模糊，无法区分数字0、6、8。请结构化并生成OCR_LOW_QUALITY审核项。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-94fba7dc54a776cd",
+        "object": "chat.completion",
+        "created": 1787033708,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"ocr_low_quality\": true,\n  \"drug_name\": {\n    \"value\": \"阿莫西林\",\n    \"confidence\": \"high\",\n    \"status\": \"clear\"\n  },\n  \"dosage\": {\n    \"value\": null,\n    \"raw_text\": \"0.? g\",\n    \"confidence\": \"low\",\n    \"status\": \"unclear\",\n    \"reason\": \"数字模糊，无法区分0、6、8\",\n    \"requires_human_review\": true\n  },\n  \"frequency\": {\n    \"value\": \"每日3次\",\n    \"confidence\": \"high\",\n    \"status\": \"clear\"\n  },\n  \"audit_flags\": [\n    \"OCR_LOW_QUALITY\",\n    \"unclear\",\n    \"low_confidence\",\n    \"requires_human_review\"\n  ]\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 173,
+          "total_tokens": 365,
+          "completion_tokens": 192,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-014",
+      "feature": "ocr_low_confidence",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"ocr_low_quality\": true,\n  \"drug_name\": {\n    \"value\": \"阿莫西林\",\n    \"confidence\": \"high\",\n    \"status\": \"clear\"\n  },\n  \"dosage\": {\n    \"value\": null,\n    \"raw_text\": \"0.? g\",\n    \"confidence\": \"low\",\n    \"status\": \"unclear\",\n    \"reason\": \"数字模糊，无法区分0、6、8\",\n    \"requires_human_review\": true\n  },\n  \"frequency\": {\n    \"value\": \"每日3次\",\n    \"confidence\": \"high\",\n    \"status\": \"clear\"\n  },\n  \"audit_flags\": [\n    \"OCR_LOW_QUALITY\",\n    \"unclear\",\n    \"low_confidence\",\n    \"requires_human_review\"\n  ]\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 1.68,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "仅输出JSON对象。根据门诊文书类型检查必填内容，未提及不能写成明确无，不适用字段不计为缺失。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"outpatient\", \"missing_fields\", \"diagnosis\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成门诊记录仅包含：‘2026-08-04，主诉头痛1天。查体神清。’未记录现病史展开、诊断、处理意见、医生签名。请分类文书并输出missing_fields。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-80923a3d1d7830f3",
+        "object": "chat.completion",
+        "created": 1787033711,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"outpatient\": {\n    \"date\": \"2026-08-04\",\n    \"chief_complaint\": \"头痛1天\",\n    \"physical_examination\": \"神清\"\n  },\n  \"missing_fields\": [\n    \"present_illness_history\",\n    \"diagnosis\",\n    \"treatment_plan\",\n    \"doctor_signature\"\n  ],\n  \"diagnosis\": null,\n  \"requires_human_review\": true\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 174,
+          "total_tokens": 282,
+          "completion_tokens": 108,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-015",
+      "feature": "document_specific_missing_fields",
+      "kind": "medical_record_draft",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"outpatient\": {\n    \"date\": \"2026-08-04\",\n    \"chief_complaint\": \"头痛1天\",\n    \"physical_examination\": \"神清\"\n  },\n  \"missing_fields\": [\n    \"present_illness_history\",\n    \"diagnosis\",\n    \"treatment_plan\",\n    \"doctor_signature\"\n  ],\n  \"diagnosis\": null,\n  \"requires_human_review\": true\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 2.932,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "你是CLINVEXA主控Agent。仅输出JSON对象。调用知识与患者管理角色生成一页摘要，只呈现来源事实，不补诊断，并列出证据和待确认项。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"patient_summary\", \"source_evidence\", \"open_questions\", \"108\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成资料：近两次门诊均记录乏力；一次检验血红蛋白108 g/L并由报告标低；当前病历未写明确诊断；随访预约为2026-08-20。请输出patient_summary、source_evidence和open_questions。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-95b79af5d8fd9c19",
+        "object": "chat.completion",
+        "created": 1787033713,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"patient_summary\": \"患者近两次门诊记录均存在乏力症状。实验室检查显示血红蛋白为108 g/L，报告标记为低值。当前病历中未记录明确诊断。已预约随访，日期为2026-08-20。\",\n  \"source_evidence\": [\n    \"近两次门诊均记录乏力\",\n    \"检验血红蛋白108 g/L并由报告标低\",\n    \"当前病历未写明确诊断\",\n    \"随访预约为2026-08-20\"\n  ],\n  \"open_questions\": [\n    \"乏力的具体病因是否已明确？\",\n    \"血红蛋白降低的具体原因及后续处理计划是什么？\",\n    \"2026-08-20随访的具体目的和预期检查项目是什么？\"\n  ],\n  \"108\": 108\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 191,
+          "total_tokens": 388,
+          "completion_tokens": 197,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-016",
+      "feature": "one_page_patient_summary",
+      "kind": "multi_agent",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"patient_summary\": \"患者近两次门诊记录均存在乏力症状。实验室检查显示血红蛋白为108 g/L，报告标记为低值。当前病历中未记录明确诊断。已预约随访，日期为2026-08-20。\",\n  \"source_evidence\": [\n    \"近两次门诊均记录乏力\",\n    \"检验血红蛋白108 g/L并由报告标低\",\n    \"当前病历未写明确诊断\",\n    \"随访预约为2026-08-20\"\n  ],\n  \"open_questions\": [\n    \"乏力的具体病因是否已明确？\",\n    \"血红蛋白降低的具体原因及后续处理计划是什么？\",\n    \"2026-08-20随访的具体目的和预期检查项目是什么？\"\n  ],\n  \"108\": 108\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 1.895,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "你是CLINVEXA主控Agent。仅输出JSON对象。委派知识与患者管理Agent生成随访计划草稿，不能新增治疗决策，必须标为草稿并要求医生确认。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"followup_plan\", \"draft\", \"doctor_confirmation\", \"两周\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成出院信息：出院诊断按原文记录为踝关节扭伤；医嘱写明两周后复诊，如疼痛明显加重或出现足趾麻木则提前就医。请整理随访草稿。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-83e8de8426279d2b",
+        "object": "chat.completion",
+        "created": 1787033716,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"followup_plan\": {\n    \"diagnosis\": \"踝关节扭伤\",\n    \"schedule\": {\n      \"next_visit_timeframe\": \"两周\",\n      \"condition\": \"常规复诊\"\n    },\n    \"warning_signs\": [\n      \"疼痛明显加重\",\n      \"足趾麻木\"\n    ],\n    \"action_for_warning_signs\": \"提前就医\"\n  },\n  \"draft\": true,\n  \"doctor_confirmation\": \"pending\",\n  \"status\": \"草稿，需医生确认\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 169,
+          "total_tokens": 292,
+          "completion_tokens": 123,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-017",
+      "feature": "followup_plan_draft",
+      "kind": "multi_agent",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"followup_plan\": {\n    \"diagnosis\": \"踝关节扭伤\",\n    \"schedule\": {\n      \"next_visit_timeframe\": \"两周\",\n      \"condition\": \"常规复诊\"\n    },\n    \"warning_signs\": [\n      \"疼痛明显加重\",\n      \"足趾麻木\"\n    ],\n    \"action_for_warning_signs\": \"提前就医\"\n  },\n  \"draft\": true,\n  \"doctor_confirmation\": \"pending\",\n  \"status\": \"草稿，需医生确认\"\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 17.499,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "你是CLINVEXA知识与患者管理Agent。仅输出JSON对象。没有检索来源时不得编造指南、论文或链接，必须明确依据不足。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"依据不足\", \"sources\", \"requires_human_review\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "测试请求：请根据当前知识库回答某新型疗法是否已写入本院2026版路径。当前任务没有提供知识库条目或任何来源。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-936c239d0d5dd89d",
+        "object": "chat.completion",
+        "created": 1787033718,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"query\": \"某新型疗法是否已写入本院2026版路径\",\n  \"answer\": \"依据不足。当前任务未提供知识库条目或任何来源，无法核实该新型疗法是否已写入本院2026版路径。\",\n  \"requires_human_review\": true,\n  \"sources\": null\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 154,
+          "total_tokens": 229,
+          "completion_tokens": 75,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-018",
+      "feature": "knowledge_answer_without_source",
+      "kind": "multi_agent",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"query\": \"某新型疗法是否已写入本院2026版路径\",\n  \"answer\": \"依据不足。当前任务未提供知识库条目或任何来源，无法核实该新型疗法是否已写入本院2026版路径。\",\n  \"requires_human_review\": true,\n  \"sources\": null\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 2.616,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "你是CLINVEXA主控Agent。仅输出JSON对象。根据V1固定架构，为子任务选择病历Agent、知识与患者管理Agent、桌面与HIS Agent，并给出汇总顺序；不要创建额外Agent。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"main_agent\", \"record_agent\", \"knowledge_patient_agent\", \"desktop_his_agent\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "完全合成组合任务：先从门诊文本提取主诉和过敏史，再根据院内资料生成随访摘要，最后把经医生确认的草稿准备录入模拟HIS。请输出main_agent和三个专业Agent的routing_plan。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b180653e4cc56a9e",
+        "object": "chat.completion",
+        "created": 1787033735,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"main_agent\": \"CLINVEXA\",\n  \"routing_plan\": [\n    {\n      \"agent\": \"record_agent\",\n      \"role\": \"病历Agent\",\n      \"task\": \"从门诊文本中提取主诉和过敏史\",\n      \"order\": 1\n    },\n    {\n      \"agent\": \"knowledge_patient_agent\",\n      \"role\": \"知识与患者管理Agent\",\n      \"task\": \"根据院内资料生成随访摘要\",\n      \"order\": 2\n    },\n    {\n      \"agent\": \"desktop_his_agent\",\n      \"role\": \"桌面与HIS Agent\",\n      \"task\": \"将经医生确认的草稿准备录入模拟HIS\",\n      \"order\": 3\n    }\n  ]\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 191,
+          "total_tokens": 364,
+          "completion_tokens": 173,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-019",
+      "feature": "three_agent_routing",
+      "kind": "multi_agent",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"main_agent\": \"CLINVEXA\",\n  \"routing_plan\": [\n    {\n      \"agent\": \"record_agent\",\n      \"role\": \"病历Agent\",\n      \"task\": \"从门诊文本中提取主诉和过敏史\",\n      \"order\": 1\n    },\n    {\n      \"agent\": \"knowledge_patient_agent\",\n      \"role\": \"知识与患者管理Agent\",\n      \"task\": \"根据院内资料生成随访摘要\",\n      \"order\": 2\n    },\n    {\n      \"agent\": \"desktop_his_agent\",\n      \"role\": \"桌面与HIS Agent\",\n      \"task\": \"将经医生确认的草稿准备录入模拟HIS\",\n      \"order\": 3\n    }\n  ]\n}",
+      "passed": true
+    },
+    {
+      "latency_s": 1.688,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "system",
+            "content": "你是CLINVEXA桌面与HIS Agent。仅输出JSON对象。工具不可用时不得伪造转写内容，必须返回约定中文提示并给出可执行替代方式。\n输出契约：最终JSON必须以有业务含义的字段名或枚举值包含以下项目：[\"tool_status\", \"当前环境无该工具可调用\", \"alternatives\"]。不得只把这些项目复制到测试数组中；缺少来源值时使用null、空数组或明确的未提及状态。不得生成输入中不存在的患者标识、时间、诊断、治疗或证据。"
+          },
+          {
+            "role": "user",
+            "content": "合成测试场景：用户要求转写问诊录音，但当前任务没有音频文件，运行环境也未加载ASR工具。请输出tool_status、user_message和alternatives。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-93fc852644f04675",
+        "object": "chat.completion",
+        "created": 1787033738,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"tool_status\": \"当前环境无该工具可调用\",\n  \"user_message\": \"用户要求转写问诊录音，但当前任务没有音频文件，运行环境也未加载ASR工具。\",\n  \"alternatives\": [\n    \"请提供问诊录音的文本内容，我将为您进行结构化整理。\",\n    \"请上传音频文件，以便系统尝试处理。\",\n    \"请手动输入问诊关键信息，我将协助生成病历草稿。\"\n  ]\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 168,
+          "total_tokens": 276,
+          "completion_tokens": 108,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "case_id": "SYN-DC-020",
+      "feature": "asr_unavailable_contract",
+      "kind": "multi_agent",
+      "synthetic": true,
+      "assertion_failures": [],
+      "json_error": null,
+      "actual": "{\n  \"tool_status\": \"当前环境无该工具可调用\",\n  \"user_message\": \"用户要求转写问诊录音，但当前任务没有音频文件，运行环境也未加载ASR工具。\",\n  \"alternatives\": [\n    \"请提供问诊录音的文本内容，我将为您进行结构化整理。\",\n    \"请上传音频文件，以便系统尝试处理。\",\n    \"请手动输入问诊关键信息，我将协助生成病历草稿。\"\n  ]\n}",
+      "passed": true
+    }
+  ],
+  "structured_output": [
+    {
+      "latency_s": 0.282,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "输出JSON：字段 status=ok，count=1。只输出JSON。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 384,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-817e3cc1dd6491c8",
+        "object": "chat.completion",
+        "created": 1787033740,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"status\":\"ok\",\"count\":1}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 28,
+          "total_tokens": 38,
+          "completion_tokens": 10,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "actual": "{\"status\":\"ok\",\"count\":1}",
+      "parsed": {
+        "status": "ok",
+        "count": 1
+      },
+      "parse_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.465,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "输出JSON：字段 requires_human_review=true，reason=过敏史冲突。只输出JSON。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 384,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b2413ec69d14017a",
+        "object": "chat.completion",
+        "created": 1787033740,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"requires_human_review\": true,\n  \"reason\": \"过敏史冲突\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 31,
+          "total_tokens": 54,
+          "completion_tokens": 23,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "actual": "{\n  \"requires_human_review\": true,\n  \"reason\": \"过敏史冲突\"\n}",
+      "parsed": {
+        "requires_human_review": true,
+        "reason": "过敏史冲突"
+      },
+      "parse_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.411,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "输出JSON：字段 patient_id=P-003，risk_level=medium。只输出JSON。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 384,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-81d211b046e942c2",
+        "object": "chat.completion",
+        "created": 1787033740,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"patient_id\": \"P-003\", \"risk_level\": \"medium\"}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 33,
+          "total_tokens": 52,
+          "completion_tokens": 19,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "actual": "{\"patient_id\": \"P-003\", \"risk_level\": \"medium\"}",
+      "parsed": {
+        "patient_id": "P-003",
+        "risk_level": "medium"
+      },
+      "parse_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.571,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "输出JSON：字段 items 为数组，内容依次是主诉、现病史。只输出JSON。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 384,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-869f4848433183f0",
+        "object": "chat.completion",
+        "created": 1787033741,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"items\": [\n    \"主诉内容\",\n    \"现病史内容\"\n  ]\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 34,
+          "total_tokens": 61,
+          "completion_tokens": 27,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "actual": "{\n  \"items\": [\n    \"主诉内容\",\n    \"现病史内容\"\n  ]\n}",
+      "parsed": {
+        "items": [
+          "主诉内容",
+          "现病史内容"
+        ]
+      },
+      "parse_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.578,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "输出JSON：字段 date=2026-08-18，language=简体中文。只输出JSON。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 384,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "body": {
+        "id": "chatcmpl-aae8d2859c638fa1",
+        "object": "chat.completion",
+        "created": 1787033741,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"date\": \"2026-08-18\",\n  \"language\": \"简体中文\"\n}",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 37,
+          "total_tokens": 66,
+          "completion_tokens": 29,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "actual": "{\n  \"date\": \"2026-08-18\",\n  \"language\": \"简体中文\"\n}",
+      "parsed": {
+        "date": "2026-08-18",
+        "language": "简体中文"
+      },
+      "parse_error": null,
+      "passed": true
+    }
+  ],
+  "tool_calling": [
+    {
+      "latency_s": 0.788,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "查询患者P-001摘要并包含检验结果。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "get_patient_summary",
+              "description": "读取指定患者摘要",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "include_labs": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "include_labs"
+                ]
+              }
+            }
+          },
+          {
+            "type": "function",
+            "function": {
+              "name": "create_medical_record_draft",
+              "description": "根据指定来源创建病历草稿",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "source"
+                ]
+              }
+            }
+          }
+        ],
+        "tool_choice": "auto"
+      },
+      "body": {
+        "id": "chatcmpl-ac1a8a3276a58707",
+        "object": "chat.completion",
+        "created": 1787033742,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [
+                {
+                  "id": "chatcmpl-tool-ab183695ab857efa",
+                  "type": "function",
+                  "function": {
+                    "name": "get_patient_summary",
+                    "arguments": "{\"patient_id\": \"P-001\", \"include_labs\": true}"
+                  }
+                }
+              ],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "tool_calls",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 374,
+          "total_tokens": 420,
+          "completion_tokens": 46,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected_name": "get_patient_summary",
+      "expected_args": {
+        "patient_id": "P-001",
+        "include_labs": true
+      },
+      "actual_name": "get_patient_summary",
+      "actual_args": {
+        "patient_id": "P-001",
+        "include_labs": true
+      },
+      "args_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.853,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "查询患者P-008摘要，不包含检验结果。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "get_patient_summary",
+              "description": "读取指定患者摘要",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "include_labs": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "include_labs"
+                ]
+              }
+            }
+          },
+          {
+            "type": "function",
+            "function": {
+              "name": "create_medical_record_draft",
+              "description": "根据指定来源创建病历草稿",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "source"
+                ]
+              }
+            }
+          }
+        ],
+        "tool_choice": "auto"
+      },
+      "body": {
+        "id": "chatcmpl-bdf330bc44c00d74",
+        "object": "chat.completion",
+        "created": 1787033743,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [
+                {
+                  "id": "chatcmpl-tool-85fb06cb703657d5",
+                  "type": "function",
+                  "function": {
+                    "name": "get_patient_summary",
+                    "arguments": "{\"patient_id\": \"P-008\", \"include_labs\": false}"
+                  }
+                }
+              ],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "tool_calls",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 374,
+          "total_tokens": 420,
+          "completion_tokens": 46,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected_name": "get_patient_summary",
+      "expected_args": {
+        "patient_id": "P-008",
+        "include_labs": false
+      },
+      "actual_name": "get_patient_summary",
+      "actual_args": {
+        "patient_id": "P-008",
+        "include_labs": false
+      },
+      "args_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.827,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "基于问诊录音为P-003创建病历草稿。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "get_patient_summary",
+              "description": "读取指定患者摘要",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "include_labs": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "include_labs"
+                ]
+              }
+            }
+          },
+          {
+            "type": "function",
+            "function": {
+              "name": "create_medical_record_draft",
+              "description": "根据指定来源创建病历草稿",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "source"
+                ]
+              }
+            }
+          }
+        ],
+        "tool_choice": "auto"
+      },
+      "body": {
+        "id": "chatcmpl-8927d4fc3c33ec2b",
+        "object": "chat.completion",
+        "created": 1787033744,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [
+                {
+                  "id": "chatcmpl-tool-8bf70aefb71535db",
+                  "type": "function",
+                  "function": {
+                    "name": "create_medical_record_draft",
+                    "arguments": "{\"patient_id\": \"P-003\", \"source\": \"问诊录音\"}"
+                  }
+                }
+              ],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "tool_calls",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 374,
+          "total_tokens": 421,
+          "completion_tokens": 47,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected_name": "create_medical_record_draft",
+      "expected_args": {
+        "patient_id": "P-003",
+        "source": "问诊录音"
+      },
+      "actual_name": "create_medical_record_draft",
+      "actual_args": {
+        "patient_id": "P-003",
+        "source": "问诊录音"
+      },
+      "args_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.859,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "请读取P-021的患者摘要，需要同时读取检验。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "get_patient_summary",
+              "description": "读取指定患者摘要",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "include_labs": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "include_labs"
+                ]
+              }
+            }
+          },
+          {
+            "type": "function",
+            "function": {
+              "name": "create_medical_record_draft",
+              "description": "根据指定来源创建病历草稿",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "source"
+                ]
+              }
+            }
+          }
+        ],
+        "tool_choice": "auto"
+      },
+      "body": {
+        "id": "chatcmpl-9a3e982872d1a034",
+        "object": "chat.completion",
+        "created": 1787033744,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [
+                {
+                  "id": "chatcmpl-tool-ac2670f0bc245a62",
+                  "type": "function",
+                  "function": {
+                    "name": "get_patient_summary",
+                    "arguments": "{\"patient_id\": \"P-021\", \"include_labs\": true}"
+                  }
+                }
+              ],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "tool_calls",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 376,
+          "total_tokens": 422,
+          "completion_tokens": 46,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected_name": "get_patient_summary",
+      "expected_args": {
+        "patient_id": "P-021",
+        "include_labs": true
+      },
+      "actual_name": "get_patient_summary",
+      "actual_args": {
+        "patient_id": "P-021",
+        "include_labs": true
+      },
+      "args_error": null,
+      "passed": true
+    },
+    {
+      "latency_s": 0.876,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "使用门诊记录为P-099创建病历草稿。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 768,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        },
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "get_patient_summary",
+              "description": "读取指定患者摘要",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "include_labs": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "include_labs"
+                ]
+              }
+            }
+          },
+          {
+            "type": "function",
+            "function": {
+              "name": "create_medical_record_draft",
+              "description": "根据指定来源创建病历草稿",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "patient_id": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "patient_id",
+                  "source"
+                ]
+              }
+            }
+          }
+        ],
+        "tool_choice": "auto"
+      },
+      "body": {
+        "id": "chatcmpl-9ecec0834ef49bb6",
+        "object": "chat.completion",
+        "created": 1787033745,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [
+                {
+                  "id": "chatcmpl-tool-97790765bdf97647",
+                  "type": "function",
+                  "function": {
+                    "name": "create_medical_record_draft",
+                    "arguments": "{\"patient_id\": \"P-099\", \"source\": \"门诊记录\"}"
+                  }
+                }
+              ],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "tool_calls",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 374,
+          "total_tokens": 421,
+          "completion_tokens": 47,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "expected_name": "create_medical_record_draft",
+      "expected_args": {
+        "patient_id": "P-099",
+        "source": "门诊记录"
+      },
+      "actual_name": "create_medical_record_draft",
+      "actual_args": {
+        "patient_id": "P-099",
+        "source": "门诊记录"
+      },
+      "args_error": null,
+      "passed": true
+    }
+  ],
+  "streaming": [
+    {
+      "status": 200,
+      "ttft_s": 0.16,
+      "latency_s": 0.198,
+      "chunk_count": 5,
+      "done": true,
+      "content": "流式正常",
+      "chunks": [
+        {
+          "id": "chatcmpl-a021564f3928569e",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": null
+            }
+          ],
+          "prompt_token_ids": null
+        },
+        {
+          "id": "chatcmpl-a021564f3928569e",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "流"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a021564f3928569e",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "式"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a021564f3928569e",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "正常"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a021564f3928569e",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": "stop",
+              "stop_reason": null,
+              "token_ids": null
+            }
+          ]
+        }
+      ],
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是第1次流式测试。只回复：流式正常"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "status": 200,
+      "ttft_s": 0.162,
+      "latency_s": 0.196,
+      "chunk_count": 5,
+      "done": true,
+      "content": "流式正常",
+      "chunks": [
+        {
+          "id": "chatcmpl-aae7706b8a5ec1db",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": null
+            }
+          ],
+          "prompt_token_ids": null
+        },
+        {
+          "id": "chatcmpl-aae7706b8a5ec1db",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "流"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-aae7706b8a5ec1db",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "式"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-aae7706b8a5ec1db",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "正常"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-aae7706b8a5ec1db",
+          "object": "chat.completion.chunk",
+          "created": 1787033746,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": "stop",
+              "stop_reason": null,
+              "token_ids": null
+            }
+          ]
+        }
+      ],
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是第2次流式测试。只回复：流式正常"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "status": 200,
+      "ttft_s": 0.176,
+      "latency_s": 0.218,
+      "chunk_count": 5,
+      "done": true,
+      "content": "流式正常",
+      "chunks": [
+        {
+          "id": "chatcmpl-9cf847512a4578c8",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": null
+            }
+          ],
+          "prompt_token_ids": null
+        },
+        {
+          "id": "chatcmpl-9cf847512a4578c8",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "流"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-9cf847512a4578c8",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "式"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-9cf847512a4578c8",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "正常"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-9cf847512a4578c8",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": "stop",
+              "stop_reason": null,
+              "token_ids": null
+            }
+          ]
+        }
+      ],
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是第3次流式测试。只回复：流式正常"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "status": 200,
+      "ttft_s": 0.154,
+      "latency_s": 0.199,
+      "chunk_count": 5,
+      "done": true,
+      "content": "流式正常",
+      "chunks": [
+        {
+          "id": "chatcmpl-a3b0f818708d422c",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": null
+            }
+          ],
+          "prompt_token_ids": null
+        },
+        {
+          "id": "chatcmpl-a3b0f818708d422c",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "流"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a3b0f818708d422c",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "式"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a3b0f818708d422c",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "正常"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a3b0f818708d422c",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": "stop",
+              "stop_reason": null,
+              "token_ids": null
+            }
+          ]
+        }
+      ],
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是第4次流式测试。只回复：流式正常"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "status": 200,
+      "ttft_s": 0.148,
+      "latency_s": 0.188,
+      "chunk_count": 5,
+      "done": true,
+      "content": "流式正常",
+      "chunks": [
+        {
+          "id": "chatcmpl-a9a58a8dd667b501",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": null
+            }
+          ],
+          "prompt_token_ids": null
+        },
+        {
+          "id": "chatcmpl-a9a58a8dd667b501",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "流"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a9a58a8dd667b501",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "式"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a9a58a8dd667b501",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": "正常"
+              },
+              "logprobs": null,
+              "finish_reason": null,
+              "token_ids": null
+            }
+          ]
+        },
+        {
+          "id": "chatcmpl-a9a58a8dd667b501",
+          "object": "chat.completion.chunk",
+          "created": 1787033747,
+          "model": "/workspace/model",
+          "choices": [
+            {
+              "index": 0,
+              "delta": {
+                "content": ""
+              },
+              "logprobs": null,
+              "finish_reason": "stop",
+              "stop_reason": null,
+              "token_ids": null
+            }
+          ]
+        }
+      ],
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是第5次流式测试。只回复：流式正常"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "stream": true,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "passed": true
+    }
+  ],
+  "reasoning_separation": [
+    {
+      "latency_s": 4.534,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "计算17乘以6，并给出最终答案。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1536,
+        "chat_template_kwargs": {
+          "enable_thinking": true
+        }
+      },
+      "body": {
+        "id": "chatcmpl-ae5df921a1e395b2",
+        "object": "chat.completion",
+        "created": 1787033747,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "\n\n17乘以6等于102。最终答案是102。",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - **Task:** Calculate 17 multiplied by 6.\n   - **Output Requirement:** Provide the final answer.\n   - **Language:** Chinese.\n\n2.  **Perform Calculation:**\n   - 17 × 6\n   - Break it down: (10 × 6) + (7 × 6) = 60 + 42 = 102\n   - Alternatively: 17 × 6 = 102 (standard multiplication)\n\n3.  **Formulate Response (Internal Refinement):**\n   - Keep it concise as requested.\n   - State the calculation and the final answer clearly in Chinese.\n   - Example: 17乘以6等于102。最终答案是102。\n\n4.  **Check Against Constraints:**\n   - Calculation correct? Yes, 17 × 6 = 102.\n   - Final answer provided? Yes.\n   - Language matches? Yes, Chinese.\n   - No extra fluff? Yes.\n\n5.  **Generate Output:**\n   - 17乘以6的计算结果是102。最终答案是102。 (Or simply: 102)\n   - I'll keep it direct and clear. \"17乘以6等于102。最终答案是102。\" matches the prompt well.✅\n"
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 21,
+          "total_tokens": 348,
+          "completion_tokens": 327,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "content": "\n\n17乘以6等于102。最终答案是102。",
+      "reasoning_value": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - **Task:** Calculate 17 multiplied by 6.\n   - **Output Requirement:** Provide the final answer.\n   - **Language:** Chinese.\n\n2.  **Perform Calculation:**\n   - 17 × 6\n   - Break it down: (10 × 6) + (7 × 6) = 60 + 42 = 102\n   - Alternatively: 17 × 6 = 102 (standard multiplication)\n\n3.  **Formulate Response (Internal Refinement):**\n   - Keep it concise as requested.\n   - State the calculation and the final answer clearly in Chinese.\n   - Example: 17乘以6等于102。最终答案是102。\n\n4.  **Check Against Constraints:**\n   - Calculation correct? Yes, 17 × 6 = 102.\n   - Final answer provided? Yes.\n   - Language matches? Yes, Chinese.\n   - No extra fluff? Yes.\n\n5.  **Generate Output:**\n   - 17乘以6的计算结果是102。最终答案是102。 (Or simply: 102)\n   - I'll keep it direct and clear. \"17乘以6等于102。最终答案是102。\" matches the prompt well.✅\n",
+      "passed": true
+    },
+    {
+      "latency_s": 11.214,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "判断38.5摄氏度是否属于发热，并简短回答。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1536,
+        "chat_template_kwargs": {
+          "enable_thinking": true
+        }
+      },
+      "body": {
+        "id": "chatcmpl-99e7c1a34d2bf08a",
+        "object": "chat.completion",
+        "created": 1787033752,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "\n\n是，属于发热（中度发热）。",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - **Question:** 判断38.5摄氏度是否属于发热，并简短回答。 (Determine whether 38.5°C is considered a fever, and answer briefly.)\n   - **Key Information:** Temperature = 38.5°C, Need to determine if it's a fever, Keep the answer short.\n\n2.  **Medical Knowledge Retrieval (Internal):**\n   - Normal body temperature: ~36.1°C to 37.2°C (axillary/armpit is commonly used in China, typically 36-37°C).\n   - Fever classification (axillary temperature, standard in China):\n     - Low fever: 37.3°C - 38.0°C\n     - Moderate fever: 38.1°C - 39.0°C\n     - High fever: 39.1°C - 41.0°C\n     - Ultra-high fever: >41.0°C\n   - Therefore, 38.5°C falls into the moderate fever range.\n   - Conclusion: Yes, it is a fever.\n\n3.  **Formulate Response (Internal Refinement):**\n   - Need to be concise as requested.\n   - Direct answer: 是，属于发热（中度发热）。\n   - Check accuracy: 38.5°C is indeed a fever. In Chinese medical standards, it's classified as moderate fever.\n   - Keep it brief: 是，属于发热（中度发热）。\n\n4.  **Final Output Generation:**\n   - Match the refined response. Ensure it directly answers the question and stays within the \"brief\" constraint.\n   - Output: 是，属于发热（中度发热）。 (Yes, it is a fever (moderate fever).)\n   - Self-Correction/Verification during thought: \n     - Is there any ambiguity about measurement site? The question doesn't specify, but in China, axillary temperature is standard for such questions. 38.5°C axillary is definitely fever. Even if oral or rectal, it's still fever (though thresholds differ slightly, 38.5 is universally considered fever). I'll stick with the standard answer.\n     - The prompt asks for a short answer. \"是，属于发热。\" is sufficient. Adding \"(中度发热)\" provides useful context without being verbose.\n     - Final: 是，属于发热（中度发热）。✅\n\n   Proceed. \n   Output matches the final refined version. \n   Structure: Direct answer + brief classification (optional but helpful). Meets all constraints.✅\n   Output Generation. \n   “是，属于发热（中度发热）。” (or similar) -> I'll output exactly that. \n   All steps verified.✅\n   [Done.] \n   *Self-Correction/Note during process*: \n   I should make sure it's strictly brief as requested. \"是，属于发热。\" is the most direct. Adding the degree is fine but I'll keep it tight. The prompt says \"简短回答\" (brief answer). I'll go with: 是，属于发热（中度发热）。 This is standard and precise.✅\n   Final Output Generation. \n   “是，属于发热（中度发热）。” (Yes, it is a fever (moderate fever).) -> Matches perfectly. \n   Proceeds. \n   [Output Generation] -> 是，属于发热（中度发热）。 \n   *(Note: I'll output exactly this in Chinese as requested.)*\n   All good. \n   [Final Check of the Prompt]: “判断38.5摄氏度是否属于发热，并简短回答。” -> Direct, clear. Answer matches.✅\n   Output matches response. \n   [Done.]\n"
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 24,
+          "total_tokens": 843,
+          "completion_tokens": 819,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "content": "\n\n是，属于发热（中度发热）。",
+      "reasoning_value": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - **Question:** 判断38.5摄氏度是否属于发热，并简短回答。 (Determine whether 38.5°C is considered a fever, and answer briefly.)\n   - **Key Information:** Temperature = 38.5°C, Need to determine if it's a fever, Keep the answer short.\n\n2.  **Medical Knowledge Retrieval (Internal):**\n   - Normal body temperature: ~36.1°C to 37.2°C (axillary/armpit is commonly used in China, typically 36-37°C).\n   - Fever classification (axillary temperature, standard in China):\n     - Low fever: 37.3°C - 38.0°C\n     - Moderate fever: 38.1°C - 39.0°C\n     - High fever: 39.1°C - 41.0°C\n     - Ultra-high fever: >41.0°C\n   - Therefore, 38.5°C falls into the moderate fever range.\n   - Conclusion: Yes, it is a fever.\n\n3.  **Formulate Response (Internal Refinement):**\n   - Need to be concise as requested.\n   - Direct answer: 是，属于发热（中度发热）。\n   - Check accuracy: 38.5°C is indeed a fever. In Chinese medical standards, it's classified as moderate fever.\n   - Keep it brief: 是，属于发热（中度发热）。\n\n4.  **Final Output Generation:**\n   - Match the refined response. Ensure it directly answers the question and stays within the \"brief\" constraint.\n   - Output: 是，属于发热（中度发热）。 (Yes, it is a fever (moderate fever).)\n   - Self-Correction/Verification during thought: \n     - Is there any ambiguity about measurement site? The question doesn't specify, but in China, axillary temperature is standard for such questions. 38.5°C axillary is definitely fever. Even if oral or rectal, it's still fever (though thresholds differ slightly, 38.5 is universally considered fever). I'll stick with the standard answer.\n     - The prompt asks for a short answer. \"是，属于发热。\" is sufficient. Adding \"(中度发热)\" provides useful context without being verbose.\n     - Final: 是，属于发热（中度发热）。✅\n\n   Proceed. \n   Output matches the final refined version. \n   Structure: Direct answer + brief classification (optional but helpful). Meets all constraints.✅\n   Output Generation. \n   “是，属于发热（中度发热）。” (or similar) -> I'll output exactly that. \n   All steps verified.✅\n   [Done.] \n   *Self-Correction/Note during process*: \n   I should make sure it's strictly brief as requested. \"是，属于发热。\" is the most direct. Adding the degree is fine but I'll keep it tight. The prompt says \"简短回答\" (brief answer). I'll go with: 是，属于发热（中度发热）。 This is standard and precise.✅\n   Final Output Generation. \n   “是，属于发热（中度发热）。” (Yes, it is a fever (moderate fever).) -> Matches perfectly. \n   Proceeds. \n   [Output Generation] -> 是，属于发热（中度发热）。 \n   *(Note: I'll output exactly this in Chinese as requested.)*\n   All good. \n   [Final Check of the Prompt]: “判断38.5摄氏度是否属于发热，并简短回答。” -> Direct, clear. Answer matches.✅\n   Output matches response. \n   [Done.]\n",
+      "passed": true
+    },
+    {
+      "latency_s": 60.04,
+      "status": null,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将咳嗽3天概括为主诉。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 1536,
+        "chat_template_kwargs": {
+          "enable_thinking": true
+        }
+      },
+      "error": "ReadTimeout: HTTPConnectionPool(host='172.16.0.105', port=8818): Read timed out. (read timeout=60)",
+      "content": null,
+      "reasoning_value": null,
+      "passed": false
+    }
+  ],
+  "concurrent_stability": [
+    {
+      "latency_s": 21.05,
+      "status": null,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "error": "ConnectTimeout: HTTPConnectionPool(host='172.16.0.105', port=8818): Max retries exceeded with url: /v1/chat/completions (Caused by ConnectTimeoutError(<HTTPConnection(host='172.16.0.105', port=8818) at 0x2109ebac7d0>, 'Connection to 172.16.0.105 timed out. (connect timeout=60)'))",
+      "iteration": 1,
+      "actual": null,
+      "passed": false
+    },
+    {
+      "latency_s": 21.062,
+      "status": null,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "error": "ConnectTimeout: HTTPConnectionPool(host='172.16.0.105', port=8818): Max retries exceeded with url: /v1/chat/completions (Caused by ConnectTimeoutError(<HTTPConnection(host='172.16.0.105', port=8818) at 0x2109ebb1190>, 'Connection to 172.16.0.105 timed out. (connect timeout=60)'))",
+      "iteration": 2,
+      "actual": null,
+      "passed": false
+    },
+    {
+      "latency_s": 21.047,
+      "status": null,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "error": "ConnectTimeout: HTTPConnectionPool(host='172.16.0.105', port=8818): Max retries exceeded with url: /v1/chat/completions (Caused by ConnectTimeoutError(<HTTPConnection(host='172.16.0.105', port=8818) at 0x2109ebb3590>, 'Connection to 172.16.0.105 timed out. (connect timeout=60)'))",
+      "iteration": 3,
+      "actual": null,
+      "passed": false
+    },
+    {
+      "latency_s": 0.305,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8d5df1528d53b609",
+        "object": "chat.completion",
+        "created": 1787033844,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 4,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.289,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-ac570d139cf9dcc5",
+        "object": "chat.completion",
+        "created": 1787033844,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 5,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.293,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-966c379e8c89b4bb",
+        "object": "chat.completion",
+        "created": 1787033844,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 6,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.265,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-a6d1a9176f53fda1",
+        "object": "chat.completion",
+        "created": 1787033844,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 7,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.271,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8b741ac1c80e7c0b",
+        "object": "chat.completion",
+        "created": 1787033844,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 8,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.265,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-9b8b3e89202f3f13",
+        "object": "chat.completion",
+        "created": 1787033844,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 9,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.276,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-b7fb0ce6a815039c",
+        "object": "chat.completion",
+        "created": 1787033845,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 10,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.269,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-9b3c08cba3103f3c",
+        "object": "chat.completion",
+        "created": 1787033845,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 11,
+      "actual": "STABLE_OK",
+      "passed": true
+    },
+    {
+      "latency_s": 0.264,
+      "status": 200,
+      "request": {
+        "model": "/workspace/model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只回复：STABLE_OK"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 128,
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "body": {
+        "id": "chatcmpl-8ceabbd757a796d5",
+        "object": "chat.completion",
+        "created": 1787033845,
+        "model": "/workspace/model",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "STABLE_OK",
+              "refusal": null,
+              "annotations": null,
+              "audio": null,
+              "function_call": null,
+              "tool_calls": [],
+              "reasoning": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "stop_reason": null,
+            "token_ids": null
+          }
+        ],
+        "service_tier": null,
+        "system_fingerprint": null,
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 22,
+          "completion_tokens": 4,
+          "prompt_tokens_details": null
+        },
+        "prompt_logprobs": null,
+        "prompt_token_ids": null,
+        "kv_transfer_params": null
+      },
+      "iteration": 12,
+      "actual": "STABLE_OK",
+      "passed": true
+    }
+  ],
+  "finished_at": "2026-08-18T14:17:24.955537+08:00",
+  "summary": {
+    "model": "/workspace/model",
+    "advertised_context_tokens": 8192,
+    "clinvexa_context_minimum_tokens": 64000,
+    "context_gate_passed": false,
+    "long_context_runtime": {
+      "status": 400,
+      "passed": false,
+      "error": {
+        "error": {
+          "message": "This model's maximum context length is 8192 tokens. However, you requested 64 output tokens and your prompt contains at least 8129 input tokens, for a total of at least 8193 tokens. Please reduce the length of the input prompt or the number of requested output tokens. (parameter=input_tokens, value=8129)",
+          "type": "BadRequestError",
+          "param": "input_tokens",
+          "code": 400
+        }
+      }
+    },
+    "instruction_following": {
+      "passed": 7,
+      "total": 8,
+      "accuracy_pct": 87.5
+    },
+    "medical_field_extraction": {
+      "passed_fields": 45,
+      "total_fields": 45,
+      "accuracy_pct": 100.0,
+      "json_success": 5,
+      "cases": 5
+    },
+    "established_20_case_benchmark": {
+      "passed": 19,
+      "total": 20,
+      "accuracy_pct": 95.0
+    },
+    "structured_output": {
+      "passed": 5,
+      "total": 5,
+      "success_pct": 100.0
+    },
+    "tool_calling": {
+      "passed": 5,
+      "total": 5,
+      "accuracy_pct": 100.0
+    },
+    "streaming": {
+      "passed": 5,
+      "total": 5,
+      "success_pct": 100.0
+    },
+    "reasoning_separation": {
+      "passed": 2,
+      "total": 3,
+      "success_pct": 66.67
+    },
+    "concurrent_stability": {
+      "passed": 9,
+      "total": 12,
+      "success_pct": 75.0,
+      "concurrency": 3
+    },
+    "latency": {
+      "nonstream_samples": 58,
+      "nonstream_p50_s": 1.569,
+      "nonstream_p95_s": 21.052,
+      "stream_ttft_p50_s": 0.16,
+      "stream_ttft_p95_s": 0.173,
+      "stream_total_p50_s": 0.198,
+      "stream_total_p95_s": 0.214
+    }
+  }
+}

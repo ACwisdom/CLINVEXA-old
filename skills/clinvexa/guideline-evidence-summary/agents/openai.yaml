@@ -1,0 +1,4 @@
+interface:
+  display_name: "guideline-evidence-summary"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $guideline-evidence-summary to process the supplied medical material with source evidence."

@@ -1,0 +1,580 @@
+{
+  "started_at": "2026-08-18T06:07:08.529974+00:00",
+  "finished_at": "2026-08-18T06:07:10.285062+00:00",
+  "required_duration_seconds": 1.0,
+  "observed_duration_seconds": 1.75,
+  "cycles": 2,
+  "case_count": 20,
+  "request_count": 40,
+  "failure_count": 40,
+  "request_failure_count": 40,
+  "assertion_failure_count": 0,
+  "medical_record_draft_p95_seconds": null,
+  "by_kind": {
+    "asr": {
+      "requests": 0,
+      "successes": 0,
+      "failures": 0
+    },
+    "medical_record_draft": {
+      "requests": 30,
+      "successes": 0,
+      "failures": 30
+    },
+    "multi_agent": {
+      "requests": 10,
+      "successes": 0,
+      "failures": 10
+    }
+  },
+  "gate": {
+    "duration_passed": true,
+    "no_request_failures": false,
+    "all_assertions_passed": true,
+    "draft_p95_passed": false
+  },
+  "failures": [
+    {
+      "case_id": "SYN-DC-001",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.1880000000819564,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-002",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.20400000002700835,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-003",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.18799999996554106,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-004",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.14099999994505197,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-005",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.14000000001396984,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-006",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.14000000001396984,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-007",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.125,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-008",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.125,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-009",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.125,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-010",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0779999999795109,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-012",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0779999999795109,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-011",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-013",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10900000005494803,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-014",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10999999998603016,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-015",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.09399999992456287,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-016",
+      "kind": "multi_agent",
+      "latency_seconds": 0.0779999999795109,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-017",
+      "kind": "multi_agent",
+      "latency_seconds": 0.0779999999795109,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-018",
+      "kind": "multi_agent",
+      "latency_seconds": 0.09299999999348074,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-020",
+      "kind": "multi_agent",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-019",
+      "kind": "multi_agent",
+      "latency_seconds": 0.125,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-001",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-002",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10900000005494803,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-003",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.125,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-004",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.14000000001396984,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-005",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.2190000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-006",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.1880000000819564,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-007",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.18799999996554106,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-008",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.1559999999590218,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-009",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.1559999999590218,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-010",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10900000005494803,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-011",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-012",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10999999998603016,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-013",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10899999993853271,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-015",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0779999999795109,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-014",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10899999993853271,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-016",
+      "kind": "multi_agent",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-017",
+      "kind": "multi_agent",
+      "latency_seconds": 0.10900000005494803,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-018",
+      "kind": "multi_agent",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-019",
+      "kind": "multi_agent",
+      "latency_seconds": 0.10999999998603016,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-020",
+      "kind": "multi_agent",
+      "latency_seconds": 0.09399999992456287,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    }
+  ],
+  "latest_case_results": [
+    {
+      "case_id": "SYN-DC-001",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-002",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10900000005494803,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-003",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.125,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-004",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.14000000001396984,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-005",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.2190000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-006",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.1880000000819564,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-007",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.18799999996554106,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-008",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.1559999999590218,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-009",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.1559999999590218,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-010",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10900000005494803,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-012",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10999999998603016,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-011",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-013",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10899999993853271,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-014",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.10899999993853271,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-015",
+      "kind": "medical_record_draft",
+      "latency_seconds": 0.0779999999795109,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-016",
+      "kind": "multi_agent",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-017",
+      "kind": "multi_agent",
+      "latency_seconds": 0.10900000005494803,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-018",
+      "kind": "multi_agent",
+      "latency_seconds": 0.0940000000409782,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-020",
+      "kind": "multi_agent",
+      "latency_seconds": 0.09399999992456287,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    },
+    {
+      "case_id": "SYN-DC-019",
+      "kind": "multi_agent",
+      "latency_seconds": 0.10999999998603016,
+      "success": false,
+      "error": "endpoint returned HTTP 400: {\"error\":{\"message\":\"System message must be at the beginning.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+      "assertion_failures": [],
+      "response_text": ""
+    }
+  ]
+}

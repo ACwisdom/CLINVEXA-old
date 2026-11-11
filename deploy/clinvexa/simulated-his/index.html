@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CLINVEXA 固定模拟 HIS</title>
+    <style>
+      body { margin: 0; background: #eef2f6; color: #17212b; font: 15px/1.5 system-ui, sans-serif; }
+      main { width: min(860px, calc(100% - 32px)); margin: 32px auto; background: white; border: 1px solid #cbd5df; border-radius: 12px; padding: 24px; }
+      .row { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; margin: 14px 0; }
+      input, textarea { min-height: 42px; border: 1px solid #9ba9b7; border-radius: 8px; padding: 8px 10px; font: inherit; }
+      textarea { min-height: 100px; }
+      button { min-height: 44px; border: 0; border-radius: 8px; padding: 0 18px; background: #145ea8; color: white; font: inherit; }
+      #blocking_popup { position: fixed; inset: 25% 30%; display: none; place-items: center; background: white; border: 2px solid #b42318; box-shadow: 0 20px 60px #0005; }
+      #result { margin-left: 12px; }
+    </style>
+  </head>
+  <body>
+    <main aria-label="固定模拟 HIS">
+      <h1>固定模拟 HIS 验收环境</h1>
+      <div class="row"><label for="patient_search">患者检索</label><input id="patient_search" aria-label="患者检索" /></div>
+      <div class="row"><span></span><button id="open_patient" type="button">打开患者</button></div>
+      <div class="row"><label for="patient_id">当前患者</label><input id="patient_id" aria-label="当前患者" readonly /></div>
+      <div class="row"><label for="chief_complaint">主诉</label><textarea id="chief_complaint"></textarea></div>
+      <div class="row"><label for="assessment">评估</label><textarea id="assessment"></textarea></div>
+      <div>
+        <button id="submit_record" type="button">提交病历</button>
+        <span id="result" role="status">未提交</span>
+      </div>
+    </main>
+    <section id="blocking_popup" role="dialog" aria-modal="true">模拟遮挡弹窗</section>
+    <script>
+      let submissions = 0
+      document.querySelector('#open_patient').addEventListener('click', () => {
+        document.querySelector('#patient_id').value = document.querySelector('#patient_search').value.trim()
+      })
+      document.querySelector('#submit_record').addEventListener('click', () => {
+        submissions += 1
+        document.querySelector('#result').textContent = `已提交 ${submissions} 次`
+      })
+      window.syntheticHis = {
+        showPopup(value) { document.querySelector('#blocking_popup').style.display = value ? 'grid' : 'none' },
+        submissions() { return submissions }
+      }
+    </script>
+  </body>
+</html>

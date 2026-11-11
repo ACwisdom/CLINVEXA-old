@@ -1,0 +1,4 @@
+interface:
+  display_name: "CLINVEXA Skill 创建器"
+  short_description: "Create validated CLINVEXA skills for the plaza"
+  default_prompt: "Use $skill-creator to create a validated CLINVEXA skill and publish it to the Skill plaza."

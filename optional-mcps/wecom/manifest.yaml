@@ -1,0 +1,16 @@
+manifest_version: 1
+name: wecom
+description: 企业微信：连接企业微信授权后签发的 MCP 服务地址，使用该业务域的工具。
+source: https://github.com/WecomTeam/wecom-cli
+transport:
+  type: http
+  url: ${WECOM_MCP_URL}
+auth:
+  type: api_key
+  env:
+    - name: WECOM_MCP_URL
+      prompt: 企业微信授权后签发的完整 MCP 业务域地址（含密钥）
+      secret: true
+post_install: |
+  企业微信各业务域需要单独授权。此卡只连接一个授权业务域；
+  其他业务域可在“已连接”中继续添加。不要公开签发的 MCP 地址。

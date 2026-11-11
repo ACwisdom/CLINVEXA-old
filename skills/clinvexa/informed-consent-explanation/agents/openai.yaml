@@ -1,0 +1,4 @@
+interface:
+  display_name: "informed-consent-explanation"
+  short_description: "CLINVEXA evidence-bound reviewed workflow"
+  default_prompt: "Use $informed-consent-explanation to process the supplied medical material with source evidence."
