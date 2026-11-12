@@ -15,6 +15,7 @@ it('reopens a partial task, highlights the saved quote and keeps report decision
     sha256: 'a'.repeat(64), hash_basis: 'file', parser_version: '1', status: 'complete',
     diagnostics: [], reliability: 'source', segments: [{ anchor: 'line:1', start: 0, end: 5 }]
   }
+
   const task: ReviewJob = {
     id: 'job', contract_revision: 1, created_at: '2026-11-12T01:00:00Z', status: 'partial',
     coverage: { rules: 'complete', model: 'timeout' }, model: { name: 'test-model', requested: true },
@@ -29,27 +30,37 @@ it('reopens a partial task, highlights the saved quote and keeps report decision
       }]
     }]
   }
+
   const savedDecision: ReviewDecision = {
     status: 'accepted', reviewer: '合成经办人', note: '核对完成', at: task.created_at
   }
+
   const resolved = { ...task, decision_revision: 1, decisions: { finding: [savedDecision] } }
+
   const report = {
     ...resolved, id: 'report', job_id: task.id, generated_at: task.created_at,
     contract: { title: '合成合同' }
   } satisfies Omit<ReviewReport, 'contract'> & { contract: { title: string } }
+
   const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
     if (url.endsWith('/review-jobs')) {return Response.json([task])}
+
     if (url.endsWith('/review-jobs/job')) {return Response.json(task)}
+
     if (url.endsWith('/decision')) {
       expect(JSON.parse(String(init?.body))).toEqual({
         revision: 0, status: 'accepted', note: '核对完成'
       })
+
       return Response.json(resolved)
     }
+
     if (url.endsWith('/reports/report')) {return Response.json(report)}
+
     if (url.endsWith('/reports')) {return Response.json([report])}
     throw new Error('Unexpected URL: ' + url)
   })
+
   vi.stubGlobal('fetch', fetchMock)
   render(<ContractPreaudit busy={false} dirty={false} id="contract" modelReady={false} revision={2} run={(_label, action) => action()} />)
   fireEvent.change(await screen.findByLabelText('审查历史'), { target: { value: 'job' } })

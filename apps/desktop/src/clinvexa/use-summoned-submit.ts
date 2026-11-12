@@ -45,6 +45,7 @@ export function useSummonedSubmit(
       if (!selected) {
         return await send(text, options)
       }
+
       const task = mention.task.trim() || '请使用当前对话及已附资料完成这个助手擅长的任务。'
       const invocation = await prepareAssistant(selected, task)
       const latest = current.current

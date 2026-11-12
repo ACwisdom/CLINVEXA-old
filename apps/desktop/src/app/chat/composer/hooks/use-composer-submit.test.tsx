@@ -76,6 +76,7 @@ describe('useComposerSubmit busy-turn routing', () => {
       text: '@病历结构化 整理上述资料',
       requiresPreparedTurn: text => text.includes('@病历结构化')
     })
+
     act(() => {
       hook.result.current.submitDraft()
     })

@@ -120,6 +120,7 @@ const NEEDS_AUTH_RE = /\b(401|unauthorized|forbidden|invalid[_ ]?token|authentic
 // and the Catalog install view; invalidated after an install.
 const MCP_CATALOG_KEY = ['mcp-catalog'] as const
 const OFFICE_MCP_NAMES = ['tencent-docs', 'tencent-meeting', 'wecom', 'feishu', 'dingtalk'] as const
+
 const OFFICE_AUTH_URLS: Record<(typeof OFFICE_MCP_NAMES)[number], string> = {
   'tencent-docs': 'https://docs.qq.com/open/auth/mcp.html',
   'tencent-meeting': 'https://meeting.tencent.com/ai-skill.html',
@@ -1382,10 +1383,12 @@ function McpCatalog({
   const beginAuthorization = async (entry: McpCatalogEntry) => {
     if (!OFFICE_MCP_NAMES.includes(entry.name as (typeof OFFICE_MCP_NAMES)[number])) {
       await install(entry)
+
       return
     }
 
     setEnvOpenFor(entry.name)
+
     try {
       await window.hermesDesktop.openExternal(OFFICE_AUTH_URLS[entry.name as (typeof OFFICE_MCP_NAMES)[number]])
     } catch (err) {
@@ -1460,6 +1463,7 @@ function McpCatalog({
       {[...entries].sort((a, b) => {
         const aIndex = OFFICE_MCP_NAMES.indexOf(a.name as (typeof OFFICE_MCP_NAMES)[number])
         const bIndex = OFFICE_MCP_NAMES.indexOf(b.name as (typeof OFFICE_MCP_NAMES)[number])
+
         return (aIndex < 0 ? 99 : aIndex) - (bIndex < 0 ? 99 : bIndex)
       }).map(entry => {
         const draft = envDrafts[entry.name] ?? {}

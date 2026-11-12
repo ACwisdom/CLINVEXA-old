@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
 import {
@@ -16,33 +15,42 @@ const states: Record<string, string> = {
   skipped: '本次未启用', not_applicable: '不适用', not_checked: '未检查', unavailable: '不可用',
   timeout: '超时', invalid: '输出校验失败', interrupted: '中断', empty: '空文档', ocr_required: '需 OCR'
 }
+
 const scopes: Record<string, string> = {
   rules: '规则执行', model: '模型辅助', contract_text: '合同正文',
   procurement_tender: '招标项目编号', procurement_response: '响应项目编号',
   procurement_award: '中标项目编号、相对方及适用的金额'
 }
+
 const levels = { blocking: '高风险', warning: '待核对', advice: '建议' }
+
 const decisions: Record<DecisionStatus, string> = {
   pending: '待复核', accepted: '确认问题', dismissed: '驳回误报', needs_evidence: '需要补充材料'
 }
+
 const documentKinds = { contract: '合同正文', tender: '招标文件', response: '响应文件', award: '中标通知书' }
+
 const fieldLabels: Record<string, string> = {
   hospital_party: '院方主体', counterparty: '相对方', project_number: '项目编号', amount: '金额（元）',
   amount_direction: '金额方向', amount_fixed: '是否确定金额', funding_source: '资金来源', contract_type: '合同类型',
   starts_on: '履行开始日期', ends_on: '履行结束日期'
 }
+
 const fieldValues: Record<string, string> = {
   income: '收入', expense: '支出', none: '不涉及金额', True: '是', False: '否',
   business: '业务合同', purchase: '货物采购合同', service: '服务合同'
 }
+
 const reliability: Record<string, string> = {
   source: '文件文本', saved_text: '保存的正文', unverified_excerpt: '未核验摘录', ocr_unverified: 'OCR 待核验'
 }
+
 const timestamp = (value: string) => new Date(value).toLocaleString()
 
 function location(anchor: string) {
   const [kind, number] = anchor.split(':')
   const units: Record<string, string> = { page: '页', paragraph: '段', line: '行' }
+
   return units[kind] ? `第 ${number} ${units[kind]}` : anchor
 }
 
@@ -51,6 +59,7 @@ function Evidence({ item, documents }: {item: ReviewEvidence; documents: ReviewD
   const document = documents.find(doc => doc.id === item.document_id)
   const segment = document?.segments.find(entry => entry.anchor === item.anchor)
   const position = location(item.anchor)
+
   if (!document || !segment) {
     return <blockquote>{item.document_name} · {position}<br />{item.quote}</blockquote>
   }
@@ -59,6 +68,7 @@ function Evidence({ item, documents }: {item: ReviewEvidence; documents: ReviewD
   const points = expanded ? Array.from(document.text) : []
   const from = Math.max(segment.start, item.start - 160)
   const to = Math.min(segment.end, item.end + 160)
+
   return (
     <details onToggle={event => setExpanded(event.currentTarget.open)}>
       <summary>{item.document_name} · {position} · {reliability[item.reliability] ?? item.reliability}</summary>
@@ -90,6 +100,7 @@ function FindingContent({ item, documents }: {item: ReviewFinding; documents: Re
 
 function DecisionHistory({ history }: {history: ReviewDecision[]}) {
   const latest = history.at(-1)
+
   return (
     <>
       <small>复核状态 · {decisions[latest?.status ?? 'pending']}{latest ? ' · ' + latest.reviewer : ''}</small>
@@ -146,17 +157,22 @@ export function ContractPreaudit({ id, revision, dirty, busy, modelReady, run }:
 
   useEffect(() => {
     const controller = new AbortController()
+
     async function load() {
       const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(10000)])
+
       try {
         const items = await loadPreaudits(id, signal)
+
         if (controller.signal.aborted) {return}
         setHistory(items)
       } catch (reason) {
         if (!controller.signal.aborted) {setLoadError(reason instanceof Error ? reason.message : String(reason))}
       }
     }
+
     void load()
+
     return () => controller.abort()
   }, [id])
 
@@ -186,6 +202,7 @@ export function ContractPreaudit({ id, revision, dirty, busy, modelReady, run }:
         <Button disabled={busy} onClick={() => void run('正在读取审查历史', async () => {
           setHistory(await loadPreaudits(id))
           setLoadError('')
+
           if (job) {await open(await loadPreaudit(id, job.id))}
         })} variant="outline">刷新审查历史</Button>
       </div>
@@ -195,6 +212,7 @@ export function ContractPreaudit({ id, revision, dirty, busy, modelReady, run }:
       {history?.length === 0 && <p>暂无审查任务。</p>}
       {!!history?.length && <label>审查历史<select disabled={busy} onChange={event => {
         const selected = event.currentTarget.value
+
         if (selected) {void run('正在打开审查任务', async () => open(await loadPreaudit(id, selected)))}
       }} value={job?.id ?? ''}>
         <option disabled value="">选择任务</option>
@@ -236,6 +254,7 @@ export function ContractPreaudit({ id, revision, dirty, busy, modelReady, run }:
             })} variant="outline">生成并保存报告</Button>
             {!!reports.length && <label>已保存报告<select disabled={busy} onChange={event => {
               const selected = event.currentTarget.value
+
               if (selected) {void run('正在打开预审报告', async () => setReport(await loadReviewReport(id, job.id, selected)))}
               else {setReport(null)}
             }} value={report?.id ?? ''}>
@@ -260,6 +279,7 @@ export function ContractPreaudit({ id, revision, dirty, busy, modelReady, run }:
           <ol className="contract-findings">
             {displayed.findings.map(item => {
               const audit = displayed.decisions[item.id] ?? []
+
               return <li data-level={item.level} key={item.id}>
                 <FindingContent documents={job.documents} item={item} />
                 <DecisionHistory history={audit} />

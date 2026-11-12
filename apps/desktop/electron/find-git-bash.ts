@@ -38,6 +38,7 @@ export function findGitBash(opts: GitBashOptions): string | null {
   const joinWin = path.win32.join
 
   const runtimeHome = env.CLINVEXA_RUNTIME_HOME || env.HERMES_HOME
+
   if (runtimeHome) {
     candidates.push(joinWin(runtimeHome, 'git', 'bin', 'bash.exe'))
     candidates.push(joinWin(runtimeHome, 'git', 'usr', 'bin', 'bash.exe'))

@@ -162,6 +162,7 @@ describe('useModelControls', () => {
     })
 
     const requestGateway = vi.fn(async () => ({ key: 'model', value: 'poolside/laguna-xs-2.1:free' }) as never)
+
     const { result } = renderHook(() =>
       useModelControls({
         queryClient,

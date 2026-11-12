@@ -99,6 +99,7 @@ contextBridge.exposeInMainWorld('hermesDesktop', {
     onState: callback => {
       const listener = (_event, state) => callback(state)
       ipcRenderer.on('clinvexa:copilot:state', listener)
+
       return () => ipcRenderer.removeListener('clinvexa:copilot:state', listener)
     }
   },
@@ -122,11 +123,13 @@ contextBridge.exposeInMainWorld('hermesDesktop', {
     onConsultationState: callback => {
       const listener = (_event, state) => callback(state)
       ipcRenderer.on('clinvexa:consultation:state', listener)
+
       return () => ipcRenderer.removeListener('clinvexa:consultation:state', listener)
     },
     onConsultationCommand: callback => {
       const listener = (_event, command) => callback(command)
       ipcRenderer.on('clinvexa:consultation:command', listener)
+
       return () => ipcRenderer.removeListener('clinvexa:consultation:command', listener)
     },
     showContextMenu: () => ipcRenderer.send('clinvexa:window:show-context-menu'),

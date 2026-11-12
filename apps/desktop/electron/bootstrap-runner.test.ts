@@ -35,6 +35,7 @@ test('bootstrap PowerShell module path preserves Windows system modules', () => 
       path.delimiter
     )
   })
+
   const entries = resolved.split(path.delimiter).map(entry => path.normalize(entry).toLowerCase())
 
   assert.ok(entries.includes(path.normalize('C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\Modules').toLowerCase()))

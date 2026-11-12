@@ -15,6 +15,7 @@ export function ContractVersions({ id }: {id: string}) {
   async function load() {
     setBusy(true)
     setError('')
+
     try {
       const values = await loadVersions(id)
 
@@ -31,6 +32,7 @@ export function ContractVersions({ id }: {id: string}) {
   async function compare() {
     setBusy(true)
     setError('')
+
     try {
       setDiff(await compareVersions(id, before, after))
     } catch (reason) {

@@ -15,6 +15,7 @@ vi.mock('@/app/chat/composer/focus', () => ({
 
 function LocationProbe() {
   const location = useLocation()
+
   return <output>{location.pathname}{location.search}</output>
 }
 

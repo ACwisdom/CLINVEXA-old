@@ -8,6 +8,7 @@ const MENTION = /(^|\s)@(?:"([^"\n]+)"|([^\s@，。；！？,;!?]+))/g
 export function assistantMention(assistant: SummonedAssistant, catalog: readonly SummonedAssistant[]): string {
   const duplicate =
     catalog.filter(row => row.name.toLocaleLowerCase() === assistant.name.toLocaleLowerCase()).length > 1
+
   const name =
     duplicate || /["@\r\n]/.test(assistant.name)
       ? `${assistant.source === 'local' ? 'skill' : 'agent'}:${assistant.id}`
@@ -47,6 +48,7 @@ export function resolveAssistantMention(text: string, catalog: readonly Summoned
     if (matches.length > 1) {
       throw new Error(`存在同名助手“${name}”，请从 @ 列表选择具体助手。`)
     }
+
     const row = matches[0]
 
     if (selected && (selected.id !== row.id || selected.source !== row.source)) {

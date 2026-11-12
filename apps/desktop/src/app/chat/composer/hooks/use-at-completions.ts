@@ -1,9 +1,9 @@
 import type { Unstable_TriggerAdapter, Unstable_TriggerItem } from '@assistant-ui/core'
 import { useCallback, useMemo, useState } from 'react'
 
-import { refChipLabel } from '@/components/assistant-ui/directive-text'
 import { assistantMention } from '@/clinvexa/assistant-mentions'
 import type { SummonedAssistant } from '@/clinvexa/summon'
+import { refChipLabel } from '@/components/assistant-ui/directive-text'
 import type { HermesGateway } from '@/hermes'
 import { cachedPathCompletion, hasCachedPathCompletion } from '@/lib/slash-completion-cache'
 import { normalize } from '@/lib/text'

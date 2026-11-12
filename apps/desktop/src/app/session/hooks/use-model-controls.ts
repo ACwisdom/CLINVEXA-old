@@ -87,6 +87,7 @@ export function useModelControls({ queryClient, requestGateway }: ModelControlsO
           key: 'model',
           value: `${model} --provider ${provider} --session`
         })
+
         return true
       } catch (err) {
         setCurrentProvider(prevProvider)
@@ -94,6 +95,7 @@ export function useModelControls({ queryClient, requestGateway }: ModelControlsO
         setCurrentModelSource(prevSource)
         updateModelOptionsCache(liveSessionId, prevProvider, prevModel, false)
         notifyError(err, copy.modelSwitchFailed)
+
         return false
       }
     },

@@ -137,9 +137,11 @@ it('cancels a mention load across a session switch even when neither session has
     )
   })
   const send = vi.fn(async () => true)
+
   const { result, rerender } = renderHook(({ id }) => useSummonedSubmit(id, id, true, [assistant]), {
     initialProps: { id: 'session' }
   })
+
   let pending!: Promise<boolean>
   act(() => {
     pending = result.current.submit(send, '@会议助手 任务')

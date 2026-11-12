@@ -4,6 +4,7 @@ import { assistantMention, hasAssistantMention, resolveAssistantMention } from '
 import type { SummonedAssistant } from './summon'
 
 const local: SummonedAssistant = { id: 'record-structuring', name: '病历结构化', source: 'local', description: '' }
+
 const platform: SummonedAssistant = {
   id: 'meeting',
   name: '会议助手',
@@ -11,6 +12,7 @@ const platform: SummonedAssistant = {
   description: '',
   account: 'owner'
 }
+
 const catalog = [local, platform]
 describe('assistant mentions', () => {
   it('resolves Chinese names, IDs and inline mentions without changing the surrounding task', () => {

@@ -61,6 +61,7 @@ export function createCopilotController(deps: Dependencies) {
       queued = true
       generation += 1
       abort?.abort(new Error('画面已更新，正在分析最新画面'))
+
       return
     }
 

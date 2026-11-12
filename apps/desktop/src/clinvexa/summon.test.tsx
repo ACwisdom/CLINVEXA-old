@@ -1,7 +1,9 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
+
 import { $summonedAssistants, bindAssistant, prepareAssistant, type SummonedAssistant } from './summon'
 import { SummonChip } from './summon-chip'
+
 const assistant: SummonedAssistant = {
   id: 'example',
   source: 'platform',
@@ -9,6 +11,7 @@ const assistant: SummonedAssistant = {
   name: '会议助手',
   description: '整理会议'
 }
+
 afterEach(() => {
   cleanup()
   $summonedAssistants.set({})

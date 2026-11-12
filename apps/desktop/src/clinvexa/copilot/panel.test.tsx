@@ -70,8 +70,10 @@ describe('doctor copilot local actions', () => {
   })
   it('enables quick fill after the kept result follows a different HIS window', () => {
     setup()
+
     const fillState = {...$copilot.get(), fillMode:true, frameId:'target-frame', stale:false,
       target:{windowId:'100',title:'合成 HIS',processName:'chrome'}}
+
     $copilot.set(fillState)
     render(<CopilotPanel />, {wrapper})
     expect((screen.getAllByText('快捷填写')[0] as HTMLButtonElement).disabled).toBe(false)
@@ -88,8 +90,10 @@ describe('doctor copilot local actions', () => {
   })
   it('supports an office document without a patient banner or follow-up tab', async () => {
     setup()
+
     const office = {...result, patientName:'', patientId:'', encounterId:'', scene:'writing' as const,
       summary:'识别到一份营业执照', facts:['公司名称：中软信息技术创新有限公司']}
+
     $copilot.set({...$copilot.get(), result:office})
     render(<CopilotPanel />, {wrapper})
     expect(screen.queryByText('当前患者身份未完整识别')).toBeNull()

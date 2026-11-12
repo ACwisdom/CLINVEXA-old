@@ -44,6 +44,7 @@ export async function loadUrlCandidates({ urls, load, onFailure }: LoadUrlCandid
   for (const [index, url] of urls.entries()) {
     try {
       await load(url)
+
       return url
     } catch (error) {
       lastError = error

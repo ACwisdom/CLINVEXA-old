@@ -19,26 +19,37 @@ export function CLINVEXAHomeBridge() {
     switch (action) {
       case 'scheduled-tasks':
         navigateToWorkspacePage(navigate, CRON_ROUTE)
+
         break
+
       case 'all-medical-tools':
         $skillsCategory.set('medical')
         navigateToWorkspacePage(navigate, CLINVEXAPagePath('skills'))
+
         break
+
       case 'quality-check':
         requestComposerInsert(QUALITY_DRAFT, { target: 'main' })
         requestComposerFocus('main')
+
         break
+
       case 'knowledge-search':
         requestComposerInsert(KNOWLEDGE_DRAFT, { target: 'main' })
         requestComposerFocus('main')
+
         break
+
       case 'first-use-demo':
         requestComposerInsert(FIRST_USE_DRAFT, { target: 'main' })
         requestComposerFocus('main')
+
         break
+
       default:
         break
     }
   }), [navigate])
+
   return null
 }

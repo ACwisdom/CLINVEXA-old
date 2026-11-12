@@ -44,11 +44,13 @@ export async function readOfficePreviewText(filePath: string): Promise<string | 
   }
 
   const buffer = await fs.promises.readFile(filePath)
+
   return readOfficePreviewTextFromBuffer(buffer, path.extname(filePath).toLowerCase())
 }
 
 function workbookToText(entries: Record<string, Uint8Array>): string {
   const sharedStrings = parseSharedStrings(entries[XLSX_SHARED_STRINGS_XML])
+
   const worksheets = Object.entries(entries)
     .filter(([name]) => name.startsWith(XLSX_WORKSHEET_PREFIX) && name.endsWith('.xml'))
     .sort(([left], [right]) => left.localeCompare(right, undefined, { numeric: true }))

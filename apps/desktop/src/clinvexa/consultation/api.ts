@@ -23,6 +23,7 @@ export async function prepareVoice(dialect: string): Promise<void> {
 
 export async function requireVoiceReady(dialect: string): Promise<void> {
   const status = await getLiveVoiceStatus(dialect)
+
   if (!status.installed || !status.ready) {
     throw new Error(status.error || '本地语音模型尚未就绪，请等待准备完成后再开始录音')
   }

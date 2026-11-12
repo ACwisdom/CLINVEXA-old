@@ -1,7 +1,9 @@
+import { spawn } from 'node:child_process'
 import { EventEmitter } from 'node:events'
 import { PassThrough } from 'node:stream'
+
 import { afterEach, expect, it, vi } from 'vitest'
-import { spawn } from 'node:child_process'
+
 import { startWindowsForegroundWindowWatcher } from './clinvexa'
 
 vi.mock('node:child_process', () => ({spawn: vi.fn()}))
@@ -12,6 +14,7 @@ it('warms a paused watcher without exposing window data and resumes the same pro
     stdin: new PassThrough(), stdout: new PassThrough(), stderr: new PassThrough(),
     killed: false, kill: vi.fn()
   })
+
   vi.mocked(spawn).mockReturnValue(child as never)
   const onWindow = vi.fn(), onError = vi.fn()
   const watcher = startWindowsForegroundWindowWatcher(onWindow,onError,{paused:true})

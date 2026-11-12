@@ -47,7 +47,7 @@ export function CopilotWorkbench({ onClose, embedded = false, navigation, reques
 
   useEffect(() => {void refresh()}, [refresh])
   useEffect(() => {
-    if (!requestedRecordId) return
+    if (!requestedRecordId) {return}
     setSelected(requestedRecordId)
     setTab('proposed')
     setNotice('')
@@ -55,14 +55,18 @@ export function CopilotWorkbench({ onClose, embedded = false, navigation, reques
     const bridge = window.hermesDesktop?.CLINVEXACopilot
     const request = requestedTaskKey ? bridge?.taskHistory(requestedTaskKey) : bridge?.history()
     void request?.then(rows => {
-      if (!active) return
+      if (!active) {return}
       setHistory(current => {
         const merged = new Map(current.map(row => [row.id, row]))
-        for (const row of rows) merged.set(row.id, row)
+
+        for (const row of rows) {merged.set(row.id, row)}
+
         return [...merged.values()].sort((a, b) => b.createdAt - a.createdAt)
       })
-      if (!rows.some(row => row.id === requestedRecordId)) setNotice('未找到这条历史结果，请刷新左侧记录后重试。')
-    }).catch(() => {if (active) setNotice('历史结果读取失败，请刷新重试。')})
+
+      if (!rows.some(row => row.id === requestedRecordId)) {setNotice('未找到这条历史结果，请刷新左侧记录后重试。')}
+    }).catch(() => {if (active) {setNotice('历史结果读取失败，请刷新重试。')}})
+
     return () => {active = false}
   }, [requestedRecordId, requestedTaskKey])
   useEffect(() => {
@@ -197,7 +201,8 @@ export function CopilotWorkbench({ onClose, embedded = false, navigation, reques
         </div>
         <form className="dc-question dc-task-composer" onSubmit={event => {
           event.preventDefault()
-          if (!question.trim()) return
+
+          if (!question.trim()) {return}
           void window.hermesDesktop.CLINVEXACopilot?.analyze(question.trim(), '', live.frameId ?? undefined, current && !live.stale ? result?.id : undefined).then(() => setQuestion('')).catch(error => setNotice(String(error)))
         }}>
           <label htmlFor="dc-work-question">{l.question}</label>

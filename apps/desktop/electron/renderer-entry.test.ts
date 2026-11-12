@@ -31,10 +31,12 @@ test('development builds keep the app-root renderer first', () => {
 test('renderer loading retries the next candidate once after a failure', async () => {
   const attempts: string[] = []
   const failures: string[] = []
+
   const selected = await loadUrlCandidates({
     urls: ['file:///unpacked/index.html', 'file:///app.asar/dist/index.html'],
     load: async url => {
       attempts.push(url)
+
       if (url.includes('unpacked')) {
         throw new Error('ERR_FAILED')
       }

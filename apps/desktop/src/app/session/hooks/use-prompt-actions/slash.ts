@@ -85,6 +85,7 @@ const wakeDeviceLabel = (device?: WakeInputDeviceStatus): string => {
 const renderWakeStatus = (status: WakeStatusResponse): string => {
   const configuredPhrase = status.phrase?.trim() || 'CLINVEXA'
   const phrase = /hermes/i.test(configuredPhrase) ? 'CLINVEXA' : configuredPhrase
+
   const lines = [
     'Wake Word Status',
     `State: ${status.listening ? 'LISTENING' : 'OFF'}`,

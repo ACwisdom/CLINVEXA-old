@@ -1,12 +1,17 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { createCopilotController, selectedSuggestions, withQuickFillClipboardFallback } from './clinvexa-copilot'
-import { createCLINVEXAScreenMonitor, CLINVEXAFrameChanged, CLINVEXAPanelBounds } from './clinvexa'
 import type { CopilotResult } from '../src/clinvexa/copilot/types'
+
+import { CLINVEXAFrameChanged, CLINVEXAPanelBounds, createCLINVEXAScreenMonitor } from './clinvexa'
+import { createCopilotController, selectedSuggestions, withQuickFillClipboardFallback } from './clinvexa-copilot'
 
 const frame = (windowId = '100', image = 'one') => ({ windowId, title: '合成 HIS', processName: 'his', capturedAt: 100, observedAt: 80, latencyMs: 20, imageDataUrl: image })
 const result = (id = 'A') => ({ id, suggestions: [{ id: 's1', text: 'one' }, { id: 's2', text: 'two' }, { id: 's3', text: 'three' }] }) as CopilotResult
-const deferred = <T,>() => {let resolve!: (value: T) => void; const promise = new Promise<T>(r => {resolve = r}); return { promise, resolve }}
+
+const deferred = <T,>() => {let resolve!: (value: T) => void; const promise = new Promise<T>(r => {resolve = r});
+
+ return { promise, resolve }}
+
 afterEach(() => vi.useRealTimers())
 
 describe('visual copilot scheduling and patient boundaries', () => {
@@ -54,6 +59,7 @@ describe('visual copilot scheduling and patient boundaries', () => {
     const analyze = vi.fn().mockResolvedValue(result())
     const controller = createCopilotController({analyze, publish: vi.fn()})
     controller.setEnabled(true)
+
     for (let i = 0; i < 6; i++) {controller.observe(frame(String(i))); await vi.advanceTimersByTimeAsync(800)}
     expect(analyze.mock.calls.length).toBeGreaterThanOrEqual(1)
     expect(analyze.mock.calls.length).toBeLessThanOrEqual(6)
@@ -144,6 +150,7 @@ describe('visual copilot scheduling and patient boundaries', () => {
     const analyze = vi.fn().mockRejectedValue(new Error('offline'))
     const controller = createCopilotController({ analyze, publish: vi.fn(), debounceMs: 10 })
     controller.setEnabled(true)
+
     for (let i = 0; i < 8; i++) {controller.observe(frame(String(i))); await vi.advanceTimersByTimeAsync(20)}
     expect(analyze).toHaveBeenCalledTimes(3)
     controller.request()
@@ -164,6 +171,7 @@ describe('visual copilot scheduling and patient boundaries', () => {
       ...result(),
       suggestions: Array.from({ length: 26 }, (_, index) => ({ ...result().suggestions[0], id: `s${index}`, text: `field ${index}` }))
     }
+
     const ids = expanded.suggestions.map(item => item.id)
     expect(selectedSuggestions(expanded, 'A', ids.slice(0, 25))).toEqual(expanded.suggestions.slice(0, 25))
     expect(() => selectedSuggestions(expanded, 'A', ids)).toThrow('请重新选择当前结果')
