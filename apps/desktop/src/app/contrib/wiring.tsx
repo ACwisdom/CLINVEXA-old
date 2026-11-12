@@ -28,6 +28,7 @@ import { RemoteDisplayBanner } from '@/components/remote-display-banner'
 import { emitGatewayEvent } from '@/contrib/events'
 import { handoffConsultationToPersistedNewSession } from '@/clinvexa/consultation/handoff'
 import { CLINVEXADesktop } from '@/clinvexa/clinvexa-desktop'
+import { CLINVEXAPageForPath, CLINVEXAPagePath } from '@/clinvexa/navigation'
 import { getSessionMessages, triggerCronJob } from '@/hermes'
 import { type ChatMessage, chatMessageText, preserveLocalAssistantErrors, toChatMessages } from '@/lib/chat-messages'
 import { sessionMessagesSignature } from '@/lib/session-signatures'
@@ -148,6 +149,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient()
   const location = useLocation()
   const navigate = useNavigate()
+  const localContractsOpen = CLINVEXAPageForPath(location.pathname) === 'contracts'
 
   const busyRef = useRef(false)
   const creatingSessionRef = useRef(false)
@@ -1011,7 +1013,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
       {/* The full real overlay set (mirrors DesktopController's `overlays`). */}
       <RemoteDisplayBanner />
       {!isSecondaryWindow() && <DesktopInstallOverlay />}
-      {!isSecondaryWindow() && (
+      {!isSecondaryWindow() && !localContractsOpen && (
         <DesktopOnboardingOverlay
           enabled={gatewayState === 'open'}
           onCompleted={() => {
@@ -1019,6 +1021,9 @@ export function ContribWiring({ children }: { children: ReactNode }) {
             void refreshCurrentModel()
             void queryClient.invalidateQueries({ queryKey: ['model-options'] })
           }}
+          onOpenLocalContracts={window.hermesDesktop?.CLINVEXAWindow
+            ? () => navigateToWorkspacePage(navigate, CLINVEXAPagePath('contracts'))
+            : undefined}
           profile={activeGatewayProfile}
           requestGateway={requestGateway}
         />
@@ -1031,8 +1036,8 @@ export function ContribWiring({ children }: { children: ReactNode }) {
         profile={activeGatewayProfile}
       />
       <UpdatesOverlay />
-      <GatewayConnectingOverlay />
-      <BootFailureOverlay />
+      {!localContractsOpen && <GatewayConnectingOverlay />}
+      {!localContractsOpen && <BootFailureOverlay />}
       <CommandPalette />
       <PetGenerateOverlay />
       <SessionSwitcher />

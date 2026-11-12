@@ -9712,6 +9712,13 @@ function scheduleCLINVEXAServiceRestart() {
   if (!IS_CLINVEXA_DESKTOP || CLINVEXAServiceStopping || CLINVEXAServiceRestartTimer) {
     return
   }
+  if (CLINVEXAServiceRestartAttempts >= 8) {
+    if (CLINVEXAServiceRestartAttempts === 8) {
+      CLINVEXAServiceRestartAttempts += 1
+      rememberLog('[clinvexa-service] restart limit reached; resolve the startup issue and reopen CLINVEXA')
+    }
+    return
+  }
 
   const delayMs = Math.min(1_000 * (2 ** Math.min(CLINVEXAServiceRestartAttempts, 4)), 15_000)
   CLINVEXAServiceRestartAttempts += 1
@@ -9731,11 +9738,12 @@ function startCLINVEXAServiceHealthWatchdog() {
   }
 
   CLINVEXAServiceHealthTimer = setInterval(async () => {
-    if (CLINVEXAServiceStopping || CLINVEXAVoicePreparing) {
+    if (CLINVEXAServiceStopping || CLINVEXAServiceStarting || !CLINVEXAServiceProcess) {
       return
     }
 
-    if (await CLINVEXAServiceRequest(1_500)) {
+    CLINVEXAServiceReady = await CLINVEXAServiceRequest(1_500)
+    if (CLINVEXAServiceReady) {
       CLINVEXAServiceHealthFailures = 0
       CLINVEXAServiceRestartAttempts = 0
 
@@ -9761,7 +9769,9 @@ async function waitForCLINVEXAService(timeoutMs = 30_000) {
   const deadline = Date.now() + timeoutMs
 
   while (Date.now() < deadline) {
+    if (!CLINVEXAServiceProcess || CLINVEXAServiceStopping) {return false}
     if (await CLINVEXAServiceRequest(1_200)) {
+      CLINVEXAServiceReady = true
       CLINVEXAServiceRestartAttempts = 0
       CLINVEXAServiceHealthFailures = 0
 
@@ -9774,11 +9784,39 @@ async function waitForCLINVEXAService(timeoutMs = 30_000) {
   return false
 }
 
+const CLINVEXA_CONTRACT_SESSION = crypto.randomBytes(32).toString('base64url')
+const CLINVEXA_SERVICE_PROOF = crypto.createHash('sha256').update(CLINVEXA_CONTRACT_SESSION).digest('hex')
+let CLINVEXAServiceReady = false
+let CLINVEXAServiceStarting: Promise<void> | null = null
+
 function CLINVEXAServiceRequest(timeoutMs = 1200) {
-  return new Promise(resolve => {
-    const req = http.get('http://127.0.0.1:8001/clinvexa/skills', res => {
-      res.resume()
-      resolve((res.statusCode || 500) < 500)
+  return new Promise<boolean>(resolve => {
+    const child = CLINVEXAServiceProcess
+    if (!child || child.killed || child.exitCode !== null) {
+      resolve(false)
+      return
+    }
+    const req = http.get('http://127.0.0.1:8001/clinvexa/health', res => {
+      let body = ''
+      res.setEncoding('utf8')
+      res.on('data', chunk => {
+        body += chunk
+        if (body.length > 4096) {
+          req.destroy()
+          resolve(false)
+        }
+      })
+      res.on('error', () => resolve(false))
+      res.on('end', () => {
+        try {
+          const health = JSON.parse(body)
+          resolve(CLINVEXAServiceProcess === child && res.statusCode === 200 &&
+            health.status === 'ok' && health.business_contracts === 2 &&
+            health.desktop_instance === CLINVEXA_SERVICE_PROOF)
+        } catch {
+          resolve(false)
+        }
+      })
     })
 
     req.on('error', () => resolve(false))
@@ -9789,31 +9827,38 @@ function CLINVEXAServiceRequest(timeoutMs = 1200) {
   })
 }
 
-let CLINVEXAVoicePreparing = false
-async function startCLINVEXAService() {
-  if (!IS_CLINVEXA_DESKTOP) {
-    return
-  }
-
-  CLINVEXAServiceStopping = false
-  if (CLINVEXAVoicePreparing) {return}
-
-  if (CLINVEXAServiceProcess && !CLINVEXAServiceProcess.killed) {
-    if (!(await waitForCLINVEXAService())) {
-      rememberLog('[clinvexa-service] process exists but endpoint is not ready; watchdog will recover it')
-      scheduleCLINVEXAServiceRestart()
+function installCLINVEXAContractSession(win: BrowserWindow) {
+  const entryUrls = DEV_SERVER ? [DEV_SERVER] : resolveRendererIndexes().map(index => pathToFileURL(index).toString())
+  const entries = entryUrls.map(value => new URL(value))
+  const contentsId = win.webContents.id
+  win.webContents.session.webRequest.onBeforeSendHeaders({
+    urls: ['http://127.0.0.1:8001/clinvexa/contracts*']
+  }, (details, callback) => {
+    const frame = details.frame
+    const frameUrl = frame && new URL(frame.url || 'about:blank')
+    const allowed = details.webContentsId === contentsId && frame?.parent === null &&
+      frameUrl && entries.some(entry => entry.protocol === frameUrl.protocol &&
+        entry.host === frameUrl.host && entry.pathname === frameUrl.pathname)
+    const child = CLINVEXAServiceProcess
+    if (!allowed || !CLINVEXAServiceReady || !child || child.killed || child.exitCode !== null) {
+      callback({ cancel: true })
+      return
     }
+    callback({ requestHeaders: { ...details.requestHeaders, 'X-Clinvexa-Contract-Session': CLINVEXA_CONTRACT_SESSION } })
+  })
+}
 
-    return
+let CLINVEXAVoiceProvisioned = false
+function startCLINVEXAService() {
+  if (!IS_CLINVEXA_DESKTOP || CLINVEXAServiceStopping) {
+    return Promise.resolve()
   }
+  CLINVEXAServiceStarting ??= launchCLINVEXAService().finally(() => { CLINVEXAServiceStarting = null })
+  return CLINVEXAServiceStarting
+}
 
-  if (await CLINVEXAServiceRequest()) {
-    rememberLog('[clinvexa-service] existing 8001 service is reachable')
-    CLINVEXAServiceRestartAttempts = 0
-
-    return
-  }
-
+async function launchCLINVEXAService() {
+  if (CLINVEXAServiceProcess) {return}
   // Packaged CLINVEXA owns a mutable runtime under VENV_ROOT.  In a source
   // checkout, however, an isolated HERMES_DESKTOP_USER_DATA_DIR deliberately
   // has no copied venv yet; use the checkout's existing development venv so
@@ -9860,32 +9905,34 @@ async function startCLINVEXAService() {
   const CLINVEXASrc = path.join(serviceRoot, 'clinvexa', 'src')
   const pythonPath = [CLINVEXASrc, serviceRoot, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter)
 
-  // Upgrades can retain a healthy Python venv while adding a new product
-  // dependency. Provision the exact consultation decoder before serving it.
-  if (IS_PACKAGED) {
+  // Validate the offline voice bundle independently of the HTTP listener.
+  if (IS_PACKAGED && !CLINVEXAVoiceProvisioned) {
+    CLINVEXAVoiceProvisioned = true
     const voiceBundle = path.join(process.resourcesPath, 'clinvexa-dependencies', 'clinvexa-live-voice')
-    CLINVEXAVoicePreparing = true
-    try {
-    await new Promise<void>((resolve, reject) => {
+    if (!fileExists(path.join(voiceBundle, 'manifest.json'))) {
+      rememberLog('[clinvexa-voice] offline manifest missing; local medical service will start')
+    } else {
       execFile(command, [path.join(serviceRoot, 'scripts', 'clinvexa_live_voice_bundle.py'), '--bundle', voiceBundle,
-        '--home', HERMES_HOME],
-      { windowsHide: true, timeout: 300000, env: { ...process.env, PYTHONPATH: pythonPath } }, (error, stdout) => {
-        if (error) {reject(new Error(`CLINVEXA 本地语音组件校验失败：${error.message}`))}
-        else {rememberLog(`[clinvexa-voice] ${stdout.trim()}`); resolve()}
+        '--home', HERMES_HOME], {
+        windowsHide: true, timeout: 300000, env: { ...process.env, PYTHONPATH: pythonPath }
+      }, error => {
+        rememberLog(error
+          ? '[clinvexa-voice] offline validation failed; local medical service remains available'
+          : '[clinvexa-voice] offline validation complete')
       })
-    })
-    } finally {CLINVEXAVoicePreparing = false}
+    }
   }
 
   startCLINVEXAServiceHealthWatchdog()
 
-  CLINVEXAServiceProcess = spawn(
+  const child = spawn(
     command,
     ['-m', 'clinvexa.main'],
     hiddenWindowsChildOptions({
       cwd: serviceRoot,
       env: {
         ...process.env,
+        CLINVEXA_CONTRACT_SESSION_TOKEN: CLINVEXA_CONTRACT_SESSION,
         CLINVEXA_PRODUCT_IDENTITY: '1',
         HERMES_HOME,
         PYTHONPATH: pythonPath,
@@ -9895,21 +9942,26 @@ async function startCLINVEXAService() {
     })
   )
 
-  CLINVEXAServiceProcess.stdout.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
-  CLINVEXAServiceProcess.stderr.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
-  CLINVEXAServiceProcess.once('error', error => {
-    rememberLog(`[clinvexa-service] failed to start: ${error.message}`)
-    scheduleCLINVEXAServiceRestart()
-  })
-  CLINVEXAServiceProcess.once('exit', code => {
-    rememberLog(`[clinvexa-service] exited with code ${code}`)
+  CLINVEXAServiceProcess = child
+  child.stdout.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
+  child.stderr.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
+  const disconnected = (message: string) => {
+    if (CLINVEXAServiceProcess !== child) {return}
     CLINVEXAServiceProcess = null
+    CLINVEXAServiceReady = false
+    rememberLog(message)
     scheduleCLINVEXAServiceRestart()
-  })
+  }
+  child.once('error', error => disconnected(`[clinvexa-service] failed to start: ${error.message}`))
+  child.once('exit', code => disconnected(`[clinvexa-service] exited with code ${code}`))
 
   if (!(await waitForCLINVEXAService())) {
-    rememberLog('[clinvexa-service] did not become ready within 30 seconds; watchdog will retry')
-    scheduleCLINVEXAServiceRestart()
+    if (CLINVEXAServiceProcess === child) {
+      rememberLog('[clinvexa-service] did not become ready within 30 seconds; restarting')
+      CLINVEXAServiceProcess = null
+      stopBackendChild(child)
+      scheduleCLINVEXAServiceRestart()
+    }
   } else {
     rememberLog('[clinvexa-service] medical Skill service is ready with the desktop backend')
   }
@@ -9973,6 +10025,7 @@ async function finishCLINVEXAServiceStartup(connection, medicalServiceStartup) {
 
 function stopCLINVEXAService() {
   CLINVEXAServiceStopping = true
+  CLINVEXAServiceReady = false
 
   if (CLINVEXAServiceRestartTimer) {
     clearTimeout(CLINVEXAServiceRestartTimer)
@@ -10271,6 +10324,8 @@ function createWindow() {
     rememberLog(`[renderer console] ${text} (${src}:${lineNo})`)
   })
 
+  if (IS_CLINVEXA_DESKTOP) {installCLINVEXAContractSession(mainWindow)}
+
   if (DEV_SERVER) {
     loadWindowUrl(mainWindow, DEV_SERVER, 'Renderer')
   } else {
@@ -10296,23 +10351,20 @@ function createWindow() {
     )
   })
 
+  const startMedicalService = () => startCLINVEXAService().catch(error => {
+    rememberLog('[clinvexa-service] startup failed: ' + (error instanceof Error ? error.message : String(error)))
+    scheduleCLINVEXAServiceRestart()
+  })
+  // An existing runtime can start now. A fresh install retries once its
+  // locked Python environment has been provisioned by the gateway bootstrap.
+  void CLINVEXARuntimeSyncPromise.then(startMedicalService)
+
   CLINVEXARuntimeSyncPromise.then(() => startHermes())
     // startHermes() owns first-run bootstrap and only resolves after the locked
     // venv dependencies are installed.  Port 8001 must start after that point;
     // starting it from the asset-copy promise used a system Python on clean
     // machines and caused FastAPI/Skill plaza failures during initialization.
-    .then(connection => {
-      const medicalServiceStartup = startCLINVEXAService().catch(error => {
-        rememberLog(
-          `[clinvexa-service] initial startup failed: ${
-            error instanceof Error ? error.message : String(error)
-          }`
-        )
-        scheduleCLINVEXAServiceRestart()
-      })
-
-      return finishCLINVEXAServiceStartup(connection, medicalServiceStartup)
-    })
+    .then(connection => finishCLINVEXAServiceStartup(connection, startMedicalService()))
     .catch(error => rememberLog(error.stack || error.message))
 
   mainWindow.webContents.once('did-finish-load', () => {

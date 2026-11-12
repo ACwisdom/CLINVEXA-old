@@ -139,7 +139,8 @@ def _decode_text(data: bytes, source: Path) -> str:
     raise DeterministicSkillError(f"无法识别文本编码：{source}")
 
 
-def _read_source(source: Path) -> str:
+def read_source_text(source: Path) -> str:
+    """Read text from a supported local document without sending it to a model."""
     source = source.expanduser().resolve()
     if not source.is_file():
         raise DeterministicSkillError(f"来源文件不存在：{source}")
@@ -761,7 +762,7 @@ def execute_deterministic_skill(
     documents: list[tuple[Path, str]] = []
     for index, source in enumerate(sources, 1):
         _report(on_progress, "read", "文件读取", "running", f"正在读取第 {index}/{len(sources)} 份：{source.name}")
-        documents.append((source, _read_source(source)))
+        documents.append((source, read_source_text(source)))
     _report(on_progress, "read", "文件读取", "complete", f"已完成 {len(documents)} 份资料读取与文本编码校验：{source_names}")
     explicit = Path(output_path) if output_path else None
     extraction_summary: dict[str, object]

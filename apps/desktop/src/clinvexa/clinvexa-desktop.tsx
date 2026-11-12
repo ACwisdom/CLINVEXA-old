@@ -19,6 +19,7 @@ import {
 } from './agent-prompt'
 import { CLINVEXAConsultation } from './consultation'
 import { ownConsultation } from './consultation/live-session'
+import { ContractWorkspace } from './contracts/workspace'
 import { CopilotWorkbench } from './copilot/workbench'
 import { type CLINVEXAPage, CLINVEXAPageForPath, CLINVEXAPagePath } from './navigation'
 import { $CLINVEXAPageHost } from './page-host'
@@ -184,6 +185,7 @@ export function CLINVEXADesktop({ onSummon, onSubmitToNewSession, onStop, onSubm
           <CLINVEXARpa onClose={() => setRpaOpen(false)} />
         </section>
       )}
+      {page === 'contracts' && <ContractWorkspace />}
       </div>}
     </section>, host
   ) : null
