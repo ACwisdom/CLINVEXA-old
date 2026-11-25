@@ -1,9 +1,9 @@
 import { atom } from 'nanostores'
 import type { ReactNode } from 'react'
 
+import { CLINVEXA_PAGES, type CLINVEXARouteId } from '@/clinvexa/navigation'
 import { noteActiveTreeGroup, revealTreePane } from '@/components/pane-shell/tree/store'
 import { registry } from '@/contrib/registry'
-import { CLINVEXA_PAGES, type CLINVEXARouteId } from '@/clinvexa/navigation'
 
 type NavigateLike = (to: string, options?: { replace?: boolean }) => void
 

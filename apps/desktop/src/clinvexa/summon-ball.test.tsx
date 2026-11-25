@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
+
 import { SummonCopilotBall } from './summon-ball'
 afterEach(() => {cleanup(); vi.unstubAllGlobals()})
 it('invokes the window bridge on each explicit summon', async () => {

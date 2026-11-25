@@ -7,8 +7,8 @@ import {
   type CLINVEXAHomeCategory,
   type CLINVEXAHomeShortcut
 } from '@/app/clinvexa-home/shortcuts'
-import { ArrowUpRight, PawPrint } from '@/lib/icons'
 import { SummonCopilotBall } from '@/clinvexa/summon-ball'
+import { ArrowUpRight, PawPrint } from '@/lib/icons'
 
 export type IntroProps = {
   personality?: string
@@ -52,6 +52,7 @@ function ShortcutCard({ shortcut }: { shortcut: CLINVEXAHomeShortcut }) {
 
 export function Intro({ personality: _personality, seed: _seed }: IntroProps) {
   const [activeCategory, setActiveCategory] = useState<CLINVEXAHomeCategory>('clinical')
+
   const shortcuts = useMemo(
     () => CLINVEXA_HOME_SHORTCUTS.filter(shortcut => shortcut.categories.includes(activeCategory)),
     [activeCategory]
@@ -70,6 +71,7 @@ export function Intro({ personality: _personality, seed: _seed }: IntroProps) {
               {CLINVEXA_HOME_CATEGORIES.map(category => {
                 const active = category.id === activeCategory
                 const CategoryIcon = category.icon
+
                 return (
                   <button
                     aria-pressed={active}

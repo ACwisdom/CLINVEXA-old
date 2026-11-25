@@ -1,5 +1,6 @@
-import CLINVEXACatalog from '../../../../../skills/clinvexa/catalog.json'
 import { localizedExternalTitle, localizedSkillDescription } from '@/app/skills/capability-localization'
+
+import CLINVEXACatalog from '../../../../../skills/clinvexa/catalog.json'
 
 const CLINVEXA_SERVICE = 'http://127.0.0.1:8001'
 const CONNECT_RETRY_MS = 400
@@ -97,6 +98,7 @@ export async function listCLINVEXASkills(): Promise<CLINVEXAPlazaSkill[]> {
     title: /[\u3400-\u9fff]/u.test(skill.title) ? skill.title.replace(/\bSkill\b/gi, '技能') : localizedExternalTitle(skill.name, 'zh'),
     description: /[\u3400-\u9fff]/u.test(skill.description) ? skill.description.replace(/\bSkill\b/gi, '技能') : localizedSkillDescription({ name: skill.name, description: skill.description, category: 'CLINVEXA', enabled: skill.enabled }, 'zh')
   })
+
   try {
     return (await request<CLINVEXAPlazaSkill[]>('/clinvexa/skills')).map(display)
   } catch {

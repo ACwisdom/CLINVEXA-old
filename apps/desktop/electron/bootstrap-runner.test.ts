@@ -32,15 +32,16 @@ test('bootstrap PowerShell module path preserves Windows system modules', () => 
     SystemRoot: 'C:\\Windows',
     ProgramFiles: 'C:\\Program Files',
     PSModulePath: ['C:\\Program Files\\PowerShell\\7\\Modules', 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\Modules'].join(
-      path.delimiter
+      path.win32.delimiter
     )
   })
-  const entries = resolved.split(path.delimiter).map(entry => path.normalize(entry).toLowerCase())
 
-  assert.ok(entries.includes(path.normalize('C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\Modules').toLowerCase()))
-  assert.ok(entries.includes(path.normalize('C:\\Program Files\\WindowsPowerShell\\Modules').toLowerCase()))
+  const entries = resolved.split(path.win32.delimiter).map(entry => path.win32.normalize(entry).toLowerCase())
+
+  assert.ok(entries.includes(path.win32.normalize('C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\Modules').toLowerCase()))
+  assert.ok(entries.includes(path.win32.normalize('C:\\Program Files\\WindowsPowerShell\\Modules').toLowerCase()))
   assert.equal(
-    entries.filter(entry => entry === path.normalize('C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\Modules').toLowerCase())
+    entries.filter(entry => entry === path.win32.normalize('C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\Modules').toLowerCase())
       .length,
     1
   )

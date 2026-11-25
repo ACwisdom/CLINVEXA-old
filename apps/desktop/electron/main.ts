@@ -32,8 +32,9 @@ import {
 } from 'electron'
 import nodePty from 'node-pty'
 
+import type { ConsultationView } from '../src/clinvexa/consultation/types'
+
 import { classifyActiveRuntime } from './active-runtime-state'
-import { migratePreviousBrandData } from './clinvexa-migration'
 import { stopBackendChild as stopBackendChildImpl } from './backend-child'
 import { dashboardFallbackArgs, sourceDeclaresServe } from './backend-command'
 import { createBackendConnectionState } from './backend-connection-state'
@@ -60,6 +61,16 @@ import { shouldLatchBackendStartFailure, shouldLatchRemoteReauthFailure } from '
 import { detectRemoteDisplay, isWindowsBinaryPathInWsl, isWslEnvironment } from './bootstrap-platform'
 import { decideBootstrapRepair } from './bootstrap-repair-guard'
 import { runBootstrap } from './bootstrap-runner'
+import {
+  CLINVEXABallBounds,
+  type CLINVEXAForegroundWatcher,
+  CLINVEXAPanelBounds,
+  createCLINVEXAScreenMonitor,
+  type ForegroundWindowIdentity,
+  startWindowsForegroundWindowWatcher
+} from './clinvexa'
+import { installCLINVEXACopilot } from './clinvexa-copilot-runtime'
+import { migratePreviousBrandData } from './clinvexa-migration'
 import { applyConnectionChange, resolveTerminalConnection } from './connection-apply'
 import {
   authModeFromStatus,
@@ -100,15 +111,6 @@ import {
   uninstallArgsForMode
 } from './desktop-uninstall'
 import { describeDevCdpDecision, resolveDevCdpPort } from './dev-cdp'
-import {
-  createCLINVEXAScreenMonitor,
-  CLINVEXABallBounds,
-  CLINVEXAPanelBounds,
-  type CLINVEXAForegroundWatcher,
-  type ForegroundWindowIdentity,
-  startWindowsForegroundWindowWatcher
-} from './clinvexa'
-import { installCLINVEXACopilot } from './clinvexa-copilot-runtime'
 import { installEmbedReferer } from './embed-referer'
 import { createEventDeduper } from './event-dedupe'
 import { findGitBash as _findGitBash } from './find-git-bash'
@@ -3998,11 +4000,13 @@ function createPythonBackend(root, label, backendArgs, options: any = {}) {
   // of truth; infer its virtual-environment root only for PYTHONPATH/PATH.
   const resolvedPython = path.resolve(python)
   const knownVenvRoots = [path.join(root, '.venv'), path.join(root, 'venv')]
+
   const venvRoot = knownVenvRoots.find(candidate => {
     const candidatePython = getVenvPython(candidate)
 
     return fileExists(candidatePython) && path.resolve(candidatePython).toLowerCase() === resolvedPython.toLowerCase()
   }) ?? path.join(root, 'venv')
+
   const command = python
 
   return {
@@ -9437,7 +9441,7 @@ function closeQuickEntryWindow() {
 // ── CLINVEXA foreground-window monitor ────────────────────────────────────
 // A single long-lived Windows watcher emits only foreground identity changes.
 // The screenshot capture is therefore event-triggered, not a video loop.
-let CLINVEXAForegroundWatcher: CLINVEXAForegroundWatcher | null = null
+let clinvexaForegroundWatcher: CLINVEXAForegroundWatcher | null = null
 const CLINVEXA_PAUSE_SHORTCUT = 'CommandOrControl+Shift+L'
 
 function broadcastCLINVEXAScreenState(state) {
@@ -9450,40 +9454,54 @@ function broadcastCLINVEXAScreenState(state) {
 
 async function captureCLINVEXAScreen(identity: ForegroundWindowIdentity = CLINVEXACopilot.latestFrame()) {
   if (!identity?.windowId) {throw new Error('请先打开需要辅助的窗口')}
+
   if (IS_WINDOWS) {
     try {
       const connection = await ensureBackend(null)
+
       if (connection.mode !== 'local') {throw new Error('需要本机后台')}
+
       const response = await fetch(`${connection.baseUrl}/api/clinvexa/copilot/capture-window`, {
         method: 'POST', signal: AbortSignal.timeout(6500),
         headers: { 'Content-Type': 'application/json', 'X-Hermes-Session-Token': connection.token },
         body: JSON.stringify({windowId: identity.windowId})
       })
+
       if (!response.ok) {throw new Error(`目标窗口截图失败 (${response.status})`)}
       const {imageDataUrl} = await response.json()
       const fingerprint = CLINVEXAFingerprint(imageDataUrl)
       let high = 0; let low = 255
+
       for (let i = 0; i < fingerprint.length; i += 4) {high = Math.max(high, fingerprint[i]); low = Math.min(low, fingerprint[i])}
+
       if (high-low < 4) {throw new Error('目标窗口未提供有效画面')}
+
       return { imageDataUrl, fingerprint }
     } catch (error) {
       rememberLog(`[clinvexa-screen] target capture fallback: ${String(error)}`)
     }
   }
+
   const sources = await desktopCapturer.getSources({
     fetchWindowIcons: false,
     thumbnailSize: { height: 1200, width: 1800 },
     types: ['window']
   })
+
   const source = sources.find(candidate => candidate.id.split(':')[1] === identity.windowId)
+
   if (!source || source.thumbnail.isEmpty()) {
     throw new Error('目标窗口无法读取，请检查是否最小化或受屏幕保护')
   }
+
   const imageDataUrl = `data:image/jpeg;base64,${source.thumbnail.toJPEG(90).toString('base64')}`
   const fingerprint = CLINVEXAFingerprint(imageDataUrl)
   let light = 0; let dark = 255
+
   for (let i = 0; i < fingerprint.length; i += 4) {light = Math.max(light, fingerprint[i]); dark = Math.min(dark, fingerprint[i])}
+
   if (light - dark < 4) {throw new Error('画面为空白或被保护，暂不能分析')}
+
   return { imageDataUrl, fingerprint }
 }
 
@@ -9503,19 +9521,26 @@ const CLINVEXACopilot = installCLINVEXACopilot({
   trusted: url => {
     try {
       const actual = new URL(url)
+
       if (DEV_SERVER) {return actual.origin === new URL(DEV_SERVER).origin && actual.pathname === '/'}
+
       return actual.protocol === 'file:' && actual.pathname === new URL(pathToFileURL(resolveRendererIndex()).toString()).pathname
     } catch {return false}
   },
   request: async <T,>(requestPath: string, method = 'GET', body?: unknown, signal?: AbortSignal) => {
     const connection = await ensureBackend(null)
     signal?.throwIfAborted()
+
     if (connection.mode !== 'local') {throw new Error('屏幕副驾驶需要当前电脑的本地 CLINVEXA 后台；请切换到本地连接')}
+
     const response = await fetch(`${connection.baseUrl}${requestPath}`, { method,
       headers: { 'Content-Type': 'application/json', 'X-Hermes-Session-Token': connection.token },
       body: body === undefined ? undefined : JSON.stringify(body), signal: signal ?? AbortSignal.timeout(32_000) })
+
     const payload = await response.json()
+
     if (!response.ok) {throw new Error(typeof payload.detail === 'string' ? payload.detail : `副驾驶服务未完成请求 (${response.status})`)}
+
     return payload as T
   }
 })
@@ -9525,34 +9550,43 @@ const CLINVEXAScreenMonitor = createCLINVEXAScreenMonitor({
   onState: state => {
     // Screenshots stay in main; renderers receive small status/context metadata.
     broadcastCLINVEXAScreenState({ ...state, context: state.context ? { ...state.context, imageDataUrl: undefined } : null })
+
     if (state.status === 'failed') {CLINVEXACopilot.fail(state.error || '画面读取失败')}
     else if (state.context && state.status === 'monitoring') {CLINVEXACopilot.observe(state.context)}
     else if (!state.context) {CLINVEXACopilot.invalidate()}
   }
 })
+
 CLINVEXAScreenMonitor.pause()
 
 function startCLINVEXAForegroundWatcher() {
   if (!IS_WINDOWS) {return}
   const paused = CLINVEXAScreenMonitor.snapshot().status === 'paused'
-  if (CLINVEXAForegroundWatcher?.isAlive()) {
-    CLINVEXAForegroundWatcher.setPaused(paused)
+
+  if (clinvexaForegroundWatcher?.isAlive()) {
+    clinvexaForegroundWatcher.setPaused(paused)
+
     return
   }
-  CLINVEXAForegroundWatcher?.dispose()
 
-  CLINVEXAForegroundWatcher = startWindowsForegroundWindowWatcher(
+  clinvexaForegroundWatcher?.dispose()
+
+  clinvexaForegroundWatcher = startWindowsForegroundWindowWatcher(
     identity => {
       if (CLINVEXAScreenMonitor.snapshot().status === 'paused') {return}
+
       const ownWindow = BrowserWindow.getAllWindows().some(win => {
         if (win.isDestroyed()) {return false}
         const handle = win.getNativeWindowHandle()
+
         return String(handle.length >= 8 ? handle.readBigUInt64LE() : handle.readUInt32LE()) === identity.windowId
       })
+
       if (!ownWindow) {void CLINVEXAScreenMonitor.observe(identity)}
     },
     message => {
       rememberLog(`[clinvexa-screen] ${message}`)
+
       if (CLINVEXAScreenMonitor.snapshot().status !== 'paused') {CLINVEXAScreenMonitor.fail(message)}
     },
     { paused }
@@ -9561,9 +9595,10 @@ function startCLINVEXAForegroundWatcher() {
 
 function setCLINVEXAScreenPaused(paused) {
   CLINVEXACopilot.setEnabled(!paused)
+
   if (paused) {
     CLINVEXAScreenMonitor.pause()
-    CLINVEXAForegroundWatcher?.setPaused(true)
+    clinvexaForegroundWatcher?.setPaused(true)
   } else {
     CLINVEXAScreenMonitor.resume()
     startCLINVEXAForegroundWatcher()
@@ -9574,8 +9609,8 @@ function setCLINVEXAScreenPaused(paused) {
 
 function closeCLINVEXAScreenMonitor() {
   CLINVEXACopilot.dispose()
-  CLINVEXAForegroundWatcher?.dispose()
-  CLINVEXAForegroundWatcher = null
+  clinvexaForegroundWatcher?.dispose()
+  clinvexaForegroundWatcher = null
 
   if (globalShortcut.isRegistered(CLINVEXA_PAUSE_SHORTCUT)) {
     globalShortcut.unregister(CLINVEXA_PAUSE_SHORTCUT)
@@ -9713,6 +9748,15 @@ function scheduleCLINVEXAServiceRestart() {
     return
   }
 
+  if (CLINVEXAServiceRestartAttempts >= 8) {
+    if (CLINVEXAServiceRestartAttempts === 8) {
+      CLINVEXAServiceRestartAttempts += 1
+      rememberLog('[clinvexa-service] restart limit reached; resolve the startup issue and reopen CLINVEXA')
+    }
+
+    return
+  }
+
   const delayMs = Math.min(1_000 * (2 ** Math.min(CLINVEXAServiceRestartAttempts, 4)), 15_000)
   CLINVEXAServiceRestartAttempts += 1
   rememberLog(`[clinvexa-service] scheduling restart in ${delayMs}ms`)
@@ -9731,11 +9775,13 @@ function startCLINVEXAServiceHealthWatchdog() {
   }
 
   CLINVEXAServiceHealthTimer = setInterval(async () => {
-    if (CLINVEXAServiceStopping || CLINVEXAVoicePreparing) {
+    if (CLINVEXAServiceStopping || CLINVEXAServiceStarting || !CLINVEXAServiceProcess) {
       return
     }
 
-    if (await CLINVEXAServiceRequest(1_500)) {
+    CLINVEXAServiceReady = await CLINVEXAServiceRequest(1_500)
+
+    if (CLINVEXAServiceReady) {
       CLINVEXAServiceHealthFailures = 0
       CLINVEXAServiceRestartAttempts = 0
 
@@ -9761,7 +9807,10 @@ async function waitForCLINVEXAService(timeoutMs = 30_000) {
   const deadline = Date.now() + timeoutMs
 
   while (Date.now() < deadline) {
+    if (!CLINVEXAServiceProcess || CLINVEXAServiceStopping) {return false}
+
     if (await CLINVEXAServiceRequest(1_200)) {
+      CLINVEXAServiceReady = true
       CLINVEXAServiceRestartAttempts = 0
       CLINVEXAServiceHealthFailures = 0
 
@@ -9774,11 +9823,43 @@ async function waitForCLINVEXAService(timeoutMs = 30_000) {
   return false
 }
 
+const CLINVEXA_CONTRACT_SESSION = crypto.randomBytes(32).toString('base64url')
+const CLINVEXA_SERVICE_PROOF = crypto.createHash('sha256').update(CLINVEXA_CONTRACT_SESSION).digest('hex')
+let CLINVEXAServiceReady = false
+let CLINVEXAServiceStarting: Promise<void> | null = null
+
 function CLINVEXAServiceRequest(timeoutMs = 1200) {
-  return new Promise(resolve => {
-    const req = http.get('http://127.0.0.1:8001/clinvexa/skills', res => {
-      res.resume()
-      resolve((res.statusCode || 500) < 500)
+  return new Promise<boolean>(resolve => {
+    const child = CLINVEXAServiceProcess
+
+    if (!child || child.killed || child.exitCode !== null) {
+      resolve(false)
+
+      return
+    }
+
+    const req = http.get('http://127.0.0.1:8001/clinvexa/health', res => {
+      let body = ''
+      res.setEncoding('utf8')
+      res.on('data', chunk => {
+        body += chunk
+
+        if (body.length > 4096) {
+          req.destroy()
+          resolve(false)
+        }
+      })
+      res.on('error', () => resolve(false))
+      res.on('end', () => {
+        try {
+          const health = JSON.parse(body)
+          resolve(CLINVEXAServiceProcess === child && res.statusCode === 200 &&
+            health.status === 'ok' && health.business_contracts === 2 &&
+            health.desktop_instance === CLINVEXA_SERVICE_PROOF)
+        } catch {
+          resolve(false)
+        }
+      })
     })
 
     req.on('error', () => resolve(false))
@@ -9789,30 +9870,46 @@ function CLINVEXAServiceRequest(timeoutMs = 1200) {
   })
 }
 
-let CLINVEXAVoicePreparing = false
-async function startCLINVEXAService() {
-  if (!IS_CLINVEXA_DESKTOP) {
-    return
-  }
+function installCLINVEXAContractSession(win: BrowserWindow) {
+  const entryUrls = DEV_SERVER ? [DEV_SERVER] : resolveRendererIndexes().map(index => pathToFileURL(index).toString())
+  const entries = entryUrls.map(value => new URL(value))
+  const contentsId = win.webContents.id
+  win.webContents.session.webRequest.onBeforeSendHeaders({
+    urls: ['http://127.0.0.1:8001/clinvexa/contracts*']
+  }, (details, callback) => {
+    const frame = details.frame
+    const frameUrl = frame && new URL(frame.url || 'about:blank')
 
-  CLINVEXAServiceStopping = false
-  if (CLINVEXAVoicePreparing) {return}
+    const allowed = details.webContentsId === contentsId && frame?.parent === null &&
+      frameUrl && entries.some(entry => entry.protocol === frameUrl.protocol &&
+        entry.host === frameUrl.host && entry.pathname === frameUrl.pathname)
 
-  if (CLINVEXAServiceProcess && !CLINVEXAServiceProcess.killed) {
-    if (!(await waitForCLINVEXAService())) {
-      rememberLog('[clinvexa-service] process exists but endpoint is not ready; watchdog will recover it')
-      scheduleCLINVEXAServiceRestart()
+    const child = CLINVEXAServiceProcess
+
+    if (!allowed || !CLINVEXAServiceReady || !child || child.killed || child.exitCode !== null) {
+      callback({ cancel: true })
+
+      return
     }
 
-    return
+    callback({ requestHeaders: { ...details.requestHeaders, 'X-Clinvexa-Contract-Session': CLINVEXA_CONTRACT_SESSION } })
+  })
+}
+
+let CLINVEXAVoiceProvisioned = false
+
+function startCLINVEXAService() {
+  if (!IS_CLINVEXA_DESKTOP || CLINVEXAServiceStopping) {
+    return Promise.resolve()
   }
 
-  if (await CLINVEXAServiceRequest()) {
-    rememberLog('[clinvexa-service] existing 8001 service is reachable')
-    CLINVEXAServiceRestartAttempts = 0
+  CLINVEXAServiceStarting ??= launchCLINVEXAService().finally(() => { CLINVEXAServiceStarting = null })
 
-    return
-  }
+  return CLINVEXAServiceStarting
+}
+
+async function launchCLINVEXAService() {
+  if (CLINVEXAServiceProcess) {return}
 
   // Packaged CLINVEXA owns a mutable runtime under VENV_ROOT.  In a source
   // checkout, however, an isolated HERMES_DESKTOP_USER_DATA_DIR deliberately
@@ -9827,6 +9924,7 @@ async function startCLINVEXAService() {
     !IS_PACKAGED ? getVenvPython(path.join(SOURCE_REPO_ROOT, '.venv')) : null,
     !IS_PACKAGED ? getVenvPython(path.join(SOURCE_REPO_ROOT, 'venv')) : null
   ].filter(Boolean)
+
   const python = pythonCandidates.find(candidate => fileExists(candidate)) || null
   // The medical/Skill service is part of the installed CLINVEXA runtime and
   // must use that runtime's interpreter.  Falling back to a system Python on a
@@ -9857,35 +9955,39 @@ async function startCLINVEXAService() {
   if (!serviceRoot) {
     throw new Error('CLINVEXA medical service source is unavailable')
   }
+
   const CLINVEXASrc = path.join(serviceRoot, 'clinvexa', 'src')
   const pythonPath = [CLINVEXASrc, serviceRoot, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter)
 
-  // Upgrades can retain a healthy Python venv while adding a new product
-  // dependency. Provision the exact consultation decoder before serving it.
-  if (IS_PACKAGED) {
+  // Validate the offline voice bundle independently of the HTTP listener.
+  if (IS_PACKAGED && !CLINVEXAVoiceProvisioned) {
+    CLINVEXAVoiceProvisioned = true
     const voiceBundle = path.join(process.resourcesPath, 'clinvexa-dependencies', 'clinvexa-live-voice')
-    CLINVEXAVoicePreparing = true
-    try {
-    await new Promise<void>((resolve, reject) => {
+
+    if (!fileExists(path.join(voiceBundle, 'manifest.json'))) {
+      rememberLog('[clinvexa-voice] offline manifest missing; local medical service will start')
+    } else {
       execFile(command, [path.join(serviceRoot, 'scripts', 'clinvexa_live_voice_bundle.py'), '--bundle', voiceBundle,
-        '--home', HERMES_HOME],
-      { windowsHide: true, timeout: 300000, env: { ...process.env, PYTHONPATH: pythonPath } }, (error, stdout) => {
-        if (error) {reject(new Error(`CLINVEXA 本地语音组件校验失败：${error.message}`))}
-        else {rememberLog(`[clinvexa-voice] ${stdout.trim()}`); resolve()}
+        '--home', HERMES_HOME], {
+        windowsHide: true, timeout: 300000, env: { ...process.env, PYTHONPATH: pythonPath }
+      }, error => {
+        rememberLog(error
+          ? '[clinvexa-voice] offline validation failed; local medical service remains available'
+          : '[clinvexa-voice] offline validation complete')
       })
-    })
-    } finally {CLINVEXAVoicePreparing = false}
+    }
   }
 
   startCLINVEXAServiceHealthWatchdog()
 
-  CLINVEXAServiceProcess = spawn(
+  const child = spawn(
     command,
     ['-m', 'clinvexa.main'],
     hiddenWindowsChildOptions({
       cwd: serviceRoot,
       env: {
         ...process.env,
+        CLINVEXA_CONTRACT_SESSION_TOKEN: CLINVEXA_CONTRACT_SESSION,
         CLINVEXA_PRODUCT_IDENTITY: '1',
         HERMES_HOME,
         PYTHONPATH: pythonPath,
@@ -9895,21 +9997,28 @@ async function startCLINVEXAService() {
     })
   )
 
-  CLINVEXAServiceProcess.stdout.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
-  CLINVEXAServiceProcess.stderr.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
-  CLINVEXAServiceProcess.once('error', error => {
-    rememberLog(`[clinvexa-service] failed to start: ${error.message}`)
-    scheduleCLINVEXAServiceRestart()
-  })
-  CLINVEXAServiceProcess.once('exit', code => {
-    rememberLog(`[clinvexa-service] exited with code ${code}`)
+  CLINVEXAServiceProcess = child
+  child.stdout.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
+  child.stderr.on('data', chunk => rememberLog(`[clinvexa-service] ${chunk}`))
+
+  const disconnected = (message: string) => {
+    if (CLINVEXAServiceProcess !== child) {return}
     CLINVEXAServiceProcess = null
+    CLINVEXAServiceReady = false
+    rememberLog(message)
     scheduleCLINVEXAServiceRestart()
-  })
+  }
+
+  child.once('error', error => disconnected(`[clinvexa-service] failed to start: ${error.message}`))
+  child.once('exit', code => disconnected(`[clinvexa-service] exited with code ${code}`))
 
   if (!(await waitForCLINVEXAService())) {
-    rememberLog('[clinvexa-service] did not become ready within 30 seconds; watchdog will retry')
-    scheduleCLINVEXAServiceRestart()
+    if (CLINVEXAServiceProcess === child) {
+      rememberLog('[clinvexa-service] did not become ready within 30 seconds; restarting')
+      CLINVEXAServiceProcess = null
+      stopBackendChild(child)
+      scheduleCLINVEXAServiceRestart()
+    }
   } else {
     rememberLog('[clinvexa-service] medical Skill service is ready with the desktop backend')
   }
@@ -9973,6 +10082,7 @@ async function finishCLINVEXAServiceStartup(connection, medicalServiceStartup) {
 
 function stopCLINVEXAService() {
   CLINVEXAServiceStopping = true
+  CLINVEXAServiceReady = false
 
   if (CLINVEXAServiceRestartTimer) {
     clearTimeout(CLINVEXAServiceRestartTimer)
@@ -10271,6 +10381,8 @@ function createWindow() {
     rememberLog(`[renderer console] ${text} (${src}:${lineNo})`)
   })
 
+  if (IS_CLINVEXA_DESKTOP) {installCLINVEXAContractSession(mainWindow)}
+
   if (DEV_SERVER) {
     loadWindowUrl(mainWindow, DEV_SERVER, 'Renderer')
   } else {
@@ -10296,23 +10408,21 @@ function createWindow() {
     )
   })
 
+  const startMedicalService = () => startCLINVEXAService().catch(error => {
+    rememberLog('[clinvexa-service] startup failed: ' + (error instanceof Error ? error.message : String(error)))
+    scheduleCLINVEXAServiceRestart()
+  })
+
+  // An existing runtime can start now. A fresh install retries once its
+  // locked Python environment has been provisioned by the gateway bootstrap.
+  void CLINVEXARuntimeSyncPromise.then(startMedicalService)
+
   CLINVEXARuntimeSyncPromise.then(() => startHermes())
     // startHermes() owns first-run bootstrap and only resolves after the locked
     // venv dependencies are installed.  Port 8001 must start after that point;
     // starting it from the asset-copy promise used a system Python on clean
     // machines and caused FastAPI/Skill plaza failures during initialization.
-    .then(connection => {
-      const medicalServiceStartup = startCLINVEXAService().catch(error => {
-        rememberLog(
-          `[clinvexa-service] initial startup failed: ${
-            error instanceof Error ? error.message : String(error)
-          }`
-        )
-        scheduleCLINVEXAServiceRestart()
-      })
-
-      return finishCLINVEXAServiceStartup(connection, medicalServiceStartup)
-    })
+    .then(connection => finishCLINVEXAServiceStartup(connection, startMedicalService()))
     .catch(error => rememberLog(error.stack || error.message))
 
   mainWindow.webContents.once('did-finish-load', () => {
@@ -11625,22 +11735,27 @@ ipcMain.handle('clinvexa:screen:set-paused', (_event, paused) => setCLINVEXAScre
 
 ipcMain.handle('clinvexa:screen:capture-latest', async () => captureCLINVEXAScreen())
 
-let consultationView: import('../src/clinvexa/consultation/types').ConsultationView | null = null
+let consultationView: ConsultationView | null = null
+
 function hasActiveConsultation(): boolean {
   return Boolean(consultationView && (['starting', 'recording', 'paused', 'processing'].includes(consultationView.status) || consultationView.pending > 0 || consultationView.dirty))
 }
+
 ipcMain.handle('clinvexa:consultation:get', () => consultationView)
 ipcMain.on('clinvexa:consultation:state', (event, state) => {
   if (event.sender !== mainWindow?.webContents) {return}
   const changed = consultationView?.record?.id !== state?.record?.id || consultationView?.record?.transcript !== state?.record?.transcript
   consultationView = state
+
   if (changed) {CLINVEXACopilot.refreshContext()}
+
   if (CLINVEXABallWindow && !CLINVEXABallWindow.isDestroyed()) {
     CLINVEXABallWindow.webContents.send('clinvexa:consultation:state', state)
   }
 })
 ipcMain.on('clinvexa:consultation:command', (event, command) => {
   if (event.sender !== CLINVEXABallWindow?.webContents && event.sender !== mainWindow?.webContents) {return}
+
   if (!command || !['start', 'pause', 'resume', 'finish', 'retry', 'reset', 'draft', 'marker', 'save', 'load', 'analyze', 'correct'].includes(command.type)) {return}
   mainWindow?.webContents.send('clinvexa:consultation:command', command)
 })
@@ -11649,12 +11764,14 @@ ipcMain.handle('clinvexa:window:show-ball', event => {
   if (event.sender !== mainWindow?.webContents && event.sender !== CLINVEXABallWindow?.webContents) {
     throw new Error('此页面不能唤起副驾驶悬浮球')
   }
+
   const win = openCLINVEXABall()
   // An explicit summon restores the entry even after closing it, hiding it,
   // or disconnecting the monitor on which it was last used.
   CLINVEXACopilot.setExpanded(false)
   win.setBounds(CLINVEXABallBounds(screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea))
   win.setAlwaysOnTop(true, IS_MAC ? 'floating' : 'screen-saver')
+
   if (win.isMinimized()) {win.restore()}
   win.show()
   win.moveTop()
@@ -12863,6 +12980,7 @@ function heldQuitForActiveWork(event: Electron.Event): boolean {
   const prompt = hasActiveConsultation()
     ? { message: '问诊记录仍在进行或有未保存内容', detail: '退出会中断录音，并丢失尚未处理的音频或未保存的修改。请先结束问诊并保存草稿。已保存内容可在问诊历史中查看。' }
     : quitPromptFor(mergeActiveWork(activeWorkByWebContents.values()), isQuittingForHandoff)
+
   const parent = BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0]
 
   if (!prompt || !parent || parent.isDestroyed()) {

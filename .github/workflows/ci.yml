@@ -195,7 +195,12 @@ jobs:
   comment-live:
     name: CI review comment (live)
     needs: [detect, review-labels, lockfile-diff, supply-chain, osv-scanner, uv-lockfile, history-check, contributor-check, e2e-desktop]
-    if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork != true
+    # Fork and Dependabot workflows have read-only tokens.
+    if: >-
+      always() && github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]' &&
+      github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
