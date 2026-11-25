@@ -724,7 +724,14 @@ function Install-Uv {
 # PATH view.  Cheap (registry reads, no I/O elsewhere) and idempotent.
 function Sync-EnvPath {
     if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) { return }
-    $env:Path = [Environment]::GetEnvironmentVariable("Path", "User") + ";" + [Environment]::GetEnvironmentVariable("Path", "Machine")
+
+    # Preserve process-only entries for callers that supply tools via PATH.
+    $paths = @(
+        [Environment]::GetEnvironmentVariable("Path", "User")
+        [Environment]::GetEnvironmentVariable("Path", "Machine")
+        $env:Path
+    )
+    $env:Path = (($paths -split ";") | Where-Object { $_ } | Select-Object -Unique) -join ";"
 }
 
 # npm lifecycle scripts on Windows spawn ``cmd.exe /d /s /c node <script>``.
