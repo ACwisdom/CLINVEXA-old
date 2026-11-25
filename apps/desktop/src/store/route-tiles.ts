@@ -42,7 +42,7 @@ function saveTiles(tiles: RouteTile[]) {
 /** Open (or front) a page tile for a route, docked on `dir` (default right).
  *  Idempotent — an already-open tile keeps its original edge. */
 export function openRouteTile(path: string, dir: SplitDir = 'right') {
-  if (path.split(/[?#]/)[0] === '/artifacts') return
+  if (path.split(/[?#]/)[0] === '/artifacts') {return}
 
   const tiles = $routeTiles.get()
 

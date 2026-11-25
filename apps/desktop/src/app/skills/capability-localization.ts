@@ -1,4 +1,5 @@
 import type { SkillInfo, ToolsetInfo } from '@/types/hermes'
+
 import { SKILL_ZH_COPY } from './skill-zh-copy'
 
 export type CapabilityCategory = 'medical' | 'office'
@@ -420,6 +421,7 @@ export function localizeExternalDescription(
 ): string {
   const key = normalizeKey(name).replaceAll('_', '-')
   const copy = MEDICAL_SKILL_COPY[key] ?? OFFICE_SKILL_COPY[key]
+
   if (language === 'en') {
     return copy?.enDescription ?? description ?? `Connect ${readableName(name)} to extend CLINVEXA workflows.`
   }
@@ -427,8 +429,10 @@ export function localizeExternalDescription(
   if (copy) {
     return copy.zhDescription
   }
+
   const translated = SKILL_ZH_COPY[key]
-  if (translated) return translated[1]
+
+  if (translated) {return translated[1]}
 
   return `连接或安装 ${readableName(name)}，扩展 CLINVEXA 的办公事务处理能力。`
 }

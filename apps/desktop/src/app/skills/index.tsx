@@ -9,8 +9,8 @@ import { CodeEditor } from '@/components/chat/code-editor'
 import { PageLoader } from '@/components/page-loader'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { CountSkeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
 import {
   editLearningNode,
   getLearningNode,
@@ -622,7 +622,7 @@ export function SkillsView({ setStatusbarItemGroup: _setStatusbarItemGroup, ...p
         visibleSkills.length === 0 ? (
           capabilityEmpty('skills')
         ) : (
-          <section className="flex h-full min-h-0 flex-1 flex-col" aria-label={t.skills.tabSkills}>
+          <section aria-label={t.skills.tabSkills} className="flex h-full min-h-0 flex-1 flex-col">
             <ListStrip
               left={sortButton(skillsSortDesc, () => $skillsSortDesc.set(!$skillsSortDesc.get()))}
               right={
@@ -637,13 +637,13 @@ export function SkillsView({ setStatusbarItemGroup: _setStatusbarItemGroup, ...p
               <div className="skills-card-grid">
                 {visibleSkills.map(skill => (
                   <SkillCard
-                    key={skill.name}
-                    skill={skill}
-                    language={language}
                     busy={bulkBusy}
-                    onToggle={enabled => void handleToggleSkill(skill, enabled)}
-                    onEdit={() => void openSkillEditor(skill.name)}
+                    key={skill.name}
+                    language={language}
                     onArchive={() => setArchiveTarget(skill.name)}
+                    onEdit={() => void openSkillEditor(skill.name)}
+                    onToggle={enabled => void handleToggleSkill(skill, enabled)}
+                    skill={skill}
                   />
                 ))}
               </div>
@@ -772,7 +772,7 @@ function SkillCard({ language, onArchive, onEdit, onToggle, busy, skill }: Skill
   const editable = skill.provenance === 'agent'
 
   return (
-    <article className="skills-card" aria-label={title}>
+    <article aria-label={title} className="skills-card">
       <header className="skills-card-heading">
         <BookOpen aria-hidden="true" className="size-5 shrink-0" />
         <h3>{title}</h3>

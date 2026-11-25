@@ -93,6 +93,7 @@ function pauseClock(): void {accrued = elapsed(); resumeAt = 0; update({ elapsed
 
 async function pump(): Promise<void> {
   if (retryBlocked) {return}
+
   if (pumping) {return pumping}
   pumping = (async () => {
     while (queue.length) {
@@ -198,14 +199,16 @@ async function execute(command: ConsultationCommand): Promise<void> {
 
   if (command.type === 'load' && canLoadConsultation(state)) {
     const request = ++historyLoadRequest
+
     try {
       const record = await getConsultation(command.id)
-      if (request !== historyLoadRequest || $consultation.get() !== state) return
+
+      if (request !== historyLoadRequest || $consultation.get() !== state) {return}
       edited = (record.doctor_draft_revision ?? 0) > 0
       sequence = record.segments?.length ?? 0; queue = []; stopped = true; accrued = record.duration_ms; resumeAt = 0
       lastAnalysisText = ''
       update({ record, draft: record.draft_text, analysisProgress: [], analysisError: null, status: record.status === 'ready' ? 'ready' : 'failed', elapsed: accrued, pending: 0, error: record.status === 'ready' ? null : '这是中断的历史问诊。点击重试恢复已保存的录音分段，核对后结束问诊。' })
-    } catch (error) {if (request === historyLoadRequest && $consultation.get() === state) update({ error: String(error) })}
+    } catch (error) {if (request === historyLoadRequest && $consultation.get() === state) {update({ error: String(error) })}}
 
     return
   }
@@ -224,12 +227,14 @@ async function execute(command: ConsultationCommand): Promise<void> {
 
   if (command.type === 'retry') {
     retryBlocked = false; retryFailures = 0
+
     if (queue.length) {await pump()}
     else if (state.record && state.status === 'failed') {
       try {
         const record = await recoverConsultationAudio(state.record.id)
         sequence = record.segments?.length ?? 0; accrued = record.duration_ms
         update({ record, elapsed: accrued, error: null, ...(!edited ? { draft: record.draft_text } : {}) })
+
         if (record.transcript) {await analyze()}
       } catch (error) {update({ error: String(error) })}
     }
