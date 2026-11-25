@@ -1,9 +1,11 @@
 import { useStore } from '@nanostores/react'
 import { atom } from 'nanostores'
 import { useEffect, useRef, useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Brain, RefreshCw } from '@/lib/icons'
+
 import { $summonedAssistants, type SummonedAssistant } from '../summon'
 
 interface Connection {
@@ -21,10 +23,12 @@ interface PlatformAgent {
   local_compatible: boolean
   unavailable_reason?: string
 }
+
 function api<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
   if (!window.hermesDesktop?.api) {
     return Promise.reject(new Error('CLINVEXA 后台尚未连接'))
   }
+
   return window.hermesDesktop.api<T>({ path: `/api/clinvexa/platform${path}`, method, body, timeoutMs: 30000 })
 }
 
@@ -47,20 +51,27 @@ export function CLINVEXAPlatform({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const generation = useRef(0)
+
   async function sync() {
     const request = ++generation.current
     setLoading(true)
     setError('')
+
     try {
       const status = await api<Connection>('/status')
+
       if (request !== generation.current) {
         return
       }
+
       $platformConnection.set(status)
+
       if (status.url) {
         setUrl(status.url)
       }
+
       const rows = status.connected ? (await api<{ items: PlatformAgent[] }>('/agents')).items : []
+
       if (request === generation.current) {
         setAgents(rows)
       }
@@ -75,18 +86,23 @@ export function CLINVEXAPlatform({
       }
     }
   }
+
   useEffect(() => {
     void sync()
+
     return () => {
       generation.current++
     }
   }, [])
+
   async function action(work: () => Promise<void>) {
     if (busy) {
       return
     }
+
     setBusy(true)
     setError('')
+
     try {
       await work()
     } catch (reason) {
@@ -95,9 +111,11 @@ export function CLINVEXAPlatform({
       setBusy(false)
     }
   }
+
   const visible = agents.filter(row =>
     `${row.name} ${row.description}`.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())
   )
+
   return (
     <section aria-label="账号智能体" className="dc-capability-section">
       <header className="dc-section-header">
@@ -121,8 +139,6 @@ export function CLINVEXAPlatform({
             <span className="dc-muted">{connection.url}</span>
             <Button
               disabled={busy}
-              size="sm"
-              variant="outline"
               onClick={() =>
                 void action(async () => {
                   await api('/connect', 'DELETE')
@@ -136,6 +152,8 @@ export function CLINVEXAPlatform({
                   )
                 })
               }
+              size="sm"
+              variant="outline"
             >
               退出平台账号
             </Button>
@@ -154,24 +172,24 @@ export function CLINVEXAPlatform({
             }}
           >
             <label htmlFor="dc-platform-url">平台地址</label>
-            <Input id="dc-platform-url" required value={url} onChange={e => setUrl(e.target.value)} />
+            <Input id="dc-platform-url" onChange={e => setUrl(e.target.value)} required value={url} />
             <label htmlFor="dc-platform-email">平台账户</label>
             <Input
               autoComplete="username"
               id="dc-platform-email"
-              type="email"
-              required
-              value={email}
               onChange={e => setEmail(e.target.value)}
+              required
+              type="email"
+              value={email}
             />
             <label htmlFor="dc-platform-password">密码</label>
             <Input
               autoComplete="current-password"
               id="dc-platform-password"
-              type="password"
-              required
-              value={password}
               onChange={e => setPassword(e.target.value)}
+              required
+              type="password"
+              value={password}
             />
             <Button disabled={busy} type="submit">
               {busy ? '正在登录…' : '使用平台账号登录'}
@@ -203,7 +221,6 @@ export function CLINVEXAPlatform({
               <Button
                 aria-label={`召唤 ${agent.name}`}
                 disabled={busy || loading || !agent.local_compatible || !onSummon}
-                size="sm"
                 onClick={() =>
                   void action(async () => {
                     await onSummon?.({
@@ -215,6 +232,7 @@ export function CLINVEXAPlatform({
                     })
                   })
                 }
+                size="sm"
               >
                 召唤
               </Button>

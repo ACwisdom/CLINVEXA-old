@@ -1,7 +1,9 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { $platformConnection, CLINVEXAPlatform } from './index'
+
 import { $summonedAssistants, bindAssistant } from '../summon'
+
+import { $platformConnection, CLINVEXAPlatform } from './index'
 
 describe('account agent catalog', () => {
   afterEach(() => {
@@ -12,6 +14,7 @@ describe('account agent catalog', () => {
   })
   it('lists all returned account agents, summons supported agents, and has no second task editor', async () => {
     const onSummon = vi.fn()
+
     const api = vi.fn(async (request: { path: string }) =>
       request.path.endsWith('/status')
         ? { connected: true, url: 'https://platform.test', display_name: '测试医生', account_id: 'origin|owner' }
@@ -22,6 +25,7 @@ describe('account agent catalog', () => {
             ]
           }
     )
+
     vi.stubGlobal('hermesDesktop', { api })
     render(<CLINVEXAPlatform onSummon={onSummon} />)
     const button = await screen.findByRole('button', { name: '召唤 会议助手' })

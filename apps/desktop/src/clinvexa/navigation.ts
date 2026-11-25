@@ -4,7 +4,8 @@ export const CLINVEXA_PAGES = [
   { key: 'consultation', id: 'clinvexa-consultation', path: '/clinvexa-consultation', label: '问诊记录', icon: 'mic' },
   { key: 'skills', id: 'clinvexa-skills', path: '/clinvexa-skills', label: '医疗智能体', icon: 'hubot' },
   { key: 'activity', id: 'clinvexa-activity', path: '/clinvexa-activity', label: '任务进度', icon: 'tasklist' },
-  { key: 'rpa', id: 'clinvexa-rpa', path: '/clinvexa-rpa', label: '桌面操作', icon: 'device-desktop' }
+  { key: 'rpa', id: 'clinvexa-rpa', path: '/clinvexa-rpa', label: '桌面操作', icon: 'device-desktop' },
+  { key: 'contracts', id: 'clinvexa-contracts', path: '/clinvexa-contracts', label: '合同管理', icon: 'file' }
 ] as const
 
 export type CLINVEXAPage = typeof CLINVEXA_PAGES[number]['key']

@@ -11,10 +11,10 @@ import { useStore } from '@nanostores/react'
 import { type ComponentProps, lazy, memo, type ReactNode, Suspense, useMemo } from 'react'
 import { Navigate, Route, Routes, useParams } from 'react-router'
 
-import { ContribBoundary } from '@/contrib/react/boundary'
-import { useContributions } from '@/contrib/react/use-contributions'
 import { CLINVEXA_PAGES } from '@/clinvexa/navigation'
 import { CLINVEXAPageHost } from '@/clinvexa/page-host'
+import { ContribBoundary } from '@/contrib/react/boundary'
+import { useContributions } from '@/contrib/react/use-contributions'
 import { $activeGatewayProfile } from '@/store/profile'
 import { $freshDraftReady, $gatewayState } from '@/store/session'
 

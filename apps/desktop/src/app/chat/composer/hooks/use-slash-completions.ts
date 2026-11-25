@@ -1,10 +1,10 @@
 import type { Unstable_TriggerAdapter, Unstable_TriggerItem } from '@assistant-ui/core'
 import { useStore } from '@nanostores/react'
 import { useCallback } from 'react'
-import { capabilityLanguage, localizedExternalTitle, localizeExternalDescription } from '@/app/skills/capability-localization'
-import { useI18n } from '@/i18n'
 
+import { capabilityLanguage, localizedExternalTitle, localizeExternalDescription } from '@/app/skills/capability-localization'
 import type { HermesGateway } from '@/hermes'
+import { useI18n } from '@/i18n'
 import { sessionTitle } from '@/lib/chat-runtime'
 import {
   type CommandsCatalogLike,

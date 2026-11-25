@@ -56,6 +56,10 @@ module.exports = {
     {
       from: path.join(repoRoot, 'docs', 'CLINVEXA-医疗场景与功能介绍.md'),
       to: 'clinvexa-runtime/docs/CLINVEXA-医疗场景与功能介绍.md'
+    },
+    {
+      from: path.join(repoRoot, 'docs', 'clinvexa-business-contracts.md'),
+      to: 'clinvexa-runtime/docs/clinvexa-business-contracts.md'
     }
   ],
   extraMetadata: {

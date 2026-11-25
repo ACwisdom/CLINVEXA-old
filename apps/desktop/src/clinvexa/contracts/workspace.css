@@ -1,0 +1,77 @@
+.contract-coverage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+}
+
+.contract-report-info {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.3rem 1rem;
+  margin-block: 0.5rem;
+}
+
+.contract-report-info dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.contract-preaudit code {
+  overflow-wrap: anywhere;
+}
+
+.contract-preaudit .contract-evidence {
+  margin: 0.35rem 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.contract-evidence mark {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  text-decoration: underline;
+}
+
+.contract-workspace { padding: 24px; min-width: 0; color: var(--ui-text-primary); }
+.contract-page-heading, .contract-detail-heading, .contract-actions, .contract-material {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.contract-page-heading, .contract-detail-heading { justify-content: space-between; }
+.contract-page-heading h1 { font-size: 24px; font-weight: 650; }
+.contract-demo-banner { color: var(--ui-text-secondary); font-size: 12px; margin-top: 3px; }
+.contract-detail-heading h2 { font-size: 18px; font-weight: 600; overflow-wrap: anywhere; }
+.contract-section h3 { font-size: 14px; font-weight: 600; }
+.contract-detail-heading > span, .contract-feedback, .contract-ledger > p, .contract-findings small {
+  color: var(--ui-text-secondary); font-size: 13px;
+}
+.contract-columns { display: grid; grid-template-columns: minmax(175px, 245px) minmax(0, 1fr); gap: 24px; margin-top: 20px; }
+.contract-ledger { border-inline-end: 1px solid var(--ui-stroke-tertiary); padding-inline-end: 16px; min-width: 0; }
+.contract-ledger ul { margin-top: 12px; padding: 0; list-style: none; }
+.contract-ledger .contract-row { align-items: flex-start; width: 100%; height: auto; min-height: 46px; flex-direction: column; gap: 2px; text-align: start; white-space: normal; overflow-wrap: anywhere; }
+.contract-row small { color: var(--ui-text-secondary); }
+.contract-detail { min-width: 0; }
+.contract-detail fieldset { margin: 12px 0; min-width: 0; border: 0; padding: 0; }
+.contract-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.contract-fields label, .contract-body, .contract-import { display: grid; gap: 6px; min-width: 0; font-size: 13px; overflow-wrap: anywhere; }
+.contract-fields select, .contract-template select, .contract-preaudit select { min-height: 34px; background: var(--ui-bg-secondary); color: var(--ui-text-primary); border: 1px solid var(--ui-stroke-tertiary); padding: 4px 8px; }
+.contract-fields select { width: 100%; }
+.contract-template, .contract-checkbox { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.contract-locked { background: var(--ui-bg-secondary); border-inline-start: 2px solid var(--ui-stroke-secondary); padding: 8px 12px; font-size: 13px; }
+.contract-reminder { color: var(--ui-text-primary); font-size: 13px; font-weight: 600; margin-block: 6px; }
+.contract-diff { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-block: 12px; }
+.contract-diff > div { background: var(--ui-bg-secondary); padding: 8px; }
+.contract-diff pre, .contract-legal-text { white-space: pre-wrap; overflow-wrap: anywhere; margin-block: 4px; }
+.contract-body, .contract-import { margin-block: 12px; }
+.contract-import { flex: 1; }
+.contract-body textarea { min-height: 200px; resize: vertical; }
+.contract-section { margin-block: 16px; padding-block-start: 12px; border-block-start: 1px solid var(--ui-stroke-tertiary); }
+.contract-section summary { cursor: pointer; }
+.contract-findings { padding-inline-start: 20px; }
+.contract-findings li { margin-block: 8px; overflow-wrap: anywhere; }
+.contract-findings li > * { display: block; }
+.contract-findings li[data-level="blocking"] strong, .contract-error { color: var(--destructive); }
+@media (max-width: 720px) {
+  .contract-columns, .contract-fields, .contract-diff { grid-template-columns: 1fr; gap: 12px; }
+  .contract-ledger { border-inline-end: 0; padding-inline-end: 0; }
+  .contract-ledger ul { max-height: 200px; overflow: auto; }
+}

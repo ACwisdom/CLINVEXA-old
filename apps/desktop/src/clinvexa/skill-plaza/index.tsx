@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { SearchField } from '@/components/ui/search-field'
 import { BookOpen, RefreshCw, X } from '@/lib/icons'
+
 import { CLINVEXAPlatform } from '../platform'
 import type { SummonedAssistant } from '../summon'
+
 import {
   type CLINVEXAPlazaSkill,
   installCLINVEXASkill,
@@ -18,6 +21,7 @@ interface Props {
   onClose: () => void
   onSummon: (assistant: SummonedAssistant) => Promise<void> | void
 }
+
 export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) {
   const [skills, setSkills] = useState<CLINVEXAPlazaSkill[]>([])
   const [query, setQuery] = useState('')
@@ -25,11 +29,14 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const generation = useRef(0)
+
   async function refresh() {
     const request = ++generation.current
     setLoading(true)
+
     try {
       const rows = await listCLINVEXASkills()
+
       if (request === generation.current) {
         setSkills(rows)
       }
@@ -43,18 +50,23 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
       }
     }
   }
+
   useEffect(() => {
     void refresh()
+
     return () => {
       generation.current++
     }
   }, [])
+
   async function action(work: () => Promise<void>) {
     if (busy) {
       return
     }
+
     setBusy(true)
     setError('')
+
     try {
       await work()
     } catch (reason) {
@@ -63,9 +75,11 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
       setBusy(false)
     }
   }
+
   const visible = skills.filter(skill =>
     `${skill.name} ${skill.title} ${skill.description}`.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())
   )
+
   return (
     <main aria-label="CLINVEXA 医疗智能体" className="dc-capability-catalog">
       <header className="dc-section-header">
@@ -79,11 +93,11 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
       </header>
       <SearchField
         aria-label="搜索智能体与本机技能"
-        value={query}
         onChange={setQuery}
         placeholder="搜索智能体与本机技能"
+        value={query}
       />
-      <CLINVEXAPlatform query={query} onSummon={onSummon} accountOpen={initialSource === 'platform'} />
+      <CLINVEXAPlatform accountOpen={initialSource === 'platform'} onSummon={onSummon} query={query} />
       <section aria-label="本机技能" className="dc-capability-section">
         <header className="dc-section-header">
           <div>
@@ -103,7 +117,7 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
           </p>
         )}
         {loading && (
-          <p role="status" className="dc-muted">
+          <p className="dc-muted" role="status">
             正在读取本机技能…
           </p>
         )}
@@ -120,7 +134,6 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                 <Button
                   aria-label={`召唤 ${skill.title}`}
                   disabled={busy || loading || skill.offline}
-                  size="sm"
                   onClick={() =>
                     void action(async () => {
                       if (!skill.installed) {
@@ -128,6 +141,7 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                       } else if (!skill.enabled) {
                         await setCLINVEXASkillEnabled(skill.name, true)
                       }
+
                       await onSummon({
                         id: skill.name,
                         name: skill.title,
@@ -136,6 +150,7 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                       })
                     })
                   }
+                  size="sm"
                 >
                   召唤
                 </Button>
@@ -153,7 +168,6 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                       <select
                         aria-label={`切换 ${skill.title} 版本`}
                         disabled={busy || skill.offline}
-                        value={skill.version ?? skill.default_version}
                         onChange={event => {
                           const version = event.target.value
                           void action(async () => {
@@ -161,6 +175,7 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                             await refresh()
                           })
                         }}
+                        value={skill.version ?? skill.default_version}
                       >
                         {skill.versions.map(version => (
                           <option key={version}>{version}</option>
@@ -168,8 +183,6 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                       </select>
                     )}
                     <Button
-                      size="sm"
-                      variant="ghost"
                       disabled={busy || skill.offline}
                       onClick={() =>
                         void action(async () => {
@@ -177,12 +190,12 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                           await refresh()
                         })
                       }
+                      size="sm"
+                      variant="ghost"
                     >
                       {skill.enabled ? '停用' : '启用'}
                     </Button>
                     <Button
-                      size="sm"
-                      variant="ghost"
                       disabled={busy || skill.offline}
                       onClick={() =>
                         void action(async () => {
@@ -190,6 +203,8 @@ export function CLINVEXASkillPlaza({ onClose, onSummon, initialSource }: Props) 
                           await refresh()
                         })
                       }
+                      size="sm"
+                      variant="ghost"
                     >
                       卸载
                     </Button>

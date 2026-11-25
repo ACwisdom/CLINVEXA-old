@@ -85,12 +85,18 @@ export function CopilotPanel() {
   }
 
   const result = state.result
+
   const submitQuestion = async () => {
     if (!question.trim() || asking) {return}
-    if (sourceText && sourceFrame !== state.frameId) {setNotice(l.sourceChanged); return}
+
+    if (sourceText && sourceFrame !== state.frameId) {setNotice(l.sourceChanged);
+
+ return}
+
     setAsking(true)
     const submitted = question.trim()
     const ok = await run(() => window.hermesDesktop?.CLINVEXACopilot?.analyze(submitted, sourceText, state.frameId ?? undefined, result?.frameId === state.frameId && !state.stale ? result.id : undefined))
+
     if (ok) {setPendingQuestion(submitted)}
     setAsking(false)
   }
@@ -143,7 +149,9 @@ export function CopilotPanel() {
         <textarea id="dc-question" maxLength={2000} onChange={event => setQuestion(event.target.value)} placeholder={l.questionPlaceholder} rows={3} value={question} />
         <details className="dc-followup-material">
           <summary>{l.sourceText}</summary>
-          <textarea id="dc-source" aria-label={l.sourceText} maxLength={12000} onChange={event => {setSourceText(event.target.value); if (!sourceText) {setSourceFrame(state.frameId)}}} placeholder={l.sourcePlaceholder} rows={3} value={sourceText} />
+          <textarea aria-label={l.sourceText} id="dc-source" maxLength={12000} onChange={event => {setSourceText(event.target.value);
+
+ if (!sourceText) {setSourceFrame(state.frameId)}}} placeholder={l.sourcePlaceholder} rows={3} value={sourceText} />
           {sourceText && sourceFrame !== state.frameId && <div className="dc-notice"><p>{l.sourceChanged}</p><Button onClick={() => setSourceFrame(state.frameId)} type="button" variant="outline">{l.rebindSource}</Button></div>}
         </details>
         <Button disabled={!question.trim() || !state.enabled || !state.frameId || state.status === 'analyzing' || asking} size="sm" type="submit">{l.send}</Button>

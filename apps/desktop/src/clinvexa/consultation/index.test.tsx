@@ -56,10 +56,12 @@ describe('continuous consultation workflow', () => {
     const saved = record({ id: 'historical-voice', status: 'ready', draft_text: '历史病历草稿', transcript: '历史问诊内容' })
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
       const url = String(input)
-      if (url.includes('/voice/')) return Response.json({ installed: true, ready: true, error: null })
+
+      if (url.includes('/voice/')) {return Response.json({ installed: true, ready: true, error: null })}
+
       return Response.json(url.endsWith('/historical-voice') ? saved : [])
     }))
-    render(<I18nProvider configClient={null} initialLocale="zh"><CLINVEXAConsultation requestedRecordId="historical-voice" onClose={vi.fn()} onSendToMedicalAgent={vi.fn()} /></I18nProvider>)
+    render(<I18nProvider configClient={null} initialLocale="zh"><CLINVEXAConsultation onClose={vi.fn()} onSendToMedicalAgent={vi.fn()} requestedRecordId="historical-voice" /></I18nProvider>)
     await waitFor(() => expect($consultation.get().record?.id).toBe('historical-voice'))
     expect((screen.getByLabelText('病历草稿') as HTMLTextAreaElement).value).toBe('历史病历草稿')
     expect(mic.start).not.toHaveBeenCalled()
