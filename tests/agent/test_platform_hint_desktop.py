@@ -110,6 +110,7 @@ class TestPlatformHintResolutionInStablePrompt:
     that used to live in ``build_environment_hints()`` is gone."""
 
     def test_desktop_platform_yields_desktop_hint_no_tui_framing(self, monkeypatch):
+        monkeypatch.setattr("agent.system_prompt.clinvexa_product_mode", lambda: False)
         monkeypatch.setenv("HERMES_DESKTOP", "1")
         monkeypatch.delenv("HERMES_DESKTOP_TERMINAL", raising=False)
         stable = _stable_prompt(_make_agent(platform="desktop"))

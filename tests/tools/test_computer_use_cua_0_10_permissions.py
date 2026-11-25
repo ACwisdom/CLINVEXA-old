@@ -9,12 +9,14 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def _reset_computer_use_state():
-    from tools.computer_use.tool import reset_backend_for_tests
+def _reset_computer_use_state(monkeypatch):
+    from tools.computer_use import tool
 
-    reset_backend_for_tests()
+    # Test the standard policy independently of CLINVEXA's profile default.
+    monkeypatch.setattr(tool, "_high_access_enabled", lambda: False)
+    tool.reset_backend_for_tests()
     yield
-    reset_backend_for_tests()
+    tool.reset_backend_for_tests()
 
 
 def test_normal_hermes_session_maps_to_standard_mode():

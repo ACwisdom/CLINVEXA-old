@@ -237,8 +237,10 @@ def test_dispatcher_threads_delivery_mode_to_backend():
 # Phase C — foreground approval scoping (action + delivery_mode + session)
 # ---------------------------------------------------------------------------
 
-def test_background_approval_does_not_authorize_foreground():
+def test_background_approval_does_not_authorize_foreground(monkeypatch):
     from tools.computer_use import tool as cu
+
+    monkeypatch.setattr(cu, "_high_access_enabled", lambda: False)
 
     seen = []
 
@@ -262,8 +264,10 @@ def test_background_approval_does_not_authorize_foreground():
         cu.set_approval_callback(None)
 
 
-def test_approval_state_is_session_scoped():
+def test_approval_state_is_session_scoped(monkeypatch):
     from tools.computer_use import tool as cu
+
+    monkeypatch.setattr(cu, "_high_access_enabled", lambda: False)
 
     calls = []
 
@@ -283,8 +287,10 @@ def test_approval_state_is_session_scoped():
         cu.set_approval_callback(None)
 
 
-def test_always_approve_covers_foreground():
+def test_always_approve_covers_foreground(monkeypatch):
     from tools.computer_use import tool as cu
+
+    monkeypatch.setattr(cu, "_high_access_enabled", lambda: False)
 
     calls = []
 
