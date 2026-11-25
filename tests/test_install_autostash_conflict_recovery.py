@@ -113,12 +113,16 @@ def test_install_ps1_repository_stage_recovers_from_autostash_conflict(
     tmp_path: Path,
 ) -> None:
     managed = _make_conflicted_managed_checkout(tmp_path)
+    # Run the standalone installer without an adjacent bundled source tree.
+    standalone_installer = tmp_path / "installer" / "install.ps1"
+    standalone_installer.parent.mkdir()
+    shutil.copyfile(INSTALL_PS1, standalone_installer)
     result = subprocess.run(
         [
             POWERSHELL,
             "-NoProfile",
             "-File",
-            str(INSTALL_PS1),
+            str(standalone_installer),
             "-Stage",
             "repository",
             "-NonInteractive",
@@ -132,7 +136,7 @@ def test_install_ps1_repository_stage_recovers_from_autostash_conflict(
         text=True,
     )
 
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, result.stdout + result.stderr
     _assert_conflict_was_recovered(managed, result.stdout)
 
 
