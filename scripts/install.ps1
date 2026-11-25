@@ -723,6 +723,7 @@ function Install-Uv {
 # from the registry so every Invoke-Stage starts from a fresh, up-to-date
 # PATH view.  Cheap (registry reads, no I/O elsewhere) and idempotent.
 function Sync-EnvPath {
+    if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) { return }
     $env:Path = [Environment]::GetEnvironmentVariable("Path", "User") + ";" + [Environment]::GetEnvironmentVariable("Path", "Machine")
 }
 

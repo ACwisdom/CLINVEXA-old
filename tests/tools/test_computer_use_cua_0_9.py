@@ -359,8 +359,10 @@ def test_concurrent_hermes_sessions_do_not_share_backend_state():
     assert len(created) == 2
 
 
-def test_persistent_focus_has_a_separate_approval_scope():
+def test_persistent_focus_has_a_separate_approval_scope(monkeypatch):
     from tools.computer_use import tool as computer_use
+
+    monkeypatch.setattr(computer_use, "_high_access_enabled", lambda: False)
 
     seen = []
 
