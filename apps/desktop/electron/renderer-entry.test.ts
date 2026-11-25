@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import path from 'node:path'
 
 import { test } from 'vitest'
 
@@ -17,9 +18,11 @@ test('packaged builds prefer the unpacked renderer and retain the asar entry as 
 })
 
 test('development builds keep the app-root renderer first', () => {
+  const appRoot = path.resolve('repo', 'apps', 'desktop')
+
   const candidates = rendererIndexCandidates({
-    appRoot: 'D:\\repo\\apps\\desktop',
-    webDist: 'D:\\repo\\apps\\desktop\\dist',
+    appRoot,
+    webDist: path.join(appRoot, 'dist'),
     isPackaged: false,
     fileExists: () => true
   })
@@ -31,10 +34,12 @@ test('development builds keep the app-root renderer first', () => {
 test('renderer loading retries the next candidate once after a failure', async () => {
   const attempts: string[] = []
   const failures: string[] = []
+
   const selected = await loadUrlCandidates({
     urls: ['file:///unpacked/index.html', 'file:///app.asar/dist/index.html'],
     load: async url => {
       attempts.push(url)
+
       if (url.includes('unpacked')) {
         throw new Error('ERR_FAILED')
       }

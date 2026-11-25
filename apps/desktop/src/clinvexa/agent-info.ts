@@ -6,7 +6,7 @@
  */
 export type CLINVEXAAgentId = 'desktop_his' | 'knowledge_patient' | 'medical_record' | 'orchestrator'
 
-export interface CLINVEXAAgentInfo {
+export interface CLINVEXAAgentMetadata {
   description: string
   name: string
   useWhen: string
@@ -14,7 +14,7 @@ export interface CLINVEXAAgentInfo {
 
 export const CLINVEXA_AGENT_IDS: CLINVEXAAgentId[] = ['orchestrator', 'medical_record', 'knowledge_patient', 'desktop_his']
 
-export const CLINVEXA_AGENT_INFO: Record<CLINVEXAAgentId, CLINVEXAAgentInfo> = {
+export const CLINVEXA_AGENT_INFO: Record<CLINVEXAAgentId, CLINVEXAAgentMetadata> = {
   orchestrator: {
     name: '任务协调助手',
     description: '理解医生的目标，安排合适的能力，并汇总可核对的结果。',
@@ -37,6 +37,6 @@ export const CLINVEXA_AGENT_INFO: Record<CLINVEXAAgentId, CLINVEXAAgentInfo> = {
   }
 }
 
-export function CLINVEXAAgentInfo(agentId: CLINVEXAAgentId): CLINVEXAAgentInfo {
+export function CLINVEXAAgentInfo(agentId: CLINVEXAAgentId): CLINVEXAAgentMetadata {
   return CLINVEXA_AGENT_INFO[agentId]
 }

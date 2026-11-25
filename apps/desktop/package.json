@@ -2,7 +2,7 @@
   "name": "clinvexa",
   "productName": "CLINVEXA",
   "private": true,
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Medical AI office assistant for CLINVEXA.",
   "author": "CLINVEXA",
   "type": "module",

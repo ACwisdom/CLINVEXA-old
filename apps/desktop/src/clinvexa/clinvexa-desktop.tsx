@@ -19,6 +19,7 @@ import {
 } from './agent-prompt'
 import { CLINVEXAConsultation } from './consultation'
 import { ownConsultation } from './consultation/live-session'
+import { ContractWorkspace } from './contracts/workspace'
 import { CopilotWorkbench } from './copilot/workbench'
 import { type CLINVEXAPage, CLINVEXAPageForPath, CLINVEXAPagePath } from './navigation'
 import { $CLINVEXAPageHost } from './page-host'
@@ -27,8 +28,8 @@ import { CLINVEXARpa } from './rpa'
 import { initCLINVEXAScreenBridge } from './screen-monitor/state'
 import { CLINVEXASidebar } from './sidebar'
 import { CLINVEXASkillPlaza } from './skill-plaza'
-import { SummonCopilotBall } from './summon-ball'
 import type { SummonedAssistant } from './summon'
+import { SummonCopilotBall } from './summon-ball'
 import { CLINVEXATaskStore } from './task-state'
 import { CLINVEXAWorkbench } from './workbench'
 import { CLINVEXAActivitiesFromMessages } from './workbench/activity'
@@ -142,11 +143,10 @@ export function CLINVEXADesktop({ onSummon, onSubmitToNewSession, onStop, onSubm
     <section aria-label={l.workspace} className="dc-main-page dc-copilot">
       <header className="dc-page-toolbar"><Button onClick={openPlatform} variant="ghost">{platformAccount?.connected ? `平台账号 · ${platformAccount.display_name}` : '平台账号登录'}</Button><SummonCopilotBall /></header>
       {submitError && <p className="dc-notice" role="alert">{submitError}</p>}
-      {page === 'copilot' ? <CopilotWorkbench embedded navigation={<></>} requestedRecordId={historyParams.get('record')} requestedTaskKey={historyParams.get('task')} onClose={() => setPage(null)} /> : <div className="dc-unified-content">
+      {page === 'copilot' ? <CopilotWorkbench embedded navigation={<></>} onClose={() => setPage(null)} requestedRecordId={historyParams.get('record')} requestedTaskKey={historyParams.get('task')} /> : <div className="dc-unified-content">
       {open && consultationOpen && (
         <section className="dc-workspace-page">
           <CLINVEXAConsultation
-            requestedRecordId={historyParams.get('record')}
             onClose={() => setConsultationOpen(false)}
             onSendToMedicalAgent={async prompt => {
               const submitted = await submit(prompt, 'medical_record', onSubmitToNewSession ?? onSubmit)
@@ -155,6 +155,7 @@ export function CLINVEXADesktop({ onSummon, onSubmitToNewSession, onStop, onSubm
                 setPage('activity')
               }
             }}
+            requestedRecordId={historyParams.get('record')}
           />
         </section>
       )}
@@ -184,6 +185,7 @@ export function CLINVEXADesktop({ onSummon, onSubmitToNewSession, onStop, onSubm
           <CLINVEXARpa onClose={() => setRpaOpen(false)} />
         </section>
       )}
+      {page === 'contracts' && <ContractWorkspace />}
       </div>}
     </section>, host
   ) : null

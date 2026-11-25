@@ -15,14 +15,14 @@ export interface CLINVEXATaskSubmission {
   surface: CLINVEXATaskSurface
 }
 
-export interface CLINVEXATaskStore {
+export interface CLINVEXATaskStoreState {
   snapshot: () => CLINVEXATask[]
   submit: (submission: CLINVEXATaskSubmission) => CLINVEXATask
   update: (taskId: string, status: CLINVEXATaskStatus) => void
 }
 
 /** Create the single task authority shared by every CLINVEXA desktop surface. */
-export function createCLINVEXATaskStore(): CLINVEXATaskStore {
+export function createCLINVEXATaskStore(): CLINVEXATaskStoreState {
   const tasks = new Map<string, CLINVEXATask>()
   const idsByCorrelation = new Map<string, string>()
   let sequence = 0

@@ -51,11 +51,15 @@ export function CLINVEXAConsultation({ onClose, onSendToMedicalAgent, compact = 
   const [notice, setNotice] = useState('')
   useEffect(() => {
     const current = $consultation.get()
-    if (!requestedRecordId || current.record?.id === requestedRecordId) return
+
+    if (!requestedRecordId || current.record?.id === requestedRecordId) {return}
+
     if (!canLoadConsultation(current)) {
       setNotice('请先结束当前录音、等待处理完成并保存草稿，再打开其他记录。')
+
       return
     }
+
     setNotice('')
     consultationAction({ type: 'load', id: requestedRecordId })
   }, [requestedRecordId])
@@ -78,6 +82,7 @@ export function CLINVEXAConsultation({ onClose, onSendToMedicalAgent, compact = 
         const result = await getLiveVoiceStatus(dialect)
 
         if (active) {setVoice(result)}
+
         // First launch may still be provisioning when the initial warmup
         // request runs. Retry preparation after the service becomes reachable.
         if (active && result.installed && !result.ready && !result.error) {await prepareVoice(dialect)}

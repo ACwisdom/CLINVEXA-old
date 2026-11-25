@@ -50,6 +50,7 @@ export {
 interface DesktopOnboardingOverlayProps {
   enabled: boolean
   onCompleted?: () => void
+  onOpenLocalContracts?: () => void
   profile: string
   requestGateway: OnboardingContext['requestGateway']
 }
@@ -182,6 +183,7 @@ const ONBOARDING_EXIT_MS = 1180
 export function DesktopOnboardingOverlay({
   enabled,
   onCompleted,
+  onOpenLocalContracts,
   profile,
   requestGateway
 }: DesktopOnboardingOverlayProps) {
@@ -344,6 +346,9 @@ export function DesktopOnboardingOverlay({
             )
           ) : (
             <Preparing boot={boot} />
+          )}
+          {!onboarding.manual && onOpenLocalContracts && (
+            <Button onClick={onOpenLocalContracts} variant="outline">打开合同管理</Button>
           )}
         </div>
       </div>

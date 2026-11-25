@@ -16,6 +16,9 @@
 #ifndef OutputName
   #define OutputName "CLINVEXA-" + AppVersion + "-win-x64"
 #endif
+#ifndef MinimumWindowsVersion
+  #define MinimumWindowsVersion "10.0.19045"
+#endif
 
 [Setup]
 AppId={{DD240AB1-7144-5589-8F42-81D466FA3506}
@@ -52,7 +55,7 @@ ArchitecturesInstallIn64BitMode=x64compatible
 WizardStyle=modern
 CloseApplications=force
 RestartApplications=no
-MinVersion=10.0.19045
+MinVersion={#MinimumWindowsVersion}
 SetupLogging=yes
 DiskSpanning=no
 

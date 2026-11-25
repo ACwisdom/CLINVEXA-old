@@ -105,6 +105,14 @@ def _zip_xml(zf: zipfile.ZipFile, name: str) -> ET.Element:
 
 
 def _extract_docx(path: str) -> str:
+    text = "\n".join(extract_docx_paragraphs(path)).rstrip("\n")
+    if not text.strip():
+        raise ExtractionError("DOCX contains no extractable text")
+    return text + "\n"
+
+
+def extract_docx_paragraphs(path: str) -> list[str]:
+    """Return body paragraphs in XML order, including paragraphs in tables."""
     try:
         with zipfile.ZipFile(path) as zf:
             root = _zip_xml(zf, "word/document.xml")
@@ -124,10 +132,8 @@ def _extract_docx(path: str) -> str:
                 buf.append("\t")
             elif node.tag in {f"{w}br", f"{w}cr"}:
                 buf.append("\n")
-        lines.extend("".join(buf).split("\n"))
-    if not any(line.strip() for line in lines):
-        raise ExtractionError("DOCX contains no extractable text")
-    return "\n".join(lines).rstrip("\n") + "\n"
+        lines.append("".join(buf))
+    return lines
 
 
 def _extract_xlsx(path: str) -> str:
