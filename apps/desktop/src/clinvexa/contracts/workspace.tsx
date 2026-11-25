@@ -23,6 +23,7 @@ const materialFields: Array<{kind: MaterialKind; label: string}> = [
 ]
 
 const riskLabels = { blocking: '阻断', warning: '待核对', advice: '建议' }
+
 const rehearsalReasons: Record<string, string> = {
   not_reviewed: '当前版本尚未预审',
   high_risk_pending: '有未复核高风险',
@@ -31,16 +32,20 @@ const rehearsalReasons: Record<string, string> = {
   review_incomplete: '预审覆盖不完整',
   model_incomplete: '模型审查未完成或未运行'
 }
+
 const modelLabels = { not_configured: '规则预审', pending: '规则预审 · AI 待补审', complete: '规则与院内模型预审' }
 const checkLabels = { matched: '已识别正文一致', different: '检测到文本差异，已人工核对', manual: '扫描件已人工核对' }
 
 function routeForDraft(draft: Draft) {
   if (!draft.procurement_required) {return '无需招采'}
+
   if (draft.amount_direction === 'none' || draft.amount_fixed === false) {return '待核对招采依据'}
   const amount = Number(draft.amount)
 
   if (draft.amount === null || !Number.isFinite(amount) || amount < 0) {return '待填写金额'}
+
   if (amount <= 100000) {return '院内备案'}
+
   return amount <= 300000 ? '询价或磋商' : '委外招标'
 }
 
@@ -163,22 +168,29 @@ export function ContractWorkspace() {
       if (draft && activeId && index?.preaudit_ready) {
         if (!record) {
           const title = draft.title.trim() || (!kind ? file.name.replace(/\.[^.]+$/, '').slice(0, 200) : '')
+
           if (!title) {throw new Error('请先填写合同名称，再导入招采材料。')}
           applyRecord(await saveContract(activeId, 0, { ...draft, title }))
         }
+
         const documentKind = kind ?? 'contract'
         const { document, fields } = await uploadReviewDocument(activeId, documentKind, file)
         const preaudit_documents = { ...draft.preaudit_documents, [documentKind]: document.id }
+
         if (kind) {
           const materials = { ...draft.materials }
+
           if (document.text.trim()) {materials[kind] = { name: file.name, text: document.text }}
           else {delete materials[kind]}
+
           changeDraft({ preaudit_documents, materials })
         } else {
           const direction = fields.amount_direction as AmountDirection | undefined
           const amountDirection = draft.amount_direction ?? direction ?? null
+
           const amountFixed = amountDirection === 'none' ? null :
             draft.amount_fixed ?? (fields.amount_fixed === undefined ? null : fields.amount_fixed === 'True')
+
           changeDraft({
             preaudit_documents,
             title: draft.title.trim() || file.name.replace(/\.[^.]+$/, '').slice(0, 200),
@@ -197,9 +209,11 @@ export function ContractWorkspace() {
             })
           })
         }
+
         setMessage(document.diagnostics.length
           ? `${file.name} · ${document.diagnostics.join('；')}。保存后可查看对应的审查范围。`
           : `已读取 ${file.name}，请核对提取内容后保存。`)
+
         return
       }
 
@@ -303,32 +317,32 @@ export function ContractWorkspace() {
                   <label>合同相对方<Input maxLength={200} onChange={event => changeDraft({ counterparty: event.currentTarget.value })} value={draft.counterparty} /></label>
                   <label>项目编号<Input maxLength={100} onChange={event => changeDraft({ project_number: event.currentTarget.value })} value={draft.project_number} /></label>
                   {index?.preaudit_ready && <>
-                    <label>合同类型<select value={draft.contract_type ?? ''} onChange={event => changeDraft({ contract_type: (event.currentTarget.value || null) as TemplateId | null })}>
+                    <label>合同类型<select onChange={event => changeDraft({ contract_type: (event.currentTarget.value || null) as TemplateId | null })} value={draft.contract_type ?? ''}>
                       <option value="">请选择</option>
                       <option value="business">业务合同</option>
                       <option value="purchase">货物采购合同</option>
                       <option value="service">服务合同</option>
                     </select></label>
-                    <label>院方主体<Input maxLength={200} value={draft.hospital_party ?? ''} onChange={event => changeDraft({ hospital_party: event.currentTarget.value })} /></label>
-                    <label>金额方向<select value={draft.amount_direction ?? ''} onChange={event => {
+                    <label>院方主体<Input maxLength={200} onChange={event => changeDraft({ hospital_party: event.currentTarget.value })} value={draft.hospital_party ?? ''} /></label>
+                    <label>金额方向<select onChange={event => {
                       const amount_direction = (event.currentTarget.value || null) as AmountDirection | null
                       changeDraft(amount_direction === 'none' ? { amount_direction, amount_fixed: null, amount: null } : { amount_direction })
-                    }}>
+                    }} value={draft.amount_direction ?? ''}>
                       <option value="">请选择</option>
                       <option value="income">收入</option>
                       <option value="expense">支出</option>
                       <option value="none">不涉及金额</option>
                     </select></label>
                     {draft.amount_direction && draft.amount_direction !== 'none' && <label>是否确定金额<select
-                      value={draft.amount_fixed == null ? '' : String(draft.amount_fixed)} onChange={event => {
+                      onChange={event => {
                         const choice = event.currentTarget.value
                         changeDraft(choice === 'false' ? { amount_fixed: false, amount: null } : { amount_fixed: choice === 'true' ? true : null })
-                      }}>
+                      }} value={draft.amount_fixed == null ? '' : String(draft.amount_fixed)}>
                       <option value="">请选择</option>
                       <option value="true">是</option>
                       <option value="false">否</option>
                     </select></label>}
-                    <label>资金来源<Input maxLength={200} value={draft.funding_source ?? ''} onChange={event => changeDraft({ funding_source: event.currentTarget.value })} /></label>
+                    <label>资金来源<Input maxLength={200} onChange={event => changeDraft({ funding_source: event.currentTarget.value })} value={draft.funding_source ?? ''} /></label>
                   </>}
                   {(draft.amount_direction !== 'none' && draft.amount_fixed !== false) || draft.amount != null
                     ? <label>合同金额（元）<Input inputMode="decimal" maxLength={17} onChange={event => changeDraft({ amount: event.currentTarget.value || null })} value={draft.amount ?? ''} /></label> : null}
@@ -401,8 +415,10 @@ export function ContractWorkspace() {
                 {record && index?.submission_rehearsal_ready && <Button disabled={!!busy || dirty}
                   onClick={() => void run('正在判断演练准入', async () => {
                     const result = await rehearseSubmission(record.id, record.revision)
+
                     const reasons = result.reasons.map(reason =>
                       (rehearsalReasons[reason] ?? reason) + (result.blocking.includes(reason) ? '（阻断）' : ''))
+
                     setMessage(['演练准入' + (result.allowed ? '通过' : '未通过'), ...reasons].join(' · '))
                   })} variant="outline">预审准入演练</Button>}
               </div>

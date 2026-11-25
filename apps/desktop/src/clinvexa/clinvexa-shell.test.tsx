@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { $composerAttachments } from '@/store/composer'
-import { $messages, setMessages } from '@/store/session'
+import { setMessages } from '@/store/session'
 
 import { CLINVEXADesktop } from './clinvexa-desktop'
 import { CLINVEXA_PAGES } from './navigation'

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
 import type { SkillInfo, ToolsetInfo } from '@/types/hermes'
-import installedSkills from './__fixtures__/installed-skills.json'
 
+import installedSkills from './__fixtures__/installed-skills.json'
 import {
   capabilityLanguage,
   categoryLabel,

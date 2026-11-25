@@ -105,6 +105,7 @@ export function createCLINVEXAScreenMonitor(
         generation += 1
         publish({ context: null, error: null, status: 'processing' })
       }
+
       if (capturing) {return null}
       capturing = true
 
@@ -123,6 +124,7 @@ export function createCLINVEXAScreenMonitor(
             ? !CLINVEXAFrameChanged(lastFingerprint, captured.fingerprint)
             : captured.imageDataUrl === lastImage
         )
+
         if (unchanged) {return state.context}
 
         const capturedAt = now()
@@ -260,7 +262,7 @@ export function startWindowsForegroundWindowWatcher(
   let pending = ''
   let paused = Boolean(options.paused)
   let alive = true
-  child.stdin.on('error', error => { if (alive) onError(error.message) })
+  child.stdin.on('error', error => { if (alive) {onError(error.message)} })
   child.stdin.write(paused ? 'pause\n' : 'resume\n')
   child.stdout.setEncoding('utf8')
   child.stdout.on('data', chunk => {
@@ -281,6 +283,7 @@ export function startWindowsForegroundWindowWatcher(
   child.on('error', error => onError(error.message))
   child.on('exit', code => {
     alive = false
+
     if (code !== 0 && code !== null) {
       onError(`foreground watcher exited with code ${code}`)
     }
@@ -290,10 +293,12 @@ export function startWindowsForegroundWindowWatcher(
     isAlive: () => alive && !child.killed,
     setPaused: value => {
       paused = value
-      if (alive && !child.killed) child.stdin.write(value ? 'pause\n' : 'resume\n')
+
+      if (alive && !child.killed) {child.stdin.write(value ? 'pause\n' : 'resume\n')}
     },
     dispose: () => {
       alive = false
+
       if (!child.killed) {
         child.kill()
       }
@@ -305,15 +310,18 @@ export function startWindowsForegroundWindowWatcher(
 export function CLINVEXAFrameChanged(previous: Uint8Array, next: Uint8Array): boolean {
   if (previous.length !== next.length || previous.length === 0) {return true}
   let changed = 0
+
   for (let i = 0; i < next.length; i += 4) {
     if (Math.max(Math.abs(previous[i] - next[i]), Math.abs(previous[i + 1] - next[i + 1]), Math.abs(previous[i + 2] - next[i + 2])) > 18) {changed += 1}
   }
+
   return changed >= Math.max(2, next.length / 4 * 0.0005)
 }
 
 export function CLINVEXAPanelBounds(anchor: DisplayWorkArea, workArea: DisplayWorkArea, expanded: boolean): DisplayWorkArea {
   const width = expanded ? Math.min(460, workArea.width - 16) : BALL_WIDTH
   const height = expanded ? Math.min(740, workArea.height - 16) : BALL_HEIGHT
+
   return { width, height,
     x: Math.max(workArea.x + 8, Math.min(anchor.x + anchor.width - width, workArea.x + workArea.width - width - 8)),
     y: Math.max(workArea.y + 8, Math.min(anchor.y + anchor.height - height, workArea.y + workArea.height - height - 8)) }

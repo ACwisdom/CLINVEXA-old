@@ -1,4 +1,4 @@
-import { bindAssistant } from '@/clinvexa/summon'
+import { useStore } from '@nanostores/react'
 /**
  * Real-featureset wiring for the contrib (layout tree) root — the minimal
  * subset of DesktopController's hook chain that makes the REAL surfaces work:
@@ -8,13 +8,15 @@ import { bindAssistant } from '@/clinvexa/summon'
  * The wired nodes (sidebar / chat routes / terminal) are exposed through
  * context; registered panes render `<WiredPane part="…"/>` to consume them.
  */
-
-import { useStore } from '@nanostores/react'
 import { useQueryClient } from '@tanstack/react-query'
 import { type CSSProperties, lazy, type ReactNode, Suspense, useCallback, useEffect, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 
 import { CLINVEXAHomeBridge } from '@/app/clinvexa-home/bridge'
+import { CLINVEXADesktop } from '@/clinvexa/clinvexa-desktop'
+import { handoffConsultationToPersistedNewSession } from '@/clinvexa/consultation/handoff'
+import { CLINVEXAPageForPath, CLINVEXAPagePath } from '@/clinvexa/navigation'
+import { bindAssistant } from '@/clinvexa/summon'
 import { formatRefValue } from '@/components/assistant-ui/directive-text'
 import { BootFailureOverlay } from '@/components/boot-failure-overlay'
 import { DesktopInstallOverlay } from '@/components/desktop-install-overlay'
@@ -26,9 +28,6 @@ import { $newSessionTabAction, registerPaneCloser } from '@/components/pane-shel
 import { FloatingPet } from '@/components/pet/floating-pet'
 import { RemoteDisplayBanner } from '@/components/remote-display-banner'
 import { emitGatewayEvent } from '@/contrib/events'
-import { handoffConsultationToPersistedNewSession } from '@/clinvexa/consultation/handoff'
-import { CLINVEXADesktop } from '@/clinvexa/clinvexa-desktop'
-import { CLINVEXAPageForPath, CLINVEXAPagePath } from '@/clinvexa/navigation'
 import { getSessionMessages, triggerCronJob } from '@/hermes'
 import { type ChatMessage, chatMessageText, preserveLocalAssistantErrors, toChatMessages } from '@/lib/chat-messages'
 import { sessionMessagesSignature } from '@/lib/session-signatures'
@@ -1122,14 +1121,6 @@ export function ContribWiring({ children }: { children: ReactNode }) {
         <>
           <CLINVEXAHomeBridge />
           <CLINVEXADesktop
-          onSummon={async assistant => {
-            startFreshSessionDraft({ preserveRoute: true })
-            const sessionId = await createBackendSessionForSend(`已召唤 ${assistant.name}`)
-            const storedId = selectedStoredSessionIdRef.current
-            if (!sessionId || !storedId) { throw new Error('无法创建助手会话，请恢复后台后重试') }
-            bindAssistant(assistant, [sessionId, storedId])
-            navigate(`/${encodeURIComponent(storedId)}`)
-          }}
           onEnsurePersistedSession={async preview => {
             if (activeSessionIdRef.current && selectedStoredSessionIdRef.current) {
               return true
@@ -1154,6 +1145,15 @@ export function ContribWiring({ children }: { children: ReactNode }) {
                 })
             })
           }
+          onSummon={async assistant => {
+            startFreshSessionDraft({ preserveRoute: true })
+            const sessionId = await createBackendSessionForSend(`已召唤 ${assistant.name}`)
+            const storedId = selectedStoredSessionIdRef.current
+
+            if (!sessionId || !storedId) { throw new Error('无法创建助手会话，请恢复后台后重试') }
+            bindAssistant(assistant, [sessionId, storedId])
+            navigate(`/${encodeURIComponent(storedId)}`)
+          }}
           onUpdateMessages={updater => {
             const runtimeSessionId = activeSessionIdRef.current
             const storedSessionId = selectedStoredSessionIdRef.current
