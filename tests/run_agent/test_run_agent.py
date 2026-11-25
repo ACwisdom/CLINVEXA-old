@@ -875,7 +875,8 @@ class TestBuildSystemPrompt:
         prompt = agent._build_system_prompt()
         assert DEFAULT_AGENT_IDENTITY in prompt
 
-    def test_can_use_soul_identity_even_when_context_files_are_skipped(self):
+    def test_can_use_soul_identity_even_when_context_files_are_skipped(self, monkeypatch):
+        monkeypatch.setattr("agent.system_prompt.clinvexa_product_mode", lambda: False)
         with (
             patch("run_agent.get_tool_definitions", return_value=_make_tool_defs("terminal")),
             patch("run_agent.check_toolset_requirements", return_value={}),
@@ -4790,7 +4791,7 @@ class TestSystemPromptStability:
         # Should have built fresh, not queried the DB
         mock_db.get_session.assert_not_called()
         assert agent._cached_system_prompt is not None
-        assert "Hermes Agent" in agent._cached_system_prompt
+        assert DEFAULT_AGENT_IDENTITY in agent._cached_system_prompt
 
 
 class TestBudgetPressure:

@@ -32,11 +32,13 @@ from hermes_cli.config import (
 
 
 class TestGetHermesHome:
-    def test_default_path(self):
-        with patch.dict(os.environ, {}, clear=False):
-            os.environ.pop("HERMES_HOME", None)
-            home = get_hermes_home()
-            assert home == Path.home() / ".hermes"
+    def test_default_path(self, monkeypatch, tmp_path):
+        import sys
+
+        monkeypatch.delenv("HERMES_HOME", raising=False)
+        monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
+        expected = tmp_path / "hermes" if sys.platform == "win32" else Path.home() / ".hermes"
+        assert get_hermes_home() == expected
 
 
 class TestEnsureHermesHome:
@@ -735,7 +737,7 @@ class TestConfigSupportFloor:
         "model": {"default": "openai/gpt-5.4", "provider": "openrouter"},
         "model_catalog": {"ttl_hours": 1},
         "plugins": {"enabled": []},
-        "stt": {"provider": "local"},
+        "stt": {"provider": "local", "local": {"model": "base"}},
     }
 
     _V20_FIXTURE = {

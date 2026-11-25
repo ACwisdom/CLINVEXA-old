@@ -130,6 +130,7 @@ class TestCLINVEXAHighAccessPolicy:
         )
         driver.parent.mkdir(parents=True)
         driver.write_bytes(b"MZ")
+        driver.chmod(0o755)
 
         monkeypatch.setattr(cua_backend.sys, "platform", "win32")
         monkeypatch.setenv("LOCALAPPDATA", str(local_app_data))

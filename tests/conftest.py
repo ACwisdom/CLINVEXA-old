@@ -585,10 +585,18 @@ def _capture_real_kanban_root() -> Path:
         return get_default_hermes_root().resolve()
     # No pre-existing HERMES_HOME: the real root is the platform default,
     # NOT the sandbox tempdir now sitting in the env.
-    return (Path.home() / ".hermes").resolve()
+    from hermes_constants import _get_platform_default_hermes_home
+
+    return _get_platform_default_hermes_home().resolve()
 
 
 _REAL_KANBAN_ROOT = _capture_real_kanban_root()
+
+
+@pytest.fixture
+def real_kanban_root():
+    """The root captured before pytest installs its hermetic environment."""
+    return _REAL_KANBAN_ROOT
 
 
 @pytest.fixture(autouse=True)
@@ -597,7 +605,7 @@ def _kanban_write_guard(_hermetic_environment, monkeypatch):
 
     Uses a **deny-list**: only blocks writes where the resolved DB path
     (explicit ``db_path`` or ``kanban_db_path()``) lands under the real
-    ``~/.hermes`` captured at import time. Hermetic tests that legitimately
+    user directory captured at import time. Hermetic tests that legitimately
     move HERMES_HOME to sibling tempdirs are unaffected.
 
     Only patches when ``hermes_cli.kanban_db`` is *already imported* — a
@@ -639,7 +647,7 @@ def _kanban_write_guard(_hermetic_environment, monkeypatch):
             f"kanban_write_guard: kanban DB path resolved to {resolved}, "
             f"which is under the REAL kanban root ({_REAL_KANBAN_ROOT}). "
             f"Hermetic isolation has been bypassed — refusing to write "
-            f"to the real ~/.hermes. See #69283."
+            f"to the real user directory. See #69283."
         )
 
     monkeypatch.setattr(_kdb, "connect", _guarded_connect)

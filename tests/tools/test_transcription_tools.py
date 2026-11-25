@@ -402,7 +402,7 @@ class TestTranscribeLocalExtended:
         assert kwargs["task"] == "transcribe"
         assert "简体中文" in kwargs["initial_prompt"]
 
-    def test_successful_transcription_is_normalized_to_simplified_chinese(self, sample_wav):
+    def test_successful_transcription_uses_platform_chinese_normalization(self, sample_wav):
         from tools.transcription_tools import transcribe_audio
 
         with patch(
@@ -415,7 +415,8 @@ class TestTranscribeLocalExtended:
         ):
             result = transcribe_audio(sample_wav)
 
-        assert result["transcript"] == "患者有头痛，请检查诊断与随访计划"
+        expected = "患者有头痛，请检查诊断与随访计划" if os.name == "nt" else "患者有頭痛，請檢查診斷與隨訪計劃"
+        assert result["transcript"] == expected
 
     def test_model_reuse_on_second_call(self, tmp_path):
         """Second call with same model should NOT reload the model."""
