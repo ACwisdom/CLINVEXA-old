@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import hmac
 import json
 import logging
 import os
@@ -12,10 +14,15 @@ from threading import Thread
 from typing import Iterator
 
 from fastapi import Body, FastAPI, HTTPException, Query, Request, Response, status
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
+from clinvexa.contract_api import contract_router
+from clinvexa.contract_evidence import ContractOcr
+from clinvexa.contracts import ContractError, ContractStore
 from clinvexa.consultations import (
     ConsultationError,
     ConsultationService,
@@ -97,6 +104,9 @@ def create_app(
     skills_root: Path | None = None,
     rpa_machine: RpaStateMachine | None = None,
     consultation_service: ConsultationService | None = None,
+    contracts_root: Path | None = None,
+    contract_token: str | None = None,
+    contract_ocr: ContractOcr | None = None,
 ) -> FastAPI:
     """Create the CLINVEXA local HTTP service.
 
@@ -104,6 +114,7 @@ def create_app(
         catalog_path: Optional catalog override used by tests and packaged deployments.
         skills_root: Optional Hermes Skills directory override.
         rpa_machine: Optional patient-bound HIS RPA runtime.
+        contracts_root: Optional storage directory for business contracts.
 
     Returns:
         Configured FastAPI application.
@@ -140,10 +151,51 @@ def create_app(
         yield
 
     app = FastAPI(title="CLINVEXA", version="0.1.0", lifespan=lifespan)
+    if contracts_root is None:
+        from hermes_constants import get_hermes_home
+
+        contracts_root = get_hermes_home() / "clinvexa" / "contracts"
+    contract_demo = os.environ.get("CLINVEXA_CONTRACT_DEMO") == "1"
+    contract_legal = os.environ.get("CLINVEXA_CONTRACT_ROLE") == "legal"
+    store = ContractStore(contracts_root / "demo" if contract_demo else contracts_root)
+    app.include_router(contract_router(store, demo=contract_demo, legal=contract_legal, ocr=contract_ocr))
+    token = contract_token if contract_token is not None else os.environ.get("CLINVEXA_CONTRACT_SESSION_TOKEN", "")
+    token_bytes = token.encode("utf-8")
+    contract_prefix = "/clinvexa/contracts"
+
+    @app.middleware("http")
+    async def protect_contracts(request: Request, call_next):
+        path = request.scope["path"]
+        if path != contract_prefix and not path.startswith(contract_prefix + "/"):
+            return await call_next(request)
+        supplied = request.headers.get("x-clinvexa-contract-session", "").encode("latin-1")
+        if not token_bytes or not hmac.compare_digest(token_bytes, supplied):
+            return JSONResponse({"detail": "合同服务需要桌面会话授权"}, status_code=401,
+                                headers={"Cache-Control": "no-store"})
+        try:
+            response = await call_next(request)
+        except Exception as error:
+            logging.getLogger(__name__).error("Contract request failed (%s)", type(error).__name__)
+            response = JSONResponse({"detail": "合同操作失败，请检查桌面诊断日志"}, status_code=500)
+        response.headers["Cache-Control"] = "no-store"
+        return response
+
+    @app.exception_handler(RequestValidationError)
+    async def handle_validation(request: Request, error: RequestValidationError):
+        if request.url.path == contract_prefix or request.url.path.startswith(contract_prefix + "/"):
+            return JSONResponse({"detail": "合同请求参数格式无效"}, status_code=422)
+        return await request_validation_exception_handler(request, error)
+
+    @app.exception_handler(ContractError)
+    async def handle_contract_error(_request: Request, error: ContractError):
+        return JSONResponse({"detail": str(error)}, status_code=error.status_code)
 
     @app.get("/clinvexa/health")
     def service_health():
-        return {"status": "ok", "consultation_contract": 2, "skills_mentions_contract": 1}
+        return {
+            "status": "ok", "consultation_contract": 2, "skills_mentions_contract": 1, "business_contracts": 2,
+            "desktop_instance": hashlib.sha256(token_bytes).hexdigest() if token_bytes else None,
+        }
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["http://127.0.0.1:5174", "http://localhost:5174", "null"],
@@ -409,9 +461,14 @@ def main() -> None:
     from hermes_cli.env_loader import load_hermes_dotenv
 
     # This is a sibling process of the gateway, with its own environment.
+    # Preserve the process credential supplied by Electron across dotenv loading.
+    token = os.environ.pop("CLINVEXA_CONTRACT_SESSION_TOKEN", "")
     load_hermes_dotenv()
-
-    uvicorn.run("clinvexa.main:create_app", factory=True, host="127.0.0.1", port=8001)
+    os.environ["CLINVEXA_CONTRACT_SESSION_TOKEN"] = token
+    # Parser warnings can contain document-controlled values and are not
+    # needed by the desktop. Uploads already return bounded diagnostics.
+    logging.getLogger("pypdf").setLevel(logging.CRITICAL + 1)
+    uvicorn.run("clinvexa.main:create_app", factory=True, host="127.0.0.1", port=8001, access_log=False)
 
 
 def _call(operation):

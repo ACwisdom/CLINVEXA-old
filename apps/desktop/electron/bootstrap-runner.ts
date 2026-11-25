@@ -572,23 +572,23 @@ export function resolveBootstrapPsModulePath(env: NodeJS.ProcessEnv = process.en
   const programFiles = env.ProgramFiles || env.PROGRAMFILES || 'C:\\Program Files'
 
   const required = [
-    path.join(systemRoot, 'System32', 'WindowsPowerShell', 'v1.0', 'Modules'),
-    path.join(programFiles, 'WindowsPowerShell', 'Modules')
+    path.win32.join(systemRoot, 'System32', 'WindowsPowerShell', 'v1.0', 'Modules'),
+    path.win32.join(programFiles, 'WindowsPowerShell', 'Modules')
   ]
 
-  const existing = (env.PSModulePath || env.PSMODULEPATH || '').split(path.delimiter).filter(Boolean)
+  const existing = (env.PSModulePath || env.PSMODULEPATH || '').split(path.win32.delimiter).filter(Boolean)
   const seen = new Set<string>()
 
   return [...required, ...existing]
     .filter(entry => {
-      const key = path.normalize(entry).toLowerCase()
+      const key = path.win32.normalize(entry).toLowerCase()
 
       if (seen.has(key)) {return false}
       seen.add(key)
 
       return true
     })
-    .join(path.delimiter)
+    .join(path.win32.delimiter)
 }
 
 function spawnPowerShell(
@@ -607,7 +607,7 @@ function spawnPowerShell(
         stdio: ['ignore', 'pipe', 'pipe'],
         env: {
           ...process.env,
-          PSModulePath: resolveBootstrapPsModulePath(),
+          ...(IS_WINDOWS ? { PSModulePath: resolveBootstrapPsModulePath() } : {}),
           CLINVEXA_BUNDLED_DEPS_ARCHIVE: bundledDependenciesArchive || '',
           UV_CACHE_DIR: hermesHome ? path.join(hermesHome, 'uv-cache') : process.env.UV_CACHE_DIR || '',
           UV_PYTHON_INSTALL_DIR: hermesHome ? path.join(hermesHome, 'python') : process.env.UV_PYTHON_INSTALL_DIR || '',

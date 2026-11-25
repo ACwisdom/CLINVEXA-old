@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { CompactMarkdown } from '@/components/chat/compact-markdown'
 import { Button } from '@/components/ui/button'
 
-import { CLINVEXA_AGENT_IDS, CLINVEXAAgentInfo, type CLINVEXAAgentId } from '../agent-info'
+import { CLINVEXA_AGENT_IDS, type CLINVEXAAgentId, CLINVEXAAgentInfo } from '../agent-info'
 import { useWorkspaceLabels } from '../workspace-labels'
 
 export type { CLINVEXAAgentId } from '../agent-info'

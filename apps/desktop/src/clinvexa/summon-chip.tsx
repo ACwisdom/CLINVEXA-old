@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Brain, X } from '@/lib/icons'
+
 import { removeAssistant, type SummonedAssistant } from './summon'
 
 export function SummonChip({ assistant, preparing }: { assistant: SummonedAssistant; preparing: boolean }) {

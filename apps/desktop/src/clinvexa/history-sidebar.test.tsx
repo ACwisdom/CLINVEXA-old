@@ -4,10 +4,11 @@ import { MemoryRouter, useLocation } from 'react-router'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 
 import { notify } from '@/store/notifications'
+
 import { $consultation } from './consultation/live-session'
 import { $copilot } from './copilot/state'
 import type { CopilotResult } from './copilot/types'
-import { copilotHistoryRows, CLINVEXAHistorySidebar } from './history-sidebar'
+import { CLINVEXAHistorySidebar, copilotHistoryRows } from './history-sidebar'
 
 vi.mock('@/app/routes', () => ({
   navigateToWorkspacePage: (navigate: (path: string) => void, path: string) => navigate(path)
@@ -17,7 +18,9 @@ vi.mock('./copilot/state', async original => ({ ...(await original<object>()), c
 
 const result = (id: string, time: number, task = id) =>
   ({ id, taskKey: task, patientName: `合成病例${id}`, title: '', createdAt: time, revision: 0 }) as CopilotResult
+
 const queryClients: QueryClient[] = []
+
 function Location() {
   return (
     <output aria-label="当前页面">
@@ -26,9 +29,11 @@ function Location() {
     </output>
   )
 }
+
 function mount() {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   queryClients.push(client)
+
   return render(
     <QueryClientProvider client={client}>
       <MemoryRouter>
@@ -38,6 +43,7 @@ function mount() {
     </QueryClientProvider>
   )
 }
+
 beforeEach(() => {
   vi.clearAllMocks()
   $copilot.set({ ...$copilot.get(), result: null })

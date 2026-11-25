@@ -359,7 +359,7 @@ def test_clinvexa_service_uses_the_required_working_port(monkeypatch: pytest.Mon
 
     main()
 
-    assert calls == [(('clinvexa.main:create_app',), {'factory': True, 'host': '127.0.0.1', 'port': 8001})]
+    assert calls == [(('clinvexa.main:create_app',), {'factory': True, 'host': '127.0.0.1', 'port': 8001, 'access_log': False})]
 
 
 def test_main_chat_prepare_checks_skill_state_without_running_or_exporting(tmp_path, monkeypatch):
